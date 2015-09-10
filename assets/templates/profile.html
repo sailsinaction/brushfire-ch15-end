@@ -1,0 +1,31 @@
+<!-- Error state -->
+<div class="alert alert-info toggle" ng-show="userProfile.errorMsg">
+  <h5>Oops!</h5>
+  <p>Looks like an error occurred.</p>
+  <code>
+  {{userProfile.errorMsg}}
+  </code>
+</div>
+<!-- Loading state -->
+<div ng-show="userProfile.loading">
+  <span class="overlord-loading-spinner fa fa-spinner"></span>
+  <span>Loading user data...</span>
+</div>
+<div ng-hide="userProfile.loading">
+  <div ng-hide="loading">
+    <div class="col-md-3">
+      <img src={{userProfile.properties.gravatarURL}}/>
+    </div>
+  </div>
+</div>
+<div class="col-md-3" ng-hide="userProfile.noProfile">
+  <h1>{{userProfile.properties.username}}</h1>
+  <h3> <a href="mailto:{{userProfile.properties.email}}">{{userProfile.properties.email}}</a></h3>
+  <div>
+    <a href="#/profile/edit/{{userProfile.properties.id}}" class="btn btn-lg btn-primary">Edit</a>
+    <!-- Hard Delete -->
+    <!-- <a ng-click="deleteProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a> -->
+    <!-- Soft Delete -->
+    <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+  <div ng-controller="videosPageController" ng-cloak>
+    <!-- SUBMIT NEW VIDEO -->
+    <section ng-show="me.id" class="the-submit-video-form col-md-4">
+      <h3>See something missing?</h3>
+      <form ng-submit="submitNewVideo()">
+        <input class="form-control" type="text"
+        ng-model="newVideoTitle" ng-disabled="busySubmittingVideo" name="title"
+        placeholder="e.g. My video title"/>
+        <input class="form-control" type="text" ng-model="newVideoSrc"
+        ng-disabled="busySubmittingVideo" name="src"
+        placeholder="e.g. https://www.youtube.com/embed/Kdgt1ZHkvnM"/>
+        <button class="btn btn-success" type="submit" ng-disabled="busySubmittingVideo">
+        {{busySubmittingVideo?'Submitting...':'Submit Video'}}
+        <span ng-if="submitVideosError">An error has occurred!</span>
+        </button>
+        <p class="error" ng-if="submitVideosError">Please refresh the page and try again.
+        If that doesn't work, call Chad!</p>
+      </form>
+    </section>
+    <!-- LIST OF VIDEOS -->
+    <section class="the-list-of-videos col-md-12">
+      <div class="loading" ng-if="videosLoading">Loading videos...</div>
+      <div ng-if="!videosLoading && videos.length===0 && !submitVideosError">There are no videos, please add one!</div>
+      <ul>
+        <li class="video" ng-repeat="video in videos" ng-if="!videosLoading">
+          <h2>{{video.title}}</h2>
+          <iframe width="640" height="390" ng-src="{{video.src}}" frameborder="0" allowfullscreen>
+          </iframe>
+        </li>
+      </ul>
+    </section>
+  </div>

@@ -1,0 +1,24 @@
+<!-- Restore FORM -->
+<form ng-controller="restorePageController" ng-cloak ng-submit="restoreProfile()" id="sign-up-form" class="form-signup" name="restore">
+  <h2 class="form-signin-heading">Restore a Profile</h2>
+  <div class="row">
+    <!-- E M A I L -->
+    <div class="control-group form-group col-md-12">
+      <label>Your email address</label>
+      <input type="email" class="form-control" placeholder="nikola@tesla.com" name="email" ng-model="restoreForm.email" >
+    </div>
+    <!-- P A S S W O R D -->
+    <div class="control-group form-group col-md-12">
+      <label>Password</label>
+      <!-- Added the compareTo directive that compares the passowrds -->
+      <input type="password" class="form-control"  name="password" ng-model="restoreForm.password" id="password">
+    </div>
+  </div>
+  <br/>
+  
+  <button class="btn btn-primary btn-lg btn-block" type="submit">
+  <span ng-show="!restoreForm.loading">Restore Account</span>
+  <span class="overlord-loading-spinner fa fa-spinner" ng-show="restoreForm.loading" ></span>
+  <span ng-show="restoreForm.loading">Preparing your new account...</span>
+  </button>
+</form>

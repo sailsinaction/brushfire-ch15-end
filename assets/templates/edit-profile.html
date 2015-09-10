@@ -1,0 +1,70 @@
+<!-- Error state -->
+<div class="alert alert-info toggle" ng-show="editProfile.errorMsg">
+  <h5>Oops!</h5>
+  <p>Looks like an error occurred.  </p>
+  <code>
+  {{editProfile.errorMsg}}
+  </code>
+</div>
+<!-- Loading state -->
+<div ng-show="editProfile.loading">
+  <span class="overlord-loading-spinner fa fa-spinner"></span>
+  <span>Loading user data...</span>
+</div>
+<div ng-hide="editProfile.loading || editProfile.error">
+  <h1>{{editProfile.properties.username}} <span class="glyphicon glyphicon-lock gi-05"></span></h1>
+  <h2>{{editProfile.properties.email}} <span class="glyphicon glyphicon-lock gi-05"></span></h2>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2>Edit Profile</h2>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="updateProfile()">
+          <div class="control-group form-group col-md-12">
+            <label>Your Gravatar Url</label>
+            <input type="text" class="form-control" name="name" ng-model="editProfile.properties.gravatarURL">
+            <img ng-src="{{editProfile.properties.gravatarURL}}"/>
+          </div>
+          <button type="submit" class="btn btn-lg btn-success btn-block">
+          <span ng-show="editProfile.saving" class="overlord-loading-spinner fa fa-spinner"></span>
+          <span ng-show="editProfile.saving">Saving...</span>
+          <span ng-hide="editProfile.saving" class="btn-text">Save</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-offset-3 col-md-4 text-center"><a ng-click="restore()" class="btn btn-primary">Restore Gravatar URL with current email address</a></div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2>Change Password</h2>
+      </div>
+      <div class="panel-body">
+        <!-- Error state -->
+        <div class="alert alert-info toggle" ng-show="editProfile.changePassword.errorMsg">
+          <h4>Oops!</h4>
+          <code>
+          {{editProfile.changePassword.errorMsg}}
+          </code>
+        </div>
+        <form ng-submit="changeMyPassword()">
+          <div class="control-group form-group col-md-12">
+            <label>Choose a password</label>
+            <input type="password" class="form-control" placeholder="at least 6 characters" name="password" ng-model="editProfile.properties.password" id="password">
+          </div>
+          <div class="control-group form-group col-md-12">
+            <label>Re-enter your password</label>
+            <input type="password" class="form-control" placeholder="one more time" name="confirmation" ng-model="editProfile.properties.confirmPassword">
+          </div>
+          <button type="submit" class="btn btn-lg btn-success btn-block">
+          <span ng-show="changePasswordForm.saving" class="overlord-loading-spinner fa fa-spinner"></span>
+          <span ng-show="changePasswordForm.saving">Saving...</span>
+          <span ng-hide="changePasswordForm.saving" class="btn-text">Save</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

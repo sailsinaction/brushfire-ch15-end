@@ -1,0 +1,76 @@
+<!-- SIGNUP FORM -->
+<!-- Error state -->
+<div class="alert alert-info toggle" ng-show="signupForm.errorMsg">
+  <h5>Oops!</h5>
+  <p>Looks like an error occurred.  Please try again later.</p>
+  <code>
+    {{signupForm.errorMsg}}
+  </code>
+</div>
+
+<!-- Loading state -->
+<div ng-show="signupForm.loading">
+  <span class="overlord-loading-spinner fa fa-spinner"></span>
+  <span>Loading user data...</span>
+</div>
+
+<div ng-hide="signupForm.loading">
+<form ng-submit="submitSignupForm()" id="sign-up-form" class="form-signup" name="signup" >
+  <h2 class="form-signin-heading">Create an account</h2>
+  <div class="row">
+    <!-- E M A I L -->
+    <div class="control-group form-group col-md-12"
+      ng-class="{'has-error':signup.email.$invalid &&
+      signup.email.$dirty}">
+      <label>Your email address</label>
+      <input type="email" class="form-control" placeholder="nikola@tesla.com" name="email" ng-model="signupForm.email" required >
+      <span class="help-block has-error" ng-if="signup.email.$dirty">
+        <span ng-show="signup.email.$error.required">Email address is required.</span>
+        <span ng-show="signup.email.$error.email">Not a valid email address.</span>
+      </span>
+    </div>
+    <!-- U S E R  N A M E -->
+    <div class="control-group form-group col-md-12"
+      ng-class="{'has-error':signup.username.$invalid &&
+      signup.username.$dirty}">
+      <label>Your username</label>
+      <input type="text" class="form-control" placeholder="nikola_tesla" name="username" ng-model="signupForm.username" required>
+      <span class="help-block has-error" ng-if="signup.username.$dirty">
+        <span ng-show="signup.username.$error.required">Username is required.</span>
+      </span>
+      <h1> {{signupForm.username | spaceless}}</h1>
+    </div>
+    <!-- P A S S W O R D -->
+    <div class="control-group form-group col-md-6"
+      ng-class="{'has-error':signup.password.$invalid &&
+      signup.password.$dirty}">
+      <label>Password</label>
+      <!-- Added the compareTo directive that compares the passowrds -->
+      <input type="password" class="form-control" placeholder="at least 6 characters" name="password" ng-model="signupForm.password" id="password" required ng-minlength="6" compare-to="signupForm.confirmPassword" >
+      <span class="help-block has-error" ng-if="signup.password.$dirty">
+        <span ng-show="signup.password.$error.required">Password is required.</span>
+        <span ng-show="signup.password.$error.minlength">Password must be at least 6 characters.</span>
+      </span>
+    </div>
+
+    <!-- C O N F I R M  P A S S W O R D -->
+    <div class="control-group form-group col-md-6">
+      <label>Re-enter password</label>
+      <input type="password" class="form-control" placeholder="one more time" name="confirmation" ng-model="signupForm.confirmPassword" required >
+      <span class="help-block has-error" ng-if="signup.confirmation.$dirty">
+        <span ng-show="signup.password.$error.compareTo">Password must match.</span>
+        <span ng-show="signup.confirmation.$error.required">Confirmation password is required.</span>
+      </span>
+    </div>
+  </div>
+  <br/>
+  <!-- Disable signup button until the form has no errors -->
+  <button class="btn btn-primary btn-lg btn-block" type="submit" ng-disabled="signup.$invalid">
+  <span ng-show="!signupForm.loading">Create User Account</span>
+  <span class="overlord-loading-spinner fa fa-spinner" ng-show="signupForm.loading" ></span>
+  <span ng-show="signupForm.loading">Preparing your new account...</span>
+  </button>
+  <span class="col-md-offset-3 col-md-6 text-center"> <a href='#/restore'>restore an account</a> </span>
+</form>
+
+<!-- <div ng-sparkline></div> -->

@@ -1,0 +1,54 @@
+<div ng-controller="adminUsersPageController" ng-cloak>
+  <!-- USERS PAGE -->
+  <div class="panel panel-default" >
+    <div class="panel-heading">
+      <h3>User Administration</h3>
+    </div>
+    <!-- Error state -->
+    <div ng-show="userList.errorMsg">
+      <h5>Oops!</h5>
+      <p>Looks like an error occurred.  Please try again later.</p>
+      <code>
+      {{userList.errorMsg}}
+      </code>
+    </div>
+    <!-- Loading state -->
+    <div ng-show="userList.loading">
+      <span class="overlord-loading-spinner fa fa-spinner"></span>
+      <span>Loading users...</span>
+    </div>
+    <!-- Empty state -->
+    <div ng-show="userList.contents.length === 0">
+      <!--
+      Note that this empty state will never actually matter because there
+      will always be at least one user (the currently-logged-in admin).
+      -->
+      <span>No users yet.</span>
+    </div>
+    <table class="table" ng-show="!userList.loading && userList.contents.length > 0">
+      <tr>
+        <th></th>
+        <th>id <span class="glyphicon glyphicon-lock gi-075"></th>
+        <th>gravatarURL <span class="glyphicon glyphicon-lock gi-075"></th>
+        <th>username <span class="glyphicon glyphicon-lock gi-075"></th>
+        <th>email <span class="glyphicon glyphicon-lock gi-075"></th>
+        <th>admin</th>
+        <th>banned</th>
+        <th>deleted</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <tr ng-repeat="user in userList.contents">
+        <td></td>
+        <td> {{user.id}} </td>
+        <td> {{user.gravatarURL}}</td>
+        <td> {{user.username}} </td>
+        <td> {{user.email}} </td>
+        <td> <input type="checkbox" ng-model="user.admin" ng-click="saveAdmin(user.id, user.admin)"> </td>
+        <td> <input type="checkbox" ng-model="user.banned" ng-click="saveBanned(user.id, user.banned)"> </td>
+        <td> <input type="checkbox" ng-model="user.deleted" ng-click="saveDeleted(user.id, user.deleted)"> </td>
+      </table>
+    </div>
+  </div>

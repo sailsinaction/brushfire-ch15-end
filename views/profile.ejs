@@ -1,0 +1,13 @@
+<div ng-controller="profilePageController" ng-cloak ng-hide="loading">
+  <div class="col-md-3">
+    <img class="gravatarImage" ng-src={{me.gravatarURL}} />
+  </div>
+  <div class="col-md-3" >
+    <h1>{{me.username}}</h1>
+    <h3> <a href="mailto:{{me.email}}">{{me.email}}</a></h3>
+    <div>
+      <a href="/edit-profile" class="btn btn-lg btn-primary">Edit</a>
+      <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+    </div>
+  </div>
+</div>

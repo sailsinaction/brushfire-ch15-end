@@ -1,0 +1,37 @@
+<!-- Error state -->
+<div class="alert alert-info toggle" ng-show="userProfile.errorMsg">
+  <h5>Oops!</h5>
+  <p>Looks like an error occurred.  Please try again later.</p>
+  <code>
+    {{userProfile.errorMsg}}
+  </code>
+</div>
+
+<!-- Loading state -->
+<div ng-show="userProfile.loading">
+  <span class="overlord-loading-spinner fa fa-spinner"></span>
+  <span>Loading user data...</span>
+</div>
+
+
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Edit Profile</h4>
+    </div>
+    <div class="panel-body">
+      <form ng-submit="editUser(userProfile.properties.id)">
+        <div class="control-group form-group col-md-12">
+          <label>Gravatar Url</label>
+          <input type="text" class="form-control" placeholder="https//" ng-model="userProfile.properties.gravatar.url">
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-primary btn-block">
+          <span ng-show="userProfile.saving" class="overlord-loading-spinner fa fa-spinner"></span>
+          <span ng-show="userProfile.saving">Saving...</span>
+          <span ng-hide="userProfile.saving" class="btn-text">Save</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

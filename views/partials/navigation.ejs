@@ -1,0 +1,45 @@
+<div ng-controller="navPageController" ng-cloak class="container-fluid">
+  <!-- Creates the navbar -->
+  <nav class="navbar navbar-default navbar-inverse">
+    <!-- This creates the mechanism for collapse button -->
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <!-- This controls the number of lines in the image when the nav collapse -->
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <!-- This is the brand on the left-hand side. -->
+    <a class="navbar-brand" href="/"> Brushfire</a>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/videos">Cat Videos</a></li>
+        <li><a ng-show="me.admin" href="/administration">User Administration</a></li>
+      </ul>
+      <!-- The sign-in Form (unauthenticated user state) -->
+      <form ng-hide="me.id" ng-submit="submitLoginForm()" class="navbar-form navbar-right">
+        <div class="form-group">
+           <input ng-model="loginForm.login" type="text" placeholder="email or username" name="login" class="form-control">
+        </div>
+        <div class="form-group">
+          <input ng-model="loginForm.password" type="password" placeholder="Password" name="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">
+        <span ng-show="!loginForm.loading">Sign in</span>
+        <span ng-show="loginForm.loading" class="fa fa-spinner"></span>
+        <span ng-show="loginForm.loading">Signing in...</span>
+        </button>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      </form>
+      <!--  Gravatar, Email, and logout link (authenticated user state) -->
+      <ul ng-show="me.id" class="nav navbar-nav navbar-right">
+        <li class="gravatarSm"><img class="gravatarSm" ng-src="{{me.gravatarURL}}" height="30" width="30"/></li>
+        <li class="activityOverlord active">
+          <a href="/profile" class="pointer"> {{me.email}}</a>
+        </li>
+        <li>
+          <a href="/logout">sign-out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
