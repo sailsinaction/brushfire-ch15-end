@@ -52,6 +52,8 @@ module.exports.routes = {
   'PUT /user/updateAdmin/:id': 'UserController.updateAdmin',
   'PUT /user/updateBanned/:id': 'UserController.updateBanned',
   'PUT /user/updateDeleted/:id': 'UserController.updateDeleted',
+  'PUT /user/recover-password': 'UserController.generateRecoveryEmail',
+  'PUT /user/resetPassword': 'UserController.resetPassword',
 
   /*************************************************************
   * Server Rendered HTML Pages                                *
@@ -63,7 +65,38 @@ module.exports.routes = {
   'GET /profile': 'PageController.showProfilePage',
   'GET /edit-profile': 'PageController.showEditProfilePage',
   'GET /restore': 'PageController.showRestorePage',
-  'GET /signup': 'PageController.showSignupPage'
+  'GET /signin': 'PageController.showSigninPage',
+  'GET /signup': 'PageController.showSignupPage',
+  'GET /password-recovery': 'PageController.showPasswordRecoveryPage',
+  'GET /password-recovery-email-sent': 'PageController.showPasswordRecoveryEmailSent',
+  // 'GET /reset-password': 'PageController.showResetPasswordPage',
+  'GET /reset-password-form/:passwordRecoveryToken': 'PageController.showResetPasswordForm',
+  'GET /tutorials-list': {
+    view: 'tutorials-list',
+    locals: {
+      me: 'null'
+    }
+  },
+  'GET /tutorials-detail': {
+    view: 'tutorials-detail',
+    locals: {
+      me: 'null'
+    }
+  },
+
+
+  // 'GET /signup': {
+  //   view: 'signup',
+  //   locals: {
+  //     me: 'null'
+  //   }
+  // }
+  // 'GET /login': {
+  //   view: 'login',
+  //   locals: {
+  //     me: 'null'
+  //   }
+  // }
   
   // 'GET /': {
   //   view: 'homepage',

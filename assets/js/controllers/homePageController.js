@@ -1,4 +1,4 @@
-angular.module('brushfire').controller('homePageController', ['$location', '$scope', '$http', 'toastr', function($location, $scope, $http, toastr) {
+angular.module('brushfire').controller('homePageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
   // set-up loading state
   $scope.loginForm = {

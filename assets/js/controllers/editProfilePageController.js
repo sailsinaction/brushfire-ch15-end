@@ -1,4 +1,4 @@
-angular.module('brushfire').controller('editProfilePageController', ['$location', '$routeParams', '$scope', '$http', 'toastr', function($location, $routeParams, $scope, $http, toastr) {
+angular.module('brushfire').controller('editProfilePageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
   // Just a hack so we can type `SCOPE` in the Chrome inspector.
   SCOPE = $scope;
@@ -19,47 +19,6 @@ angular.module('brushfire').controller('editProfilePageController', ['$location'
     loading: false,
     changePassword: {}
   };
-
-  // $scope.editProfile.loading = true;
-
-  // // console.log('The id is: ', $routeParams.id);
-  // var theRoute = '/user/profile/' + $routeParams.id;
-
-  // // Submit GET request to Sails.
-  // $http.get(theRoute)
-  //   .then(function onSuccess(sailsResponse) {
-  //     // console.log(sailsResponse.data.id);
-  //     // window.location = '#/profile/' + sailsResponse.data.id;
-  //     // console.log('The response is: ', sailsResponse);
-  //     $scope.editProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
-  //     $scope.editProfile.properties.email = sailsResponse.data.email;
-  //     $scope.editProfile.properties.username = sailsResponse.data.username;
-  //     $scope.editProfile.properties.admin = sailsResponse.data.admin;
-  //     $scope.editProfile.properties.banned = sailsResponse.data.banned;
-  //     $scope.editProfile.properties.id = sailsResponse.data.id;
-
-  //     $scope.editProfile.loading = false;
-  //   })
-  //   .catch(function onError(sailsResponse) {
-  //     console.log(sailsResponse);
-
-  //     // set error state
-  //     $scope.editProfile.error = true;
-
-  //     // If 404 not found display message
-  //     if (sailsResponse.status === 404) {
-  //       $scope.editProfile.errorMsg = 'The user profile you were searching for does not exist.';
-
-  //     } else {
-
-  //       // Otherwise, display generic error if the error is unrecognized.
-  //       $scope.editProfile.errorMsg = 'An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status);
-  //     }
-
-  //   })
-  //   .finally(function eitherWay() {
-  //     $scope.editProfile.loading = false;
-  //   });
 
   $scope.updateProfile = function() {
 

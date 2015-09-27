@@ -8,6 +8,8 @@
 var Emailaddresses = require('machinepack-emailaddresses');
 var Passwords = require('machinepack-passwords');
 var Gravatar = require('machinepack-gravatar');
+var UUID = require('uuid');
+var Mailgun = require('machinepack-mailgun');
 
 module.exports = {
 
@@ -195,7 +197,7 @@ module.exports = {
   //     return res.ok();
   //   });
   // },
-  
+
   removeProfile: function(req, res) {
 
     // if (_.isUndefined(req.param('id'))) {
@@ -209,22 +211,142 @@ module.exports = {
     //   return res.forbidden();
     // } else {
 
-      User.update({
-        // id: req.param('id')
-        id: req.session.userId
-      }, {
-        deleted: true
-      }, function(err, removedUser) {
+    User.update({
+      // id: req.param('id')
+      id: req.session.userId
+    }, {
+      deleted: true
+    }, function(err, removedUser) {
 
-        if (err) return res.negotiate(err);
-        if (removedUser.length === 0) {
-          return res.notFound();
-        }
+      if (err) return res.negotiate(err);
+      if (removedUser.length === 0) {
+        return res.notFound();
+      }
 
-        req.session.userId = null;
-        return res.ok();
-      });
+      req.session.userId = null;
+      return res.ok();
+    });
     // }
+  },
+
+  generateRecoveryEmail: function(req, res) {
+
+    // secondary check for email parameter
+    if (_.isUndefined(req.param('email'))) {
+      return res.badRequest('An email address is required!');
+    }
+
+    // Find user by the incoming `email` parameter    
+    User.findOne({
+      email: req.param('email')
+    }).exec(function foundUser(err, user) {
+
+      if (err) return res.negotiate(err);
+
+      if (!user) return res.notFound();
+
+      // Generate random UUID
+      var randomUUID = UUID.v4();
+
+      // Update user's paswordRecoveryToken attribute
+      User.update({
+        id: user.id
+      }, {
+        passwordRecoveryToken: randomUUID
+      }).exec(function updateUser(err, updatedUser) {
+        if (err) return res.negotiate(err);
+
+        // email user with a URL which includes the password recovery token as a parameter
+
+        // The Url that inclues the password recovery token as a parameter  
+        var recoverUrl = 'http://localhost:1337/reset-password-form/' + updatedUser[0].passwordRecoveryToken;
+
+        var messageTemplate = 'Loosing your password is a drag, but don\'t worry! \n' +
+                   '\n' +
+                   'You can use the following link to reset your password: \n' +  
+                   recoverUrl + '\n' +
+                   '\n' +
+                   'Thanks, Chad';
+
+        // Send a simple plaintext email.
+        Mailgun.sendPlaintextEmail({
+          apiKey: 'YOUR API KEY',
+          domain: 'YOUR DOMAIN',
+          toEmail: updatedUser[0].email,
+          subject: '[Brushfire] Please reset your password',
+          message: messageTemplate,
+          fromEmail: 'sailsinaction@gmail.com',
+          fromName: 'Chad McMarketing',
+        }).exec({
+          // An unexpected error occurred.
+          error: function(err) {
+            return res.negotiate(err);
+
+          },
+          // OK.
+          success:  function() {
+
+            return res.ok();
+
+          },
+        });
+      });
+    });
+
+  },
+
+  resetPassword: function(req, res) {
+    
+    // check for token parameter
+    if (_.isUndefined(req.param('passwordRecoveryToken'))) {
+      return res.badRequest('A password recovery token is required!');
+    }
+
+    // secondary check for password parameter
+    if (_.isUndefined(req.param('password'))) {
+      return res.badRequest('A password is required!');
+    }
+
+    // Fallback to client-side length check validation
+    if (req.param('password').length < 6) {
+      return res.badRequest('Password must be at least 6 characters!');
+    }
+
+    // Try to find user with passwordRecoveryToken
+    User.find({
+      passwordRecoveryToken: req.param('passwordRecoveryToken')
+    }).exec(function foundUser(err, user){
+      if (err) return res.negotiate(err);
+
+      if (!user) return res.notFound();
+
+      // Encrypt new password
+      Passwords.encryptPassword({
+        password: req.param('password'),
+      }).exec({
+        error: function(err) {
+          return res.serverError(err);
+      },
+        success: function(result) {
+
+          User.update(user.id, {
+            encryptedPassword: result,
+            passwordRecoveryToken: null
+          }).exec(function updateUser(err, updatedUser) {
+            if (err) {
+              return res.negotiate(err);
+            }
+
+            console.log('updatedUser: ', updatedUser);
+            // Log the user in
+            req.session.userId = updatedUser[0].id;
+
+            // Send back a 200
+            return res.ok();
+          });
+        }
+      });
+    });
   },
 
   restoreProfile: function(req, res) {
@@ -262,6 +384,7 @@ module.exports = {
           }, {
             deleted: false
           }).exec(function(err, updatedUser) {
+            if (err) return res.negotiate(err);
 
             req.session.userId = user.id;
 
@@ -287,20 +410,20 @@ module.exports = {
     }
   },
 
-    // // Added chapter 10
-    // // If you the user hasn't logged in
-    // if (!req.session.userId) {
-    //   return res.forbidden('You are not permitted to perform this action.');
-    // }
+  // // Added chapter 10
+  // // If you the user hasn't logged in
+  // if (!req.session.userId) {
+  //   return res.forbidden('You are not permitted to perform this action.');
+  // }
 
-    // // Added chapter 10
-    // // Look up the user whose gravatar is being restored
-    // if (_.isUndefined(req.param('email'))) {
-    //   return res.badRequest('Malformed request.');
-    // }
+  // // Added chapter 10
+  // // Look up the user whose gravatar is being restored
+  // if (_.isUndefined(req.param('email'))) {
+  //   return res.badRequest('Malformed request.');
+  // }
 
-    // Added chapter 10
-    // Does the current user match the user whose gravatar is being restored?
+  // Added chapter 10
+  // Does the current user match the user whose gravatar is being restored?
   //   User.findOne({email: req.param('email')}).exec(function(err, foundUser){
 
   //     // If no user is found, send not found status.
@@ -347,18 +470,18 @@ module.exports = {
     //     return res.forbidden('You are not permitted to perform this action.');
     //   }
 
-  //   User.update({
-  //     id: req.param('id')
-  //   }, {
-  //     gravatarURL: req.param('gravatarURL')
-  //   }, function(err, updatedUser) {
+    //   User.update({
+    //     id: req.param('id')
+    //   }, {
+    //     gravatarURL: req.param('gravatarURL')
+    //   }, function(err, updatedUser) {
 
-  //     if (err) return res.negotiate(err);
+    //     if (err) return res.negotiate(err);
 
-  //     return res.json(updatedUser);
+    //     return res.json(updatedUser);
 
-  //   });
-  // },
+    //   });
+    // },
 
     User.update({
       id: req.session.userId
@@ -431,10 +554,10 @@ module.exports = {
     });
   },
 
-    // // Added Chapter 10
-    // if (!req.session.userId) return res.forbidden();
+  // // Added Chapter 10
+  // if (!req.session.userId) return res.forbidden();
 
-    // Added Chapter 10
+  // Added Chapter 10
   //   User.findOne({id: req.session.userId}).exec(function(err, foundUser){
   //     if (err) return res.negotiate(err);
   //     if (!foundUser) return res.notFound();
@@ -538,29 +661,29 @@ module.exports = {
     });
   }
 
-    // // Added chapter 10
-    // if (!req.session.userId) return res.forbidden();
+  // // Added chapter 10
+  // if (!req.session.userId) return res.forbidden();
 
-    // if (!req.session.userId) return res.forbidden();
+  // if (!req.session.userId) return res.forbidden();
 
-    // if (_.isUndefined(req.param('id'))) return res.badRequest();
+  // if (_.isUndefined(req.param('id'))) return res.badRequest();
 
-    // if (_.isUndefined(req.param('deleted'))) return res.badRequest();
+  // if (_.isUndefined(req.param('deleted'))) return res.badRequest();
 
-    // User.findOne({id: req.session.userId}).exec(function(err, foundUser){
-    //   if (err) return res.negotiate(err);
-    //   if (!foundUser) return res.notFound();
+  // User.findOne({id: req.session.userId}).exec(function(err, foundUser){
+  //   if (err) return res.negotiate(err);
+  //   if (!foundUser) return res.notFound();
 
-    //   if (!foundUser.admin) {
-    //     return res.forbidden();
-    //   } else {
-    //     User.update(req.param('id'), {
-    //       deleted: req.param('deleted')
-    //     }).exec(function(err, update) {
-    //       if (err) return res.negotiate(err);
-    //       return res.ok();
-    //     });
-    //   }
-    // });
+  //   if (!foundUser.admin) {
+  //     return res.forbidden();
+  //   } else {
+  //     User.update(req.param('id'), {
+  //       deleted: req.param('deleted')
+  //     }).exec(function(err, update) {
+  //       if (err) return res.negotiate(err);
+  //       return res.ok();
+  //     });
+  //   }
+  // });
   // }
 };

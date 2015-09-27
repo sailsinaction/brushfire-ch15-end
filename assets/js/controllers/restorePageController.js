@@ -6,9 +6,6 @@ angular.module('brushfire').controller('restorePageController', ['$scope', '$htt
   };
 
   $scope.restoreProfile = function() {
-    // console.log('yep');
-    // console.log($scope.restoreForm.email);
-    // console.log($scope.restoreForm.password);
     
     $scope.restoreForm.loading = true;
 

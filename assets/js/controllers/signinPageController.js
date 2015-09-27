@@ -1,9 +1,12 @@
-angular.module('brushfire').controller('navPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
+angular.module('brushfire').controller('signinPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
   //Set-up loading state
   $scope.loginForm = {};
 
   $scope.me = window.SAILS_LOCALS.me;
+
+  // Set the loading state (i.e. show loading spinner)
+    $scope.loginForm.loading = false;  
 
   $scope.submitLoginForm = function() {
 
@@ -18,7 +21,7 @@ angular.module('brushfire').controller('navPageController', ['$scope', '$http', 
       })
       .then(function onSuccess() {
         // Redierct the page now that we've been logged in.
-        window.location = '/videos';
+        window.location = '/';
         // window.location = '/';
         // toastr.success('We have a match!', 'Success', {closeButton: true});
       })

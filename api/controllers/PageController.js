@@ -17,6 +17,62 @@ module.exports = {
     });
   },
 
+  showSigninPage: function (req, res) {
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
+    return res.view('signin', {
+      me: null
+    });
+  },
+
+  showPasswordRecoveryPage: function (req, res) {
+
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
+    return res.view('send-password-recovery-email', {
+      me: null
+    });
+  },
+
+  showPasswordRecoveryEmailSent: function(req, res){
+
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
+    return res.view('sent-password-recovery-email', {
+      me: null
+    });
+  },
+
+    showResetPasswordForm: function(req, res) {
+
+    // Get the passwordRecoveryToken and render the view
+    res.view('reset-password', {
+      locals: {
+        passwordRecoveryToken: req.param('passwordRecoveryToken')
+      }
+    });
+
+
+  },
+
+  showResetPasswordPage: function(req, res) {
+
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
+    return res.view('reset-password', {
+      me: null
+    });
+
+  },
+
   showRestorePage: function (req, res) {
 
     if (req.session.userId) {
@@ -47,7 +103,6 @@ module.exports = {
 
       return res.view('edit-profile', {
         me: {
-          id: user.id,
           email: user.email,
           username: user.username,
           gravatarURL: user.gravatarURL,
@@ -76,7 +131,6 @@ module.exports = {
 
       return res.view('profile', {
         me: {
-          id: user.id,
           email: user.email,
           gravatarURL: user.gravatarURL,
           admin: user.admin
@@ -102,16 +156,15 @@ module.exports = {
       }
 
       if (user.admin) {
-        return res.view('adminUsers', {
+        return res.view('admin-users', {
           me: {
-            id: user.id,
             email: user.email,
             username: user.username,
             gravatarURL: user.gravatarURL,
             admin: user.admin
           }
         });
-      } else { //E
+      } else {
         return res.view('homepage', {
           me: {
             id: user.id,
@@ -147,7 +200,6 @@ module.exports = {
 
       return res.view('homepage', {
         me: {
-          id: user.id,
           email: user.email,
           gravatarURL: user.gravatarURL,
           admin: user.admin
@@ -178,7 +230,6 @@ module.exports = {
 
       return res.view('videos', {
         me: {
-          id: user.id,
           email: user.email,
           gravatarURL: user.gravatarURL,
           admin: user.admin
