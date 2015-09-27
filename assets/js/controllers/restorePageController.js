@@ -9,7 +9,7 @@ angular.module('brushfire').controller('restorePageController', ['$scope', '$htt
     
     $scope.restoreForm.loading = true;
 
-    $http.put('/user/restoreProfile', {
+    $http.put('/user/restore-profile', {
       email: $scope.restoreForm.email,
       password: $scope.restoreForm.password
     })

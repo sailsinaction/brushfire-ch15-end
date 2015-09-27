@@ -8,7 +8,7 @@ angular.module('brushfire').controller('adminUsersPageController', ['$scope', '$
 $scope.me = window.SAILS_LOCALS.me;
 
 
-  $http.get('/user/adminUsers')
+  $http.get('/user/admin-users')
   .then(function onSuccess(sailsResponse){
 
     console.log('sailsResponse: ', sailsResponse);
@@ -26,7 +26,7 @@ $scope.me = window.SAILS_LOCALS.me;
 
   $scope.saveAdmin = function(id, change){
 
-    var theRoute = '/user/updateAdmin/' + id;
+    var theRoute = '/user/update-admin/' + id;
 
     // Submit PUT request to Sails.
     $http.put(theRoute, {
@@ -57,7 +57,7 @@ $scope.me = window.SAILS_LOCALS.me;
 
   $scope.saveBanned = function(id, change){
 
-    var theRoute = '/user/updateBanned/' + id;
+    var theRoute = '/user/update-banned/' + id;
 
     // Submit PUT request to Sails.
     $http.put(theRoute, {
@@ -90,7 +90,7 @@ $scope.me = window.SAILS_LOCALS.me;
 
   $scope.saveDeleted = function(id, change){
 
-    var theRoute = '/user/updateDeleted/' + id;
+    var theRoute = '/user/update-deleted/' + id;
 
     // Submit PUT request to Sails.
     $http.put(theRoute, {

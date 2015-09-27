@@ -26,7 +26,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
 
     // Submit PUT request to Sails.
       // $http.put(theRoute, {
-      $http.put('user/updateProfile', {
+      $http.put('user/update-profile', {
         gravatarURL: $scope.me.gravatarURL
         // gravatarURL: $scope.editProfile.properties.gravatarURL
       })
@@ -52,7 +52,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
   $scope.restoreGravatarURL = function() {
 
     // Submit PUT request to Restore GravatarURL.
-    $http.put('/user/restoreGravatarURL', {
+    $http.put('/user/restore-gravatar-URL', {
         email: $scope.me.email
       })
       .then(function onSuccess(sailsResponse) {
@@ -75,7 +75,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
 
   $scope.changeMyPassword = function() {
 
-    $http.put('user/changePassword', {
+    $http.put('user/change-password', {
         // id: $scope.me.id,
         password: $scope.editProfile.properties.password
       })

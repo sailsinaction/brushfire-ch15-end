@@ -28,7 +28,7 @@ angular.module('brushfire').controller('profilePageController', ['$scope', '$htt
     // var theRoute = '/user/removeProfile/' + $scope.userProfile.properties.id;
     // var theRoute = '/user/removeProfile/' + $scope.me.id;
     // var theRoute = '/user/removeProfile';
-    $http.put('/user/removeProfile', {
+    $http.put('/user/remove-profile', {
         deleted: true
       })
       .then(function onSuccess(sailsResponse) {

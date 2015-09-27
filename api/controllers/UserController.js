@@ -270,8 +270,8 @@ module.exports = {
 
         // Send a simple plaintext email.
         Mailgun.sendPlaintextEmail({
-          apiKey: 'YOUR API KEY',
-          domain: 'YOUR DOMAIN',
+          apiKey: 'key-7e5ddde708c6bedf644cde3f57ac2caa',
+          domain: 'sandboxc4c6677b6349403f8dc60de7d4694919.mailgun.org',
           toEmail: updatedUser[0].email,
           subject: '[Brushfire] Please reset your password',
           message: messageTemplate,

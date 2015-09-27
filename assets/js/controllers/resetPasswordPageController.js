@@ -12,7 +12,7 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
 
   $scope.resetPassword = function() {
 
-    $http.put('/user/resetPassword', {
+    $http.put('/user/reset-password', {
       passwordRecoveryToken: $scope.passwordRecoveryToken,
       password: $scope.properties.password
     })
