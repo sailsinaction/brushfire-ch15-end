@@ -71,20 +71,20 @@ module.exports.routes = {
   'GET /password-recovery-email-sent': 'PageController.showPasswordRecoveryEmailSent',
   // 'GET /reset-password': 'PageController.showResetPasswordPage',
   'GET /reset-password-form/:passwordRecoveryToken': 'PageController.showResetPasswordForm',
-  'GET /tutorials-list': {
-    view: 'tutorials-list',
-    locals: {
-      me: 'null'
-    }
-  },
-  'GET /tutorials-detail': {
-    view: 'tutorials-detail',
-    locals: {
-      me: 'null'
-    }
-  },
-
-
+  'GET /tutorials-list': 'PageController.showTutorialsListPage',
+  'GET /tutorials-detail': 'PageController.showTutorialsDetailPage',
+  // 'GET /tutorials-list': {
+  //   view: 'tutorials-list',
+  //   locals: {
+  //     me: 'null'
+  //   }
+  // },
+  // 'GET /tutorials-detail': {
+  //   view: 'tutorials-detail',
+  //   locals: {
+  //     me: 'null'
+  //   }
+  // },
   // 'GET /signup': {
   //   view: 'signup',
   //   locals: {

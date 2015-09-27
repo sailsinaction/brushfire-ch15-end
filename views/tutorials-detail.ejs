@@ -1,29 +1,64 @@
-<div class="container">
-  <div class="row">
-    <div class="well">
-      <div class="list-group">
-        <a href="#" class="list-group-item">
-          <div class="col-md-8" style="margin-top: 25px">
-            <h3 class="list-group-item-heading"> List group heading </h3>
-            <p class="list-group-item-text" style="font-size: 1.2em"> Ut mea viris eripuit theophrastus, cu ponderum accusata consequuntur cum. Suas quaestio cotidieque pro ea. Nam nihil persecuti philosophia id, nam quot populo ea.
-            </p>
-            <ul class="list-inline list-unstyled">
-              <li><span><i class="fa fa-user"></i> by: sailsinaction </span></li>
-              <li>|</li>
-              <span><i class="fa fa-calendar"></i> Sept. 20, 2015</span>
-              <li>|</li>
-              <span><i class="fa fa-video-camera"></i> 3h 22m</span>
-              <li>|</li>
-            </ul>
+<div ng-controller="tutorialsDetailPageController" ng-cloak>
+  <div class="container">
+    <div class="row">
+      <div class="well">
+        <div class="list-group">
+          <!-- Tutorial Details -->
+          <div class="tutorials-detail list-group-item">
+            <div class="col-md-8" style="margin-top: 25px">
+              <h3 class="list-group-item-heading">
+              <%= fakeTutorialsDetail.title %>
+              </h3>
+              <p class="list-group-item-text" style="font-size: 1.2em">
+                <%= fakeTutorialsDetail.description %>
+              </p>
+              <ul class="list-inline list-unstyled">
+                <li>|</li>
+                <li>
+                  <span>by: <i class="fa fa-user"></i>  <%= fakeTutorialsDetail.owner %> </span>
+                </li>
+                <li>|</li>
+                <li>
+                  <span><i class="fa fa-calendar"></i>  <%= fakeTutorialsDetail.createdOn %></span>
+                </li>
+                <li>|</li>
+                <li>
+                  <span><i class="fa fa-video-camera"></i>  <%= fakeTutorialsDetail.totalTime %> </span>
+                </li>
+                <li>|</li>
+                <li>
+                  <% for (i = 0; i < fakeTutorialsDetail.stars; i++) {  %>
+                  <span class="fa fa-star"></span>
+                  <% } %>
+                  <% for (i = 0; i < 5-fakeTutorialsDetail.stars; i++) {  %>
+                  <span class="fa fa-star-o"></span>
+                  <% } %>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 text-center col-md-offset-1" style="margin-top: 25px">
+              <ul class="list-inline list-unstyled">
+                <li><span><button>edit</button></li>
+                <li><span><button>delete</button></li>
+                <li><span><button>add video</button></li>
+              </ul>
+            </div>
           </div>
-          <div class="col-md-3 text-center col-md-offset-1" style="margin-top: 25px">
-            <ul class="list-inline list-unstyled">
-              <li><span><button>edit</button></li>
-              <li><span><button>delete</button></li>
-              <li><span><button>add video</button></li>
-          </ul>
-          </div>
-        </a>
+        </div>
+        <!-- Videos -->
+        <ul class="list-group list-unstyled">
+          <% _.forEach(fakeTutorialsDetail.videos, function(video){ %>
+            <a href="" class="list-group-item">
+              <li><%= video.title %>
+                <ul class="list-inline list-unstyled pull-right">
+                  <li><span class="fa fa-video-camera"> <%= video.duration %></span></li>
+                  <li><span><button>edit</button></li>
+                  <li><span><button>delete</button></li>
+                </ul>
+              </li>
+            </a>
+          <% }) %>
+        </ul>
       </div>
     </div>
   </div>
