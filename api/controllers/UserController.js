@@ -236,7 +236,7 @@ module.exports = {
       return res.badRequest('An email address is required!');
     }
 
-    // Find user by the incoming `email` parameter    
+    // Find user by the incoming `email` parameter
     User.findOne({
       email: req.param('email')
     }).exec(function foundUser(err, user) {
@@ -258,12 +258,12 @@ module.exports = {
 
         // email user with a URL which includes the password recovery token as a parameter
 
-        // The Url that inclues the password recovery token as a parameter  
+        // The Url that inclues the password recovery token as a parameter
         var recoverUrl = sails.config.mailgun.baseUrl + '/reset-password-form/' + updatedUser[0].passwordRecoveryToken;
 
         var messageTemplate = 'Losing your password is a drag, but don\'t worry! \n' +
                    '\n' +
-                   'You can use the following link to reset your password: \n' +  
+                   'You can use the following link to reset your password: \n' +
                    recoverUrl + '\n' +
                    '\n' +
                    'Thanks, Chad';
@@ -296,7 +296,7 @@ module.exports = {
   },
 
   resetPassword: function(req, res) {
-    
+
     // check for token parameter
     if (!_.isString(req.param('passwordRecoveryToken'))) {
       return res.badRequest('A password recovery token is required!');
@@ -313,7 +313,7 @@ module.exports = {
     }
 
     // Try to find user with passwordRecoveryToken
-    User.find({
+    User.findOne({
       passwordRecoveryToken: req.param('passwordRecoveryToken')
     }).exec(function foundUser(err, user){
       if (err) return res.negotiate(err);
@@ -337,14 +337,14 @@ module.exports = {
           User.update(user.id, {
             encryptedPassword: result,
             passwordRecoveryToken: null
-          }).exec(function updateUser(err, updatedUser) {
+          }).exec(function (err, updatedUsers) {
             if (err) {
               return res.negotiate(err);
             }
+            console.log('updatedUsers: ', updatedUsers);
 
-            console.log('updatedUser: ', updatedUser);
             // Log the user in
-            req.session.userId = updatedUser[0].id;
+            req.session.userId = updatedUsers[0].id;
 
             // Send back a 200
             return res.ok();
