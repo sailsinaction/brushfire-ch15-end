@@ -27,6 +27,7 @@ module.exports = {
     });
   },
 
+  // #1
   showPasswordRecoveryPage: function(req, res) {
 
     if (req.session.userId) {
@@ -38,6 +39,7 @@ module.exports = {
     });
   },
 
+  // #2
   showPasswordRecoveryEmailSent: function(req, res) {
 
     if (req.session.userId) {
@@ -49,27 +51,14 @@ module.exports = {
     });
   },
 
+  // #3
   showResetPasswordForm: function(req, res) {
 
     // Get the passwordRecoveryToken and render the view
     res.view('reset-password', {
-      locals: {
-        passwordRecoveryToken: req.param('passwordRecoveryToken')
-      }
+      passwordRecoveryToken: req.param('passwordRecoveryToken')
     });
 
-
-  },
-
-  showResetPasswordPage: function(req, res) {
-
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
-    return res.view('reset-password', {
-      me: null
-    });
 
   },
 

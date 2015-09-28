@@ -259,9 +259,9 @@ module.exports = {
         // email user with a URL which includes the password recovery token as a parameter
 
         // The Url that inclues the password recovery token as a parameter  
-        var recoverUrl = 'http://localhost:1337/reset-password-form/' + updatedUser[0].passwordRecoveryToken;
+        var recoverUrl = sails.config.mailgun.baseUrl + '/reset-password-form/' + updatedUser[0].passwordRecoveryToken;
 
-        var messageTemplate = 'Loosing your password is a drag, but don\'t worry! \n' +
+        var messageTemplate = 'Losing your password is a drag, but don\'t worry! \n' +
                    '\n' +
                    'You can use the following link to reset your password: \n' +  
                    recoverUrl + '\n' +
@@ -270,8 +270,8 @@ module.exports = {
 
         // Send a simple plaintext email.
         Mailgun.sendPlaintextEmail({
-          apiKey: 'key-7e5ddde708c6bedf644cde3f57ac2caa',
-          domain: 'sandboxc4c6677b6349403f8dc60de7d4694919.mailgun.org',
+          apiKey: sails.config.mailgun.apiKey,
+          domain: sails.config.mailgun.domain,
           toEmail: updatedUser[0].email,
           subject: '[Brushfire] Please reset your password',
           message: messageTemplate,
@@ -298,12 +298,12 @@ module.exports = {
   resetPassword: function(req, res) {
     
     // check for token parameter
-    if (_.isUndefined(req.param('passwordRecoveryToken'))) {
+    if (!_.isString(req.param('passwordRecoveryToken'))) {
       return res.badRequest('A password recovery token is required!');
     }
 
     // secondary check for password parameter
-    if (_.isUndefined(req.param('password'))) {
+    if (!_.isString(req.param('password'))) {
       return res.badRequest('A password is required!');
     }
 
@@ -318,7 +318,12 @@ module.exports = {
     }).exec(function foundUser(err, user){
       if (err) return res.negotiate(err);
 
-      if (!user) return res.notFound();
+      // If this token doesn't correspond with a real user record, it is invalid.
+      // We send a 404 response so that our front-end code can show an
+      // appropriate error message.
+      if (!user) {
+        return res.notFound();
+      }
 
       // Encrypt new password
       Passwords.encryptPassword({

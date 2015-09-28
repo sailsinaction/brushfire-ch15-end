@@ -18,13 +18,25 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
     })
     .then(function onSuccess(sailsResponse) {
 
+      // Password successfully changed and user is logged in!
+      // Redirect them to the `/profile` page (which they'll now be able to access)
       window.location='/profile';
 
     })
     .catch(function onError(sailsResponse) {
+      
+      // If our Sails action responds with a 404 status code (i.e. `res.notFound()`)
+      // then it means the token was invalid (because no real user could be found matching it).
+      if (sailsResponse.status === 404) {
+        // TODO: show appropriate error message  (hit the toaster)
+        console.error('invalid token!', sailsResponse);
+        return;
+      }
 
-      console.log('sailsResponse: ', sailsResponse);
-
+      // Otherwise, this is some weird unexpected server error. 
+      // Or maybe your WIFI just went out.
+      console.error('sailsResponse: ', sailsResponse);
+      // TODO: handle general case error 
     });
   };
 
