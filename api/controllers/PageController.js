@@ -430,5 +430,46 @@ module.exports = {
         fakeTutorialsDetail: fakeTutorialsDetail
       });
     });
+  },
+  showTutorialsDetailsVideoNewPage: function(req, res) {
+
+    var fakeTutorialsDetail = {
+      title: 'Sed ut perspiciatis unde omnis',
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      owner: 'sailsinaction',
+      createdOn: '2015-09-27T16:32:55.000Z',
+      totalTime: '3h 22m',
+      stars: '4'
+    }
+
+    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view 
+    if (!req.session.userId) {
+      return res.view('tutorials-detail-video-new', {
+        me: null,
+        fakeTutorialsDetail: fakeTutorialsDetail
+      });
+    }
+
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.view('tutorials-detail-video-new', {
+          me: null
+        });
+      }
+
+      return res.view('tutorials-detail-video-new', {
+        me: {
+          email: user.email,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        },
+        fakeTutorialsDetail: fakeTutorialsDetail
+      });
+    });
   }
 };

@@ -1,0 +1,82 @@
+<div ng-controller="tutorialsDetailVideoNewPageController" ng-cloak>
+  <div class="container well">
+    <h1>Tutorial</h1>
+    <div class="list-group">
+      <!-- Tutorial Details -->
+      <div class="tutorials-detail list-group-item">
+        <div class="col-md-8" style="margin-top: 25px">
+          <h3 class="list-group-item-heading">
+          <%= fakeTutorialsDetail.title %>
+          </h3>
+          <p class="list-group-item-text" style="font-size: 1.2em">
+            <%= fakeTutorialsDetail.description %>
+          </p>
+          <ul class="list-inline list-unstyled">
+            <li>|</li>
+            <li>
+              <span>by: <i class="fa fa-user"></i>  <%= fakeTutorialsDetail.owner %> </span>
+            </li>
+            <li>|</li>
+            <li>
+              <span><i class="fa fa-calendar"></i>  <%= fakeTutorialsDetail.createdOn %></span>
+            </li>
+            <li>|</li>
+            <li>
+              <span><i class="fa fa-video-camera"></i>  <%= fakeTutorialsDetail.totalTime %> </span>
+            </li>
+            <li>|</li>
+            <li>
+              <% for (i = 0; i < fakeTutorialsDetail.stars; i++) {  %>
+              <span class="fa fa-star"></span>
+              <% } %>
+              <% for (i = 0; i < 5-fakeTutorialsDetail.stars; i++) {  %>
+              <span class="fa fa-star-o"></span>
+              <% } %>
+            </li>
+            <li>|</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- add video -->
+    <div class="row well">
+      <!-- grey background with border -->
+      
+      <h1>Add new video...
+      <span class="pull-right">
+      <a href="#" class="btn btn-default">save</a>
+      <a href="#" class="btn btn-default">cancel</a>
+    </span>
+    </h1>
+      <form>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" placeholder="How to do almost anything.">
+        </div>
+        <div class="form-inline">
+        <div class="form-group">
+          <label for="youtubeURL">Youtube URL</label>
+          <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50">
+        </div>
+        <button class="btn btn-primary preview-youtube" ng-click="previewYoutubeURL()">preview youtube video</button>
+        Example: https://www.youtube.com/embed/pv5UhO_BRhw
+      </div>
+        <div class="form-inline">
+          <label for="lengthMin">How long is this video?</label>
+          <div class="form-group">
+            <input type="text" class="form-control" id="lengthMin" placeholder="minutes">
+          </div>
+          <strong> minutes </strong>
+          <div class="form-group">
+            <input type="text" class="form-control" id="lengthSec" placeholder="seconds">
+            <strong> seconds </strong>
+          </div>
+        </div>
+        <div style="margin: 15px" ng-hide="tutorialsDetailVideoNew.iframeHide">
+          <iframe width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
+          </iframe>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
