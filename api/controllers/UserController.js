@@ -331,11 +331,11 @@ module.exports = {
       }).exec({
         error: function(err) {
           return res.serverError(err);
-      },
-        success: function(result) {
+        },
+        success: function(encryptedPassword) {
 
           User.update(user.id, {
-            encryptedPassword: result,
+            encryptedPassword: encryptedPassword,
             passwordRecoveryToken: null
           }).exec(function (err, updatedUsers) {
             if (err) {
