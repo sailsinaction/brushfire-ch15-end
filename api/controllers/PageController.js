@@ -430,5 +430,5 @@ module.exports = {
         fakeTutorialsDetail: fakeTutorialsDetail
       });
     });
-  } 
+  }
 };

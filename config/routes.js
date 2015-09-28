@@ -73,6 +73,18 @@ module.exports.routes = {
   'GET /reset-password-form/:passwordRecoveryToken': 'PageController.showResetPasswordForm',
   'GET /tutorials-list': 'PageController.showTutorialsListPage',
   'GET /tutorials-detail': 'PageController.showTutorialsDetailPage',
+  'GET /tutorials-detail-new': {
+    view: 'tutorials-detail-new',
+    locals: {
+      me: null
+    }
+  },
+  'GET /verify-email': {
+    view: 'verify-email',
+    locals: {
+      me: null
+    }
+  }
   // 'GET /tutorials-list': {
   //   view: 'tutorials-list',
   //   locals: {
