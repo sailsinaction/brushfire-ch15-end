@@ -3,13 +3,13 @@
     <div class="row">
       <div class="well">
         <div class="list-group">
-          <% _.forEach(fakeTutorialsList, function(tutorial){ %>
+          <% _.forEach(tutorials, function(tutorial){ %>
           <a href="/tutorials-detail" class="list-group-item tutorials-list">
             <div class="col-md-11" style="margin-top: 25px">
-              <h3 class="list-group-item-heading"> 
-                <%- tutorial.title %> 
+              <h3 class="list-group-item-heading">
+                <%- tutorial.title %>
               </h3>
-              <p class="list-group-item-text" style="font-size: 1.2em"> 
+              <p class="list-group-item-text" style="font-size: 1.2em">
                 <%- tutorial.description %>
               </p>
               <ul class="list-inline list-unstyled">

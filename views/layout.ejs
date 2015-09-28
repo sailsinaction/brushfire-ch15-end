@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Sails App</title>
+    <title>Brushfire</title>
+
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
+
     <link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
 
     <!--STYLES-->
@@ -13,9 +14,21 @@
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
     <script type="text/javascript"> //#A
-    window.SAILS_LOCALS = { 
-      me: <%- typeof me !== 'undefined' ? JSON.stringify(me) : null %>
-    }; 
+    window.SAILS_LOCALS = {
+      me: <%-
+      // Note that by putting these comments inside of the EJS tag, we prevent them from
+      // being sent down to client (i.e. they are boiled away on the server along with the
+      // EJS tags)
+      //
+      // Notice we must check that `me` exists using typeof to keep EJS from throwing
+      // and displaying an ugly error message when rendering certain pages
+      // (i.e. 404 /500 error pages)
+      typeof me !== 'undefined' ? JSON.stringify(me) : 'null'
+      // Note that we deliberately use 'null' (a string) because EJS converts the `null` literal
+      // into empty string (''), which is not what we want (that would be invalid JS and cause a
+      // client-side error in the browser)
+      %>
+    };
     </script>
   </head>
   <body ng-app="brushfire">
@@ -44,7 +57,9 @@
     <script src="/js/controllers/restorePageController.js"></script>
     <script src="/js/controllers/signinPageController.js"></script>
     <script src="/js/controllers/signupPageController.js"></script>
+    <script src="/js/controllers/tutorialsDetailNewPageController.js"></script>
     <script src="/js/controllers/tutorialsDetailPageController.js"></script>
+    <script src="/js/controllers/tutorialsDetailVideoNewPageController.js"></script>
     <script src="/js/controllers/tutorialsListPageController.js"></script>
     <script src="/js/controllers/videosPageController.js"></script>
     <!--SCRIPTS END-->

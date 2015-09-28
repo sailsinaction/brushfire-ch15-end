@@ -230,7 +230,7 @@ module.exports = {
   showTutorialsListPage: function(req, res) {
 
     // Fake tutorials array
-    var fakeTutorialsList = [{
+    var tutorials = [{
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
@@ -295,11 +295,11 @@ module.exports = {
       stars: '4'
     }];
 
-    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view 
+    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
     if (!req.session.userId) {
       return res.view('tutorials-list', {
         me: null,
-        fakeTutorialsList: fakeTutorialsList
+        tutorials: tutorials
       });
     }
 
@@ -321,7 +321,7 @@ module.exports = {
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
-        fakeTutorialsList: fakeTutorialsList
+        tutorials: tutorials
       });
     });
   },
@@ -390,7 +390,7 @@ module.exports = {
       }]
     };
 
-    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view 
+    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
     if (!req.session.userId) {
       return res.view('tutorials-detail', {
         me: null,
@@ -431,7 +431,7 @@ module.exports = {
       stars: '4'
     }
 
-    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view 
+    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
     if (!req.session.userId) {
       return res.view('tutorials-detail-video-new', {
         me: null,
