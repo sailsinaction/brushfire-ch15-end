@@ -7,7 +7,102 @@
 
 module.exports = {
 
-  showSignupPage: function(req, res) {
+  home: function(req, res) {
+
+    if (!req.session.userId) {
+      return res.view('homepage', {
+        me: null
+      });
+    }
+
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.view('homepage', {
+          me: null
+        });
+      }
+
+      return res.view('homepage', {
+        me: {
+          email: user.email,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        }
+      });
+    });
+  },
+
+  editProfile: function(req, res) {
+
+    if (!req.session.userId) {
+      return res.redirect('/');
+    }
+
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        console.log('error: ', error);
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.view('homepage');
+      }
+
+      return res.view('edit-profile', {
+        me: {
+          email: user.email,
+          username: user.username,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        }
+      });
+    });
+  },
+
+  profile: function(req, res) {
+
+    if (!req.session.userId) {
+      return res.redirect('/');
+    }
+
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        console.log('error: ', error);
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.view('homepage');
+      }
+
+      return res.view('profile', {
+        me: {
+          email: user.email,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        }
+      });
+    });
+  },
+
+  signin: function(req, res) {
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
+    return res.view('signin', {
+      me: null
+    });
+  },
+
+  signup: function(req, res) {
     if (req.session.userId) {
       return res.redirect('/');
     }
@@ -17,12 +112,13 @@ module.exports = {
     });
   },
 
-  showSigninPage: function(req, res) {
+  restoreProfile: function(req, res) {
+
     if (req.session.userId) {
       return res.redirect('/');
     }
 
-    return res.view('signin', {
+    return res.view('restore-profile', {
       me: null
     });
   },
@@ -62,72 +158,6 @@ module.exports = {
 
   },
 
-  showRestorePage: function(req, res) {
-
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
-    return res.view('restore', {
-      me: null
-    });
-  },
-
-  showEditProfilePage: function(req, res) {
-
-    if (!req.session.userId) {
-      return res.redirect('/');
-    }
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        console.log('error: ', error);
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('homepage');
-      }
-
-      return res.view('edit-profile', {
-        me: {
-          email: user.email,
-          username: user.username,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
-        }
-      });
-    });
-  },
-
-  showProfilePage: function(req, res) {
-
-    if (!req.session.userId) {
-      return res.redirect('/');
-    }
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        console.log('error: ', error);
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('homepage');
-      }
-
-      return res.view('profile', {
-        me: {
-          email: user.email,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
-        }
-      });
-    });
-  },
-
   showAdminPage: function(req, res) {
     if (!req.session.userId) {
       return res.redirect('/');
@@ -164,36 +194,6 @@ module.exports = {
           }
         });
       }
-    });
-  },
-
-  showHomePage: function(req, res) {
-
-    if (!req.session.userId) {
-      return res.view('homepage', {
-        me: null
-      });
-    }
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('homepage', {
-          me: null
-        });
-      }
-
-      return res.view('homepage', {
-        me: {
-          email: user.email,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
-        }
-      });
     });
   },
 

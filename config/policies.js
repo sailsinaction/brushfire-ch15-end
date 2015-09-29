@@ -55,11 +55,11 @@ module.exports.policies = {
   },
 
   PageController: {
-    showSignupPage: ['isLoggedOut'],
+    signup: ['isLoggedOut'],
     showAdminPage: ['isLoggedIn', 'isAdmin'],
-    showProfilePage: ['isLoggedIn'],
-    showEditProfilePage: ['isLoggedIn'],
-    showRestorePage: ['isLoggedOut']
+    profile: ['isLoggedIn'],
+    editProfile: ['isLoggedIn'],
+    restoreProfile: ['isLoggedOut']
   }
 
   // RabbitController: {

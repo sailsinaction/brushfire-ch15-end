@@ -40,8 +40,8 @@ module.exports.routes = {
   'GET /logout': 'UserController.logout',
 
   // added in chapter 10
-  'GET /video': 'VideoController.find',
-  'POST /video': 'VideoController.create',
+  // 'GET /video': 'VideoController.find',
+  // 'POST /video': 'VideoController.create',
   'POST /user/signup': 'UserController.signup',
   'PUT /user/remove-profile': 'UserController.removeProfile',
   'PUT /user/restore-profile': 'UserController.restoreProfile',
@@ -59,14 +59,13 @@ module.exports.routes = {
   * Server Rendered HTML Pages                                *
   *************************************************************/
 
-  'GET /': 'PageController.showHomePage',
-  'GET /videos': 'PageController.showVideosPage',
+  'GET /': 'PageController.home',
+  'GET /profile': 'PageController.profile',
+  'GET /profile/edit': 'PageController.editProfile',
+  'GET /profile/restore': 'PageController.restoreProfile',
+  'GET /signin': 'PageController.signin',
+  'GET /signup': 'PageController.signup',
   'GET /administration': 'PageController.showAdminPage',
-  'GET /profile': 'PageController.showProfilePage',
-  'GET /edit-profile': 'PageController.showEditProfilePage',
-  'GET /restore': 'PageController.showRestorePage',
-  'GET /signin': 'PageController.showSigninPage',
-  'GET /signup': 'PageController.showSignupPage',
   'GET /password-recovery': 'PageController.showPasswordRecoveryPage',
   'GET /password-recovery-email-sent': 'PageController.showPasswordRecoveryEmailSent',
   // 'GET /reset-password': 'PageController.showResetPasswordPage',
