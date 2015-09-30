@@ -169,7 +169,7 @@ module.exports = {
       return res.redirect('/');
     }
 
-    return res.view('password-recovery-email', {
+    return res.view('./password-recovery/password-recovery-email', {
       me: null
     });
   },
@@ -181,7 +181,7 @@ module.exports = {
       return res.redirect('/');
     }
 
-    return res.view('password-recovery-email-sent', {
+    return res.view('./password-recovery/password-recovery-email-sent', {
       me: null
     });
   },
@@ -190,7 +190,7 @@ module.exports = {
   passwordReset: function(req, res) {
 
     // Get the passwordRecoveryToken and render the view
-    res.view('password-reset', {
+    res.view('./password-recovery/password-reset', {
       me: null,
       passwordRecoveryToken: req.param('passwordRecoveryToken')
     });
