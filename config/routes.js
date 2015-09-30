@@ -67,11 +67,10 @@ module.exports.routes = {
   'GET /signup': 'PageController.signup',
   'GET /administration': 'PageController.administration',
 
-
   'GET /password-recovery-email': 'PageController.passwordRecoveryEmail',
-  'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',
-  // 'GET /reset-password': 'PageController.showResetPasswordPage',
+  'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',  
   'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
+  
   'GET /tutorials-list': 'PageController.showTutorialsListPage',
   'GET /tutorials-detail': 'PageController.showTutorialsDetailPage',
   'GET /tutorials-detail-video-new': 'PageController.showTutorialsDetailsVideoNewPage',

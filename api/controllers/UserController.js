@@ -8,7 +8,7 @@
 var Emailaddresses = require('machinepack-emailaddresses');
 var Passwords = require('machinepack-passwords');
 var Gravatar = require('machinepack-gravatar');
-var UUID = require('uuid');
+var Strings = require('machinepack-strings');
 var Mailgun = require('machinepack-mailgun');
 
 module.exports = {
@@ -202,14 +202,21 @@ module.exports = {
 
       if (!user) return res.notFound();
 
-      // Generate random UUID
-      var randomUUID = UUID.v4();
+      // Generate random alphanumeric string
+      try {
+
+
+        var randomString = Strings.unique({}).execSync();
+
+      } catch (err) {
+        return res.serverError(err);
+      }
 
       // Update user's paswordRecoveryToken attribute
       User.update({
         id: user.id
       }, {
-        passwordRecoveryToken: randomUUID
+        passwordRecoveryToken: randomString
       }).exec(function updateUser(err, updatedUser) {
         if (err) return res.negotiate(err);
 
