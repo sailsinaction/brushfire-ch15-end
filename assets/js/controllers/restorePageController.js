@@ -1,17 +1,17 @@
-angular.module('brushfire').controller('restorePageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr){
+angular.module('brushfire').controller('restoreProfilePageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr){
 
-  $scope.restoreForm = {
+  $scope.restoreProfileForm = {
     loading: false,
     errorMsg: ''
   };
 
   $scope.restoreProfile = function() {
     
-    $scope.restoreForm.loading = true;
+    $scope.restoreProfileForm.loading = true;
 
     $http.put('/user/restore-profile', {
-      email: $scope.restoreForm.email,
-      password: $scope.restoreForm.password
+      email: $scope.restoreProfileForm.email,
+      password: $scope.restoreProfileForm.password
     })
     .then(function onSuccess(sailsResponse){
       console.log(sailsResponse);
@@ -21,16 +21,16 @@ angular.module('brushfire').controller('restorePageController', ['$scope', '$htt
     .catch(function onError(sailsResponse) {
       console.log('sailsresponse: ', sailsResponse)
       // Otherwise, display generic error if the error is unrecognized.
-      // $scope.restoreForm.errorMsg = 'Email/Password combination does not match profile';
+      // $scope.restoreProfileForm.errorMsg = 'Email/Password combination does not match profile';
       if (sailsResponse.data.status >= 400 < 404) {
-        $scope.restoreForm.errorMsg = 'An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status);
+        $scope.restoreProfileForm.errorMsg = 'An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status);
         toastr.error('The email/password combination did not match a user profile.','', { timeOut: 1000 });
         return;
       }
 
     })
     .finally(function eitherWay() {
-      $scope.restoreForm.loading = false;
+      $scope.restoreProfileForm.loading = false;
     });
 
   };

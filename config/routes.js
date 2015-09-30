@@ -52,7 +52,7 @@ module.exports.routes = {
   'PUT /user/update-admin/:id': 'UserController.updateAdmin',
   'PUT /user/update-banned/:id': 'UserController.updateBanned',
   'PUT /user/update-deleted/:id': 'UserController.updateDeleted',
-  'PUT /user/recover-password': 'UserController.generateRecoveryEmail',
+  'PUT /user/generate-recovery-email': 'UserController.generateRecoveryEmail',
   'PUT /user/reset-password': 'UserController.resetPassword',
 
   /*************************************************************
@@ -65,11 +65,13 @@ module.exports.routes = {
   'GET /profile/restore': 'PageController.restoreProfile',
   'GET /signin': 'PageController.signin',
   'GET /signup': 'PageController.signup',
-  'GET /administration': 'PageController.showAdminPage',
-  'GET /password-recovery': 'PageController.showPasswordRecoveryPage',
-  'GET /password-recovery-email-sent': 'PageController.showPasswordRecoveryEmailSent',
+  'GET /administration': 'PageController.administration',
+
+
+  'GET /password-recovery-email': 'PageController.passwordRecoveryEmail',
+  'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',
   // 'GET /reset-password': 'PageController.showResetPasswordPage',
-  'GET /reset-password-form/:passwordRecoveryToken': 'PageController.showResetPasswordForm',
+  'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
   'GET /tutorials-list': 'PageController.showTutorialsListPage',
   'GET /tutorials-detail': 'PageController.showTutorialsDetailPage',
   'GET /tutorials-detail-video-new': 'PageController.showTutorialsDetailsVideoNewPage',

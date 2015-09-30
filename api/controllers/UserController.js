@@ -166,50 +166,7 @@ module.exports = {
     });
   },
 
-  // profile: function(req, res) {
-
-  //   // Try to look up user using the provided email address
-  //   User.findOne(req.param('id')).exec(function foundUser(err, user) {
-  //     // Handle error
-  //     if (err) return res.negotiate(err);
-
-  //     // Handle no user being found
-  //     if (!user) return res.notFound();
-
-  //     // Return the user
-  //     return res.json(user);
-  //   });
-  // },
-
-  // delete: function(req, res) {
-
-  //   if (!req.param('id')) {
-  //     return res.badRequest('id is a required parameter.');
-  //   }
-
-  //   User.destroy({
-  //     id: req.param('id')
-  //   }).exec(function(err, usersDestroyed) {
-  //     if (err) return res.negotiate(err);
-  //     if (usersDestroyed.length === 0) {
-  //       return res.notFound();
-  //     }
-  //     return res.ok();
-  //   });
-  // },
-
   removeProfile: function(req, res) {
-
-    // if (_.isUndefined(req.param('id'))) {
-    //   return res.badRequest('id is a required parameter.');
-    // }
-
-    // Added in chapter 10
-    // var isMe = req.session.userId == req.param('id');
-
-    // if (!isMe) {
-    //   return res.forbidden();
-    // } else {
 
     User.update({
       // id: req.param('id')
@@ -259,7 +216,7 @@ module.exports = {
         // email user with a URL which includes the password recovery token as a parameter
 
         // The Url that inclues the password recovery token as a parameter
-        var recoverUrl = sails.config.mailgun.baseUrl + '/reset-password-form/' + updatedUser[0].passwordRecoveryToken;
+        var recoverUrl = sails.config.mailgun.baseUrl + '/password-reset-form/' + updatedUser[0].passwordRecoveryToken;
 
         var messageTemplate = 'Losing your password is a drag, but don\'t worry! \n' +
                    '\n' +
@@ -341,7 +298,6 @@ module.exports = {
             if (err) {
               return res.negotiate(err);
             }
-            console.log('updatedUsers: ', updatedUsers);
 
             // Log the user in
             req.session.userId = updatedUsers[0].id;

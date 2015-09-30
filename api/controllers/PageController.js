@@ -123,42 +123,7 @@ module.exports = {
     });
   },
 
-  // #1
-  showPasswordRecoveryPage: function(req, res) {
-
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
-    return res.view('send-password-recovery-email', {
-      me: null
-    });
-  },
-
-  // #2
-  showPasswordRecoveryEmailSent: function(req, res) {
-
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
-    return res.view('sent-password-recovery-email', {
-      me: null
-    });
-  },
-
-  // #3
-  showResetPasswordForm: function(req, res) {
-
-    // Get the passwordRecoveryToken and render the view
-    res.view('reset-password', {
-      passwordRecoveryToken: req.param('passwordRecoveryToken')
-    });
-
-
-  },
-
-  showAdminPage: function(req, res) {
+  administration: function(req, res) {
     if (!req.session.userId) {
       return res.redirect('/');
     }
@@ -175,7 +140,7 @@ module.exports = {
       }
 
       if (user.admin) {
-        return res.view('admin-users', {
+        return res.view('administration', {
           me: {
             email: user.email,
             username: user.username,
@@ -197,35 +162,41 @@ module.exports = {
     });
   },
 
-  showVideosPage: function(req, res) {
+  // #1
+  passwordRecoveryEmail: function(req, res) {
 
-    if (!req.session.userId) {
-      return res.view('videos', {
-        me: null
-      });
+    if (req.session.userId) {
+      return res.redirect('/');
     }
 
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('videos', {
-          me: null
-        });
-      }
-
-      return res.view('videos', {
-        me: {
-          email: user.email,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
-        }
-      });
+    return res.view('password-recovery-email', {
+      me: null
     });
   },
+
+  // #2
+  passwordRecoveryEmailSent: function(req, res) {
+
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
+    return res.view('password-recovery-email-sent', {
+      me: null
+    });
+  },
+
+  // #3
+  passwordReset: function(req, res) {
+
+    // Get the passwordRecoveryToken and render the view
+    res.view('password-reset', {
+      me: null,
+      passwordRecoveryToken: req.param('passwordRecoveryToken')
+    });
+
+  },
+
 
   showTutorialsListPage: function(req, res) {
 

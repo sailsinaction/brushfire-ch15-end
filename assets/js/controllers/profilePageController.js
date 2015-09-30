@@ -35,7 +35,7 @@ angular.module('brushfire').controller('profilePageController', ['$scope', '$htt
 
         // console.log('sailsResponse: ', sailsResponse);
           // $scope.userProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
-          window.location = '/signup';
+          window.location = '/profile/restore';
           // 
           // toastr.success('Password Updated!');
 

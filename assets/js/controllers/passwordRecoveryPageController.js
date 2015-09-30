@@ -9,7 +9,7 @@ angular.module('brushfire').controller('passwordRecoveryPageController', ['$scop
     
     $scope.passwordRecoveryForm.loading = true;
 
-    $http.put('/user/recover-password', {
+    $http.put('/user/generate-recovery-email', {
       email: $scope.passwordRecoveryForm.email
     })
     .then(function onSuccess(sailsResponse){
