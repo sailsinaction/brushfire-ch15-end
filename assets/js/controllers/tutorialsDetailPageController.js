@@ -5,6 +5,10 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     loading: false
   };
 
+  $scope.editVideo = function() {
+    window.location="/tutorial/1/video/edit";
+  }
+
 $scope.me = window.SAILS_LOCALS.me;
 
   

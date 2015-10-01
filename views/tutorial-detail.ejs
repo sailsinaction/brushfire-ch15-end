@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-3 text-center col-md-offset-1" style="margin-top: 25px">
               <ul class="list-inline list-unstyled">
-                <li><a href="/tutorials/1" class="btn btn-default">edit</a></li>
+                <li><a href="/tutorials/1/edit" class="btn btn-default">edit</a></li>
                 <li><a href="/tutorials/1" class="btn btn-default">delete</a></li>
                 <li><a href="/tutorials/:id/videos/new" class="btn btn-default">add video</a></li>
               </ul>
@@ -57,10 +57,10 @@
           <% _.forEach(tutorial.videos, function(video){ %>
             <a href="" class="list-group-item">
               <li><%= video.order %> - <%= video.title %>
-                <ul class="list-inline list-unstyled pull-right">
-                  <li><span class="fa fa-video-camera"> <%= video.duration %></span></li>
-                  <li><span><button>edit</button></li>
-                  <li><span><button>delete</button></li>
+                <ul class="list-inline  pull-right">
+                  <li><span class="fa fa-video-camera"> <%= video.duration %></li>
+                  <li><button ng-click="editVideo()">edit</button></li>
+                  <li><button>delete</button></li>
                 </ul>
               </li>
             </a>
