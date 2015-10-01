@@ -70,16 +70,18 @@ module.exports.routes = {
   'GET /password-recovery-email': 'PageController.passwordRecoveryEmail',
   'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',  
   'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
-  
-  'GET /tutorials-list': 'PageController.showTutorialsListPage',
-  'GET /tutorials-detail': 'PageController.showTutorialsDetailPage',
-  'GET /tutorials-detail-video-new': 'PageController.showTutorialsDetailsVideoNewPage',
-  'GET /tutorials-detail-new': {
-    view: 'tutorials-detail-new',
-    locals: {
-      me: null
-    }
-  },
+
+  'GET /tutorials/browse': 'PageController.browseTutorials',
+  'GET /tutorials/new': 'PageController.newTutorial',
+  'GET /tutorials/:id': 'PageController.tutorialDetail',
+  'GET /tutorials/:id/videos/new': 'PageController.newVideo',
+  // 'GET /tutorials-detail-video-new': 'PageController.showTutorialsDetailsVideoNewPage',
+  // 'GET /tutorials-detail-new': {
+  //   view: 'tutorials-detail-new',
+  //   locals: {
+  //     me: null
+  //   }
+  // },
   'GET /verify-email': {
     view: 'verify-email',
     locals: {

@@ -6,30 +6,30 @@
       <div class="tutorials-detail list-group-item">
         <div class="col-md-8" style="margin-top: 25px">
           <h3 class="list-group-item-heading">
-          <%= fakeTutorialsDetail.title %>
+          <%= tutorial.title %>
           </h3>
           <p class="list-group-item-text" style="font-size: 1.2em">
-            <%= fakeTutorialsDetail.description %>
+            <%= tutorial.description %>
           </p>
           <ul class="list-inline list-unstyled">
             <li>|</li>
             <li>
-              <span>by: <i class="fa fa-user"></i>  <%= fakeTutorialsDetail.owner %> </span>
+              <span>by: <i class="fa fa-user"></i>  <%= tutorial.owner %> </span>
             </li>
             <li>|</li>
             <li>
-              <span><i class="fa fa-calendar"></i>  <%= fakeTutorialsDetail.createdOn %></span>
+              <span><i class="fa fa-calendar"></i>  <%= tutorial.createdOn %></span>
             </li>
             <li>|</li>
             <li>
-              <span><i class="fa fa-video-camera"></i>  <%= fakeTutorialsDetail.totalTime %> </span>
+              <span><i class="fa fa-video-camera"></i>  <%= tutorial.totalTime %> </span>
             </li>
             <li>|</li>
             <li>
-              <% for (i = 0; i < fakeTutorialsDetail.stars; i++) {  %>
+              <% for (i = 0; i < tutorial.stars; i++) {  %>
               <span class="fa fa-star"></span>
               <% } %>
-              <% for (i = 0; i < 5-fakeTutorialsDetail.stars; i++) {  %>
+              <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
               <span class="fa fa-star-o"></span>
               <% } %>
             </li>

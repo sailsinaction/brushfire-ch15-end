@@ -198,7 +198,7 @@ module.exports = {
   },
 
 
-  showTutorialsListPage: function(req, res) {
+  browseTutorials: function(req, res) {
 
     // Fake tutorials array
     var tutorials = [{
@@ -266,7 +266,7 @@ module.exports = {
       stars: '4'
     }];
 
-    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
+    // If not logged in set `me` property to `null` and pass tutorials to the view
     if (!req.session.userId) {
       return res.view('tutorials-list', {
         me: null,
@@ -281,7 +281,7 @@ module.exports = {
 
       if (!user) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('tutorials-list', {
+        return res.view('homepage', {
           me: null
         });
       }
@@ -297,10 +297,10 @@ module.exports = {
     });
   },
 
-  showTutorialsDetailPage: function(req, res) {
+  tutorialDetail: function(req, res) {
 
     // Fake tutorials detail dictionaryarray
-    var fakeTutorialsDetail = {
+    var tutorial = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
@@ -363,9 +363,9 @@ module.exports = {
 
     // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
     if (!req.session.userId) {
-      return res.view('tutorials-detail', {
+      return res.view('tutorial-detail', {
         me: null,
-        fakeTutorialsDetail: fakeTutorialsDetail
+        tutorial: tutorial
       });
     }
 
@@ -376,37 +376,46 @@ module.exports = {
 
       if (!user) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('tutorials-detail', {
+        return res.view('tutorial-detail', {
           me: null
         });
       }
 
-      return res.view('tutorials-detail', {
+      return res.view('tutorial-detail', {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
-        fakeTutorialsDetail: fakeTutorialsDetail
+        tutorial: tutorial
       });
     });
   },
-  showTutorialsDetailsVideoNewPage: function(req, res) {
 
-    var fakeTutorialsDetail = {
+  newTutorial: function(req, res) {
+
+    return res.view('tutorials-detail-new',
+    {
+      me: null
+    });
+  },
+
+  newVideo: function(req, res) {
+
+    var tutorial = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '4'
-    }
+    };
 
     // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
     if (!req.session.userId) {
       return res.view('tutorials-detail-video-new', {
         me: null,
-        fakeTutorialsDetail: fakeTutorialsDetail
+        tutorial: tutorial
       });
     }
 
@@ -428,7 +437,7 @@ module.exports = {
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
-        fakeTutorialsDetail: fakeTutorialsDetail
+        tutorial: tutorial
       });
     });
   }
