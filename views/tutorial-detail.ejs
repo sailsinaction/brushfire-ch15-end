@@ -5,6 +5,7 @@
         <div class="list-group">
 
 
+          <h3>Tutorial</h3>
           <!-- Tutorial Details -->
           <div class="tutorials-detail list-group-item">
             <div class="col-md-8" style="margin-top: 25px">
@@ -51,11 +52,11 @@
 
 
         <!-- Videos -->
-        <h4>Videos in This Tutorial</h4>
+        <h3>Table of Contents</h3>
         <ul class="list-group list-unstyled">
           <% _.forEach(tutorial.videos, function(video){ %>
             <a href="" class="list-group-item">
-              <li><%= video.title %>
+              <li><%= video.order %> - <%= video.title %>
                 <ul class="list-inline list-unstyled pull-right">
                   <li><span class="fa fa-video-camera"> <%= video.duration %></span></li>
                   <li><span><button>edit</button></li>

@@ -197,7 +197,6 @@ module.exports = {
 
   },
 
-
   browseTutorials: function(req, res) {
 
     // Fake tutorials array
@@ -309,59 +308,76 @@ module.exports = {
       stars: '4',
       videos: [{
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '1'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '2'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '3'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '4'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '5'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '6'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '7'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '8'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '9'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '10'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '11'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '12'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '13'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '14'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '15'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '16'
       }, {
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s'
+        duration: '10m 43s',
+        order: '17'
       }]
     };
 
-    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
+    // If not logged in set `me` property to `null` and pass the tutorial to the view
     if (!req.session.userId) {
       return res.view('tutorial-detail', {
         me: null,
@@ -393,6 +409,11 @@ module.exports = {
   },
 
   newTutorial: function(req, res) {
+
+    // If not logged in set `me` property to `null` and redirect to the signin view.
+    if (!req.session.userId) {
+      return res.redirect('/signin');
+    }
 
     return res.view('tutorials-detail-new',
     {
