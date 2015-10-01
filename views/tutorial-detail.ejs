@@ -5,7 +5,7 @@
         <div class="list-group">
 
 
-          <h3>Tutorial</h3>
+         
           <!-- Tutorial Details -->
           <div class="tutorials-detail list-group-item">
             <div class="col-md-8" style="margin-top: 25px">
@@ -42,9 +42,9 @@
             </div>
             <div class="col-md-3 text-center col-md-offset-1" style="margin-top: 25px">
               <ul class="list-inline list-unstyled">
-                <li><span><button>edit</button></li>
-                <li><span><button>delete</button></li>
-                <li><span><button>add video</button></li>
+                <li><a href="/tutorials/1" class="btn btn-default">edit</a></li>
+                <li><a href="/tutorials/1" class="btn btn-default">delete</a></li>
+                <li><a href="/tutorials/:id/videos/new" class="btn btn-default">add video</a></li>
               </ul>
             </div>
           </div>
@@ -52,7 +52,7 @@
 
 
         <!-- Videos -->
-        <h3>Table of Contents</h3>
+        <h2>Table of Contents</h2>
         <ul class="list-group list-unstyled">
           <% _.forEach(tutorial.videos, function(video){ %>
             <a href="" class="list-group-item">
