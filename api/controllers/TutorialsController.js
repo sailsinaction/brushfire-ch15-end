@@ -101,6 +101,17 @@ module.exports = {
 
     return res.ok();
 
+  },
+
+  deleteTutorial: function(req, res) {
+
+    return res.ok();
+
+  },
+
+  removeVideo: function(req, res) {
+
+    return res.ok();
   }
 	
 };

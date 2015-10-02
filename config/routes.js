@@ -59,7 +59,7 @@ module.exports.routes = {
   'POST /tutorials/:id/videos': 'TutorialsController.addVideo',
   'PUT /tutorials/:id': 'TutorialsController.update',
   'PUT /tutorials/:id/videos/:id': 'TutorialsController.updateVideo',
-  'DELETE /tutorials/:id': 'TutorialsController.delete',
+  'DELETE /tutorials/:id': 'TutorialsController.deleteTutorial',
   'DELETE /videos/:id': 'TutorialsController.removeVideo',
 
   /*************************************************************
@@ -86,6 +86,14 @@ module.exports.routes = {
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
+
+  'GET /showVideo': {
+    view: 'show-video',
+    locals: {
+      me: null,
+      src: 'https://www.youtube.com/embed/wkQomq_rgK4'
+    }
+  },
 
   'GET /search/demo': {
     view: 'tutorials-search',
