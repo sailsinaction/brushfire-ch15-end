@@ -40,7 +40,7 @@
                 <li>|</li>
               </ul>
             </div>
-            <div class="col-md-4 text-center" style="margin-top: 25px">
+            <div class="col-md-4 text-center" style="margin-top: 25px" ng-show="me">
               <ul class="list-inline list-unstyled">
                 <li><a href="/tutorials/1/edit" class="btn btn-default">edit</a></li>
                 <li><a ng-click="deleteTutorial()" class="btn btn-default">
@@ -59,23 +59,22 @@
         <h2>Table of Contents</h2>
         <ul class="list-group list-unstyled">
           <% _.forEach(tutorial.videos, function(video){ %>
-            <a href="" class="list-group-item">
+            <a href="/showVideo" class="list-group-item">
               <li><%= video.order %> - <%= video.title %>
                 <ul class="list-inline  pull-right">
                   <li><span class="fa fa-video-camera"> <%= video.duration %> </li>
-                  <li><button ng-click="editVideo()">edit</button></li>
-                  <li><button ng-click="deleteVideo()">
-                    <span ng-show="!tutorialDetails.loading">delete</span>
-                    <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.loading" ></span>
-                    <span ng-show="tutorialDetails.loading">deleting video...</span>
-                  </button></li>
+                  </a>
+                    <li ng-show="me"><button ng-click="editVideo()">edit</button></li>
+                    <li ng-show="me"><button ng-click="deleteVideo()">
+                      <span ng-show="!tutorialDetails.loading">delete</span>
+                      <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.loading" ></span>
+                      <span ng-show="tutorialDetails.loading">deleting video...</span>
+                    </button></li>
                 </ul>
               </li>
-            </a>
+            
           <% }) %>
         </ul>
-
-
       </div>
     </div>
   </div>
