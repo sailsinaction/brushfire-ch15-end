@@ -1,13 +1,62 @@
 <div ng-controller="profilePageController" ng-cloak ng-hide="loading">
-  <div class="col-md-3">
-    <img class="gravatarImage" ng-src={{me.gravatarURL}} />
+  <div class="row">
+    <div class="col-md-3">
+      <img class="gravatarImage" ng-src={{me.gravatarURL}} />
+    </div>
+    <div class="col-md-3" >
+      <h1>{{me.username}}</h1>
+      <% if (me.isMe) { %>
+      <h3> <a href="mailto:{{me.email}}">{{me.email}}</a></h3>
+      <div>
+        <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
+        <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+      </div>
+      <% } %>
+    </div>
   </div>
-  <div class="col-md-3" >
-    <h1>{{me.username}}</h1>
-    <h3> <a href="mailto:{{me.email}}">{{me.email}}</a></h3>
-    <div>
-      <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
-      <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+  <div class="container">
+    <h1>My Tutorials</h1>
+    <div class="row">
+      <div class="well">
+        <div class="list-group">
+          <% _.forEach(tutorials, function(tutorial){ %>
+          <a href="/tutorials/detail" class="list-group-item tutorials-list">
+            <div class="col-md-11" style="margin-top: 25px">
+              <h3 class="list-group-item-heading">
+              <%- tutorial.title %>
+              </h3>
+              <p class="list-group-item-text" style="font-size: 1.2em">
+                <%- tutorial.description %>
+              </p>
+              <ul class="list-inline list-unstyled">
+                <li>|</li>
+                <li>
+                  <span>by: <i class="fa fa-user"></i>  <%- tutorial.owner %></span>
+                </li>
+                <li>|</li>
+                <li>
+                  <span><i class="fa fa-calendar"></i>  <%- tutorial.createdOn %></span>
+                </li>
+                <li>|</li>
+                <li>
+                  <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
+                </li>
+                <li>|</li>
+                <li>
+                  <% for (i = 0; i < tutorial.stars; i++) {  %>
+                  <span class="fa fa-star"></span>
+                  <% } %>
+                  <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
+                  <span class="fa fa-star-o"></span>
+                  <% } %>
+                </li>
+                <li>|</li>
+              </ul>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
