@@ -65,12 +65,15 @@
               <li><%= video.order %> - <%= video.title %>
                 <ul class="list-inline  pull-right">
                   <li><span class="fa fa-video-camera"> <%= video.duration %> </li>
-                    <li ng-show="me"><button ng-click="editVideo()">edit</button></li>
-                    <li ng-show="me"><button ng-click="deleteVideo()">
-                      <span ng-show="!tutorialDetails.loading">delete</span>
-                      <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.loading" ></span>
-                      <span ng-show="tutorialDetails.loading">deleting video...</span>
-                    </button></li>
+                    <% if (me) { %>
+                      <li><button ng-click="editVideo()">edit</button></li>
+                      <li><button ng-click="deleteVideo()">
+                        <span ng-show="!tutorialDetails.loading">delete</span>
+                        <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.loading" ></span>
+                        <span ng-show="tutorialDetails.loading">deleting video...</span>
+                      </button>
+                    <% } %>
+                  </li>
                 </ul>
               </li>
             </a>
