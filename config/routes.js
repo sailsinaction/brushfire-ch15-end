@@ -55,6 +55,13 @@ module.exports.routes = {
   'PUT /user/generate-recovery-email': 'UserController.generateRecoveryEmail',
   'PUT /user/reset-password': 'UserController.resetPassword',
 
+  'POST /tutorials': 'TutorialsController.create',
+  'POST /tutorials/:id/videos': 'TutorialsController.addVideo',
+  'PUT /tutorials/:id': 'TutorialsController.update',
+  'PUT /tutorials/:id/videos/:id': 'TutorialsController.updateVideo',
+  'DELETE /tutorials/:id': 'TutorialsController.delete',
+  'DELETE /videos/:id': 'TutorialsController.removeVideo',
+
   /*************************************************************
   * Server Rendered HTML Pages                                *
   *************************************************************/
@@ -70,6 +77,8 @@ module.exports.routes = {
   'GET /password-recovery-email': 'PageController.passwordRecoveryEmail',
   'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',  
   'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
+  
+  'GET /tutorials/search': 'TutorialsController.search',
 
   'GET /tutorials/browse': 'PageController.browseTutorials',
   'GET /tutorials/new': 'PageController.newTutorial',
@@ -77,6 +86,77 @@ module.exports.routes = {
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
+
+  'GET /search/demo': {
+    view: 'tutorials-search',
+    locals: {
+      me: null,
+      tutorials: [{
+      title: 'Sed ut perspiciatis unde omnis',
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      owner: 'sailsinaction',
+      createdOn: '2015-09-27T16:32:55.000Z',
+      totalTime: '3h 22m',
+      stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }, {
+        title: 'Sed ut perspiciatis unde omnis',
+        description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+        owner: 'sailsinaction',
+        createdOn: '2015-09-27T16:32:55.000Z',
+        totalTime: '3h 22m',
+        stars: '4'
+      }]
+    }
+  },
   // 'GET /tutorials-detail-video-new': 'PageController.showTutorialsDetailsVideoNewPage',
   // 'GET /tutorials-detail-new': {
   //   view: 'tutorials-detail-new',

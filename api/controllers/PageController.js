@@ -379,7 +379,7 @@ module.exports = {
 
     // If not logged in set `me` property to `null` and pass the tutorial to the view
     if (!req.session.userId) {
-      return res.view('tutorial-detail', {
+      return res.view('tutorials-detail', {
         me: null,
         tutorial: tutorial
       });
@@ -392,12 +392,12 @@ module.exports = {
 
       if (!user) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('tutorial-detail', {
+        return res.view('tutorials-detail', {
           me: null
         });
       }
 
-      return res.view('tutorial-detail', {
+      return res.view('tutorials-detail', {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
