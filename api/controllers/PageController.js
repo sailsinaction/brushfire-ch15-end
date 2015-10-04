@@ -45,7 +45,7 @@ module.exports = {
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
-        console.log('error: ', error);
+        console.log('error: ', err);
         return res.negotiate(err);
       }
 
@@ -91,34 +91,94 @@ module.exports = {
       stars: '4'
     }];
 
+    // If the user-agent is not authenticated
     if (!req.session.userId) {
-      return res.redirect('/');
-    }
+      console.log('req.param(username): ', req.param('username'));
 
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        console.log('error: ', error);
-        return res.negotiate(err);
-      }
+      User.findOne({
+          username: req.param('username')
+      }).exec(function(err, user) {
+        if (err) {
+          return res.negotiate(err);
+        }
 
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('homepage');
-      }
+        if (!user) {
+          return res.notFound();
+        }
 
-      if (req.session.userId == user.id) {
+        console.log('user: ', user);
+
         return res.view('profile', {
-          me: {
-            isMe: true,
-            email: user.email,
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
+          me: null,
+          username: user.username,
+          gravatarURL: user.gravatarURL,
           tutorials: tutorials
         });
-      }
-    });
+      });
+    }// <if !req.session.userId is truthy>
+
+    // If the user-agent is authenticated find that user
+    if (req.session.userId) {
+      User.findOne(req.session.userId)
+        .exec( function(err, user) {
+        if (err) {
+          console.log('error: ', err);
+          return res.negotiate(err);
+        }
+
+        if (!user) {
+          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+          return res.view('homepage');
+        }
+
+        // if a username parameter was sent find that user
+        if (req.param('username')) {
+
+          User.findOne({
+            username: req.param('username')
+          }).exec(function(err, foundByUsername) {
+            if (err) {
+              return res.negotiate(err);
+            }
+
+            if (!foundByUsername) {
+              return res.notFound();
+            }
+            
+            // if the session id is equal to the username id
+            if (req.session.userId == foundByUsername.id) {
+
+              return res.view('profile', {
+                me: {
+                  isMe: true,
+                  email: user.email,
+                  username: user.username,
+                  gravatarURL: user.gravatarURL,
+                  admin: user.admin
+                },
+                username: foundByUsername.username,
+                gravatarURL: foundByUsername.gravatarURL,
+                tutorials: tutorials
+              });
+            }
+            
+            return res.view('profile', {
+              me: {
+                isMe: false,
+                email: user.email,
+                username: user.username,
+                gravatarURL: user.gravatarURL,
+                admin: user.admin
+              },
+              username: foundByUsername.username,
+              gravatarURL: foundByUsername.gravatarURL,
+              tutorials: tutorials
+            });
+          });
+          return;
+        } // <if "username" param is truthy>
+      });  // <User.findOne(req.session.userId)
+    }  // <if user-agent has a session
   },
 
   signin: function(req, res) {

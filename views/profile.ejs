@@ -1,21 +1,26 @@
 <div ng-controller="profilePageController" ng-cloak ng-hide="loading">
   <div class="row">
     <div class="col-md-3">
-      <img class="gravatarImage" ng-src={{me.gravatarURL}} />
+      <img class="gravatarImage" src="<%= gravatarURL %>" >
     </div>
-    <div class="col-md-3" >
-      <h1>{{me.username}}</h1>
-      <% if (me.isMe) { %>
-      <h3> <a href="mailto:{{me.email}}">{{me.email}}</a></h3>
-      <div>
-        <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
-        <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+    <% if (me && me.isMe ) { %>
+      <div class="col-md-3" >
+        <h1><%=me.username %></h1>
+          <h3> <a href="mailto:<%= me.email %>"><%= me.email %></a></h3>
+        <div>
+          <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
+          <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+        </div>
       </div>
-      <% } %>
+    <% } %>
     </div>
   </div>
   <div class="container">
-    <h1>My Tutorials</h1>
+    <% if (me && me.isMe ) { %>
+      <h1>My Tutorials</h1>
+    <% } else { %>
+      <h1><%= username %>'s Tutorials</h1>
+    <% } %>
     <div class="row">
       <div class="well">
         <div class="list-group">

@@ -67,6 +67,7 @@ module.exports.routes = {
   *************************************************************/
 
   'GET /': 'PageController.home',
+  'GET /profile/:username': 'PageController.profile',
   'GET /profile': 'PageController.profile',
   'GET /profile/edit': 'PageController.editProfile',
   'GET /profile/restore': 'PageController.restoreProfile',
@@ -86,6 +87,7 @@ module.exports.routes = {
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
+  'GET /:username': 'PageController.profile',
 
   'GET /showVideo': {
     view: 'show-video',

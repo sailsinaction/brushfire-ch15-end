@@ -57,7 +57,7 @@ module.exports.policies = {
   PageController: {
     signup: ['isLoggedOut'],
     showAdminPage: ['isLoggedIn', 'isAdmin'],
-    profile: ['isLoggedIn'],
+    // profile: ['isLoggedIn'],
     editProfile: ['isLoggedIn'],
     restoreProfile: ['isLoggedOut']
   }
