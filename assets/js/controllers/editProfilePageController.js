@@ -26,7 +26,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
 
     // Submit PUT request to Sails.
       // $http.put(theRoute, {
-      $http.put('user/update-profile', {
+      $http.put('/user/update-profile', {
         gravatarURL: $scope.me.gravatarURL
         // gravatarURL: $scope.editProfile.properties.gravatarURL
       })
@@ -34,7 +34,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
 
         // Notice that the sailsResponse is an array and not a single object
         // The .update() model method returns an array and not a single record.
-        window.location = '/profile';
+        window.location = '/' + sailsResponse.data[0].username;
 
         $scope.editProfile.loading = false;
       })
@@ -75,7 +75,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
 
   $scope.changeMyPassword = function() {
 
-    $http.put('user/change-password', {
+    $http.put('/user/change-password', {
         // id: $scope.me.id,
         password: $scope.editProfile.properties.password
       })
@@ -84,7 +84,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
         // console.log('sailsResponse: ', sailsResponse);
         // $scope.userProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
         // window.location = '#/profile/' + $scope.editProfile.properties.id;
-        window.location='/profile';
+        window.location='/' + sailsResponse.data[0].username;
         // toastr.success('Password Updated!');
 
         $scope.editProfile.loading = false;

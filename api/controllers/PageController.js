@@ -30,6 +30,7 @@ module.exports = {
       return res.view('homepage', {
         me: {
           email: user.email,
+          username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
         }
@@ -378,6 +379,7 @@ module.exports = {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
+          username: user.username,
           admin: user.admin
         },
         tutorials: tutorials
@@ -490,6 +492,7 @@ module.exports = {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
+          username: user.username,
           admin: user.admin
         },
         tutorial: tutorial
@@ -518,6 +521,7 @@ module.exports = {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
+          username: user.username,
           admin: user.admin
         }
       });
@@ -545,6 +549,7 @@ module.exports = {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
+          username: user.username,
           admin: user.admin
         }
       });
@@ -585,6 +590,7 @@ module.exports = {
       return res.view('tutorials-detail-video-new', {
         me: {
           email: user.email,
+          username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
@@ -622,6 +628,7 @@ module.exports = {
       return res.view('tutorials-detail-video-edit', {
         me: {
           email: user.email,
+          username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
