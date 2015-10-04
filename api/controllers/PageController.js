@@ -92,17 +92,19 @@ module.exports = {
       stars: '4'
     }];
 
-    // If the user-agent is not authenticated
+    // If the user-agent is not authenticated...
     if (!req.session.userId) {
       console.log('req.param(username): ', req.param('username'));
 
       User.findOne({
-          username: req.param('username')
+        username: req.param('username')
       }).exec(function(err, user) {
         if (err) {
           return res.negotiate(err);
         }
 
+        // If no user exists with the username specified in the URL,
+        // show the 404 page.
         if (!user) {
           return res.notFound();
         }
@@ -116,70 +118,60 @@ module.exports = {
           tutorials: tutorials
         });
       });
-    }// <if !req.session.userId is truthy>
+      return;
+    } // <if !req.session.userId is truthy>
 
-    // If the user-agent is authenticated find that user
-    if (req.session.userId) {
-      User.findOne(req.session.userId)
-        .exec( function(err, user) {
+    // Otherwise, the user-agent is authenticated
+    // (`req.session.userId` exists)
+    else {
+      // Find the logged-in user.
+      User.findOne(req.session.userId).exec(function(err, user) {
         if (err) {
           console.log('error: ', err);
           return res.negotiate(err);
         }
 
         if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?'); 
           return res.view('homepage');
         }
 
-        // if a username parameter was sent find that user
-        if (req.param('username')) {
 
-          User.findOne({
-            username: req.param('username')
-          }).exec(function(err, foundByUsername) {
-            if (err) {
-              return res.negotiate(err);
-            }
+        User.findOne({
+          username: req.param('username')
+        }).exec(function(err, foundByUsername) {
+          if (err) {
+            return res.negotiate(err);
+          }
 
-            if (!foundByUsername) {
-              return res.notFound();
-            }
-            
-            // if the session id is equal to the username id
-            if (req.session.userId == foundByUsername.id) {
+          if (!foundByUsername) {
+            return res.notFound();
+          }
 
-              return res.view('profile', {
-                me: {
-                  isMe: true,
-                  email: user.email,
-                  username: user.username,
-                  gravatarURL: user.gravatarURL,
-                  admin: user.admin
-                },
-                username: foundByUsername.username,
-                gravatarURL: foundByUsername.gravatarURL,
-                tutorials: tutorials
-              });
-            }
-            
-            return res.view('profile', {
-              me: {
-                isMe: false,
-                email: user.email,
-                username: user.username,
-                gravatarURL: user.gravatarURL,
-                admin: user.admin
-              },
-              username: foundByUsername.username,
-              gravatarURL: foundByUsername.gravatarURL,
-              tutorials: tutorials
-            });
+
+          // We'll provide the `isMe` flag to the profile page view
+          // if the logged-in user is the same as the user whose profile this is.
+          var isMe;
+          if (req.session.userId === foundByUsername.id) {
+            isMe = true;
+          }
+
+          return res.view('profile', {
+            me: {
+              isMe: isMe,
+              email: user.email,
+              username: user.username,
+              gravatarURL: user.gravatarURL,
+              admin: user.admin
+            },
+            username: foundByUsername.username,
+            gravatarURL: foundByUsername.gravatarURL,
+            tutorials: tutorials
           });
-          return;
-        } // <if "username" param is truthy>
-      });  // <User.findOne(req.session.userId)
-    }  // <if user-agent has a session
+        });// </find user by username>
+        return;
+      }); // <User.findOne(req.session.userId)
+    } // <if user-agent has a session
   },
 
   signin: function(req, res) {
