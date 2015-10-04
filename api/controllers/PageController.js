@@ -92,86 +92,68 @@ module.exports = {
       stars: '4'
     }];
 
-    // If the user-agent is not authenticated...
-    if (!req.session.userId) {
-      console.log('req.param(username): ', req.param('username'));
+    // Look up the user record for the `username` parameter
+    User.findOne({
+      username: req.param('username')
+    }).exec(function(err, foundByUsername) {
+      if (err) {
+        return res.negotiate(err);
+      }
 
-      User.findOne({
-        username: req.param('username')
-      }).exec(function(err, user) {
-        if (err) {
-          return res.negotiate(err);
-        }
+      // If no user exists with the username specified in the URL,
+      // show the 404 page.
+      if (!foundByUsername) {
+        return res.notFound();
+      }
 
-        // If no user exists with the username specified in the URL,
-        // show the 404 page.
-        if (!user) {
-          return res.notFound();
-        }
-
-        console.log('user: ', user);
-
+      // If the requesting user-agent is not logged-in,
+      // just show the profile page.
+      if (!req.session.userId) {
         return res.view('profile', {
           me: null,
-          username: user.username,
-          gravatarURL: user.gravatarURL,
+          username: foundByUsername.username,
+          gravatarURL: foundByUsername.gravatarURL,
           tutorials: tutorials
         });
-      });
-      return;
-    } // <if !req.session.userId is truthy>
+      }
 
-    // Otherwise, the user-agent is authenticated
-    // (`req.session.userId` exists)
-    else {
-      // Find the logged-in user.
-      User.findOne(req.session.userId).exec(function(err, user) {
+      // Otherwise the user-agent IS logged in.
+      // 
+
+      // Look up the logged-in user from the database.
+      User.findOne({id: req.session.userId}).exec(function (err, loggedInUser){
         if (err) {
-          console.log('error: ', err);
           return res.negotiate(err);
         }
 
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?'); 
-          return res.view('homepage');
+        if (!loggedInUser) {
+          return res.serverError('User record from logged in user is missing?');
         }
 
+        // We'll provide `me` as a local to the profile page view.
+        // (this is so we can render the logged-in navbar state, etc.)
+        var me = {
+          email: loggedInUser.email,
+          username: loggedInUser.username,
+          gravatarURL: loggedInUser.gravatarURL,
+          admin: loggedInUser.admin
+        };
 
-        User.findOne({
-          username: req.param('username')
-        }).exec(function(err, foundByUsername) {
-          if (err) {
-            return res.negotiate(err);
-          }
-
-          if (!foundByUsername) {
-            return res.notFound();
-          }
-
-
-          // We'll provide the `isMe` flag to the profile page view
-          // if the logged-in user is the same as the user whose profile this is.
-          var isMe;
-          if (req.session.userId === foundByUsername.id) {
-            isMe = true;
-          }
-
-          return res.view('profile', {
-            me: {
-              isMe: isMe,
-              email: user.email,
-              username: user.username,
-              gravatarURL: user.gravatarURL,
-              admin: user.admin
-            },
-            username: foundByUsername.username,
-            gravatarURL: foundByUsername.gravatarURL,
-            tutorials: tutorials
-          });
-        });// </find user by username>
-        return;
-      }); // <User.findOne(req.session.userId)
-    } // <if user-agent has a session
+        // We'll provide the `isMe` flag to the profile page view
+        // if the logged-in user is the same as the user whose profile this is.
+        if (req.session.userId === foundByUsername.id) {
+          me.isMe = true;
+        }
+        
+        return res.view('profile', {
+          me: me,
+          username: foundByUsername.username,
+          gravatarURL: foundByUsername.gravatarURL,
+          tutorials: tutorials
+        });
+        
+      }); //</ User.findOne({id: req.session.userId})
+    });// </find user by username>
   },
 
   signin: function(req, res) {
