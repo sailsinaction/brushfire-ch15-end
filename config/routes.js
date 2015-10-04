@@ -67,8 +67,6 @@ module.exports.routes = {
   *************************************************************/
 
   'GET /': 'PageController.home',
-  'GET /profile/:username': 'PageController.profile',
-  'GET /profile': 'PageController.profile',
   'GET /profile/edit': 'PageController.editProfile',
   'GET /profile/restore': 'PageController.restoreProfile',
   'GET /signin': 'PageController.signin',
