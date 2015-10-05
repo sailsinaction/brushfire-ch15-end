@@ -204,8 +204,7 @@ module.exports = {
 
       // Generate random alphanumeric string
       try {
-
-
+        
         var randomString = Strings.unique({}).execSync();
 
       } catch (err) {
