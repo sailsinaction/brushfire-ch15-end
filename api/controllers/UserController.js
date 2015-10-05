@@ -202,16 +202,16 @@ module.exports = {
 
       if (!user) return res.notFound();
 
-      // Generate random alphanumeric string
+      // Generate random alphanumeric string for the passwordRecoveryToken
       try {
-        
+
         var randomString = Strings.unique({}).execSync();
 
       } catch (err) {
         return res.serverError(err);
       }
 
-      // Update user's paswordRecoveryToken attribute
+      // Update user's paswordRecoveryToken attribute with the newly created alphanumeric string
       User.update({
         id: user.id
       }, {
@@ -255,7 +255,6 @@ module.exports = {
         });
       });
     });
-
   },
 
   resetPassword: function(req, res) {
@@ -308,8 +307,8 @@ module.exports = {
             // Log the user in
             req.session.userId = updatedUsers[0].id;
 
-            // Send back a 200
-            return res.ok();
+            // If successful return updatedUsers
+            return res.json({updatedUsers: updatedUsers});
           });
         }
       });

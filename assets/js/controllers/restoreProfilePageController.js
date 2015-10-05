@@ -16,7 +16,7 @@ angular.module('brushfire').controller('restoreProfilePageController', ['$scope'
     .then(function onSuccess(sailsResponse){
       console.log(sailsResponse);
 
-      window.location = '/' + sailsResponse.data[0].username;;
+      window.location = '/' + sailsResponse.data[0].username;
     })
     .catch(function onError(sailsResponse) {
       console.log('sailsresponse: ', sailsResponse)

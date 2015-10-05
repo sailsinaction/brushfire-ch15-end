@@ -20,7 +20,8 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
 
       // Password successfully changed and user is logged in!
       // Redirect them to the `/profile` page (which they'll now be able to access)
-      window.location='/profile';
+      console.log('sailsResponse: ', sailsResponse);
+      window.location = '/' + sailsResponse.data.updatedUsers[0].username;
 
     })
     .catch(function onError(sailsResponse) {
