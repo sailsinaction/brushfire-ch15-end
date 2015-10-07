@@ -30,12 +30,7 @@
                 </li>
                 <li>|</li>
                 <li>
-                  <% for (i = 0; i < tutorial.stars; i++) {  %>
-                  <span class="fa fa-star"></span>
-                  <% } %>
-                  <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
-                  <span class="fa fa-star-o"></span>
-                  <% } %>
+                  <span><rating ng-model="tutorial.stars" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></span>
                 </li>
                 <li>|</li>
               </ul>

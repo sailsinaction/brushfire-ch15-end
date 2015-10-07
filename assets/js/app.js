@@ -1,4 +1,4 @@
-angular.module('brushfire', ['toastr', 'compareTo'])
+angular.module('brushfire', ['toastr', 'compareTo', 'ui.bootstrap'])
   .config(function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
       'self',
