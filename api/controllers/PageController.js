@@ -270,63 +270,63 @@ module.exports = {
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '5'
     }];
 
     // If not logged in set `me` property to `null` and pass tutorials to the view
@@ -371,6 +371,7 @@ module.exports = {
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '4',
+      id: 1,
       videos: [{
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
         duration: '10m 43s',

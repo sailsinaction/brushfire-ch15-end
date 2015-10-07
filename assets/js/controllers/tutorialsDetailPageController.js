@@ -11,13 +11,14 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   $scope.max = 5;
   $scope.isReadonly = false;
 
-  $scope.hoveringOver = function(value) {
+  $scope.hoveringOver = function(value, id) {
+    $scope.id = id;
     $scope.overStar = value;
     $scope.percent = 100 * (value / $scope.max);
   };
 
   // When the user clicks on the rating post the rating
-  $scope.$watch('tutorial.stars', function(val) {
+  $scope.$watch('tutorial.stars', function(val, id) {
 
     function sucess(data) {
 
@@ -33,6 +34,24 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
     if (val) {
       console.log(val);
+      console.log('the id: ', $scope.id);
+      $http.put('/tutorials/' + $scope.id + '/rate', {
+        rating: val,
+        id: $scope.id
+      })
+      .then(function onSuccess(sailsResponse) {
+        
+        console.log(sailsResponse);
+        $scope.isReadonly = true;
+      })
+      .catch(function onError(sailsResponse) {
+
+        console.log(sailsResponse);
+
+      })
+      .finally(function eitherWay() {
+        $scope.tutorialDetails.loading = false;
+      });
     }
   });
 
