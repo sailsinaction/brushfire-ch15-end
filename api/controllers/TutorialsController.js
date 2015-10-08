@@ -132,7 +132,6 @@ module.exports = {
     };
 
     return res.json({options: options});
-    // return res.json({tutorials: updatedTutorials});
   },
 
   rateTutorial: function(req, res) {
