@@ -78,7 +78,7 @@ module.exports.routes = {
   'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',  
   'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
   
-  'GET /tutorials/search': 'TutorialsController.search',
+  'GET /tutorials/search': 'TutorialsController.searchTutorials',
 
   'GET /tutorials/browse': 'PageController.browseTutorials',
   'GET /tutorials/new': 'PageController.newTutorial',

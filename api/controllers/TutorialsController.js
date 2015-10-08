@@ -7,12 +7,12 @@
 
 module.exports = {
 
-  search: function(req, res) {
+  searchTutorials: function(req, res) {
 
     var tutorials = [{
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -21,14 +21,14 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       createdAt: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '5'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 2,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -37,7 +37,7 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 3,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -46,7 +46,7 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 4,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -55,7 +55,7 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 5,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -64,7 +64,7 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 6,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -73,7 +73,7 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 7,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
@@ -82,13 +82,33 @@ module.exports = {
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       id: 8,
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: '5'
+    }, {
+      title: 'Sed ut perspiciatis unde omnis',
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      owner: 'sails-in-action',
+      id: 9,
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
+      totalTime: '3h 22m',
+      stars: '5'
+    }, {
+      title: 'Sed ut perspiciatis unde omnis',
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      owner: 'sails-in-action',
+      id: 10,
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
+      totalTime: '3h 22m',
+      stars: '5'
     }];
+
+    console.log('skip: ', req.param('skip'));
 
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
     var Datetime = require('machinepack-datetime');
@@ -106,7 +126,13 @@ module.exports = {
       return tutorial;
     });
 
-    return res.json({tutorials: updatedTutorials});
+    var options = {
+      totalTutorials: 30,
+      updatedTutorials: updatedTutorials
+    };
+
+    return res.json({options: options});
+    // return res.json({tutorials: updatedTutorials});
   },
 
   rateTutorial: function(req, res) {
