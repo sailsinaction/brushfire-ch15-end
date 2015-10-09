@@ -77,17 +77,30 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   };
 
   // Simulate deleting a tutorial
-  $scope.deleteTutorial = function() {
-    
+  $scope.deleteTutorial = function(id) {
 
     $scope.tutorialDetails.tutorialLoading = true;
 
-    setTimeout(function() {
+    $http.delete('/tutorials/'+id)
+    .then(function onSuccess(sailsResponse){
 
+      console.log(sailsResponse);
+
+      setTimeout(function() {
+
+        $scope.tutorialDetails.tutorialLoading = false;
+        window.location = "/tutorials/browse";
+
+      }, 1000);
+      
+    })
+    .catch(function onError(sailsResponse){
+      console.log(sailsResponse);
+    })
+    .finally(function eitherWay(){
       $scope.tutorialDetails.tutorialLoading = false;
-      window.location = "/tutorials/browse";
+    });
 
-    }, 1000);
   };
 
   // Simulate move video up

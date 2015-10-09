@@ -164,6 +164,8 @@ module.exports = {
 
   deleteTutorial: function(req, res) {
 
+    console.log('id: ', req.param('id'));
+
     return res.ok();
 
   },

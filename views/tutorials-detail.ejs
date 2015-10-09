@@ -37,8 +37,8 @@
             <div class="col-md-3 text-center" style="margin-top: 25px">
               <% if (me) { %>
                 <ul class="list-inline list-unstyled">
-                  <li><a href="/tutorials/1/edit" class="btn btn-default">edit</a></li>
-                  <li><a ng-click="deleteTutorial()" class="btn btn-default">
+                  <li><a href="/tutorials/<%= tutorial.id %>/edit" class="btn btn-default">edit</a></li>
+                  <li><a ng-click="deleteTutorial(<%= tutorial.id %>)" class="btn btn-default">
                       <span ng-show="!tutorialDetails.tutorialLoading">delete</span>
                       <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.tutorialLoading" ></span>
                       <span ng-show="tutorialDetails.tutorialLoading"></span>
