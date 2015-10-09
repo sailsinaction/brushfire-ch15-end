@@ -2,6 +2,13 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   $scope.me = window.SAILS_LOCALS.me;
 
+
+  $scope.tutorial = {
+    stars: window.SAILS_LOCALS.stars
+  };
+
+  console.log($scope.tutorial.stars);
+
   // set-up loading state
   $scope.tutorialDetails = {
     loading: false,
@@ -18,7 +25,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   };
 
   // When the user clicks on the rating post the rating
-  $scope.$watch('tutorial.stars', function(val, id) {
+  $scope.$watch('myStars', function(val, id) {
 
     function sucess(data) {
 
@@ -33,6 +40,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     }
 
     if (val) {
+      $scope.tutorialDetails.loading = true;
       console.log(val);
       console.log('the id: ', $scope.id);
       $http.put('/tutorials/' + $scope.id + '/rate', {
@@ -42,7 +50,11 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
       .then(function onSuccess(sailsResponse) {
         
         console.log(sailsResponse);
-        $scope.isReadonly = true;
+
+        toastr.success('Your rating has been saved', 'Rating', {
+            closeButton: true
+          });
+
       })
       .catch(function onError(sailsResponse) {
 
@@ -55,7 +67,10 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     }
   });
 
-  $scope.editVideo = function() {
+  $scope.editVideo = function(e) {
+
+    e.preventDefault();
+
 
     // Redirect to the edit action
     window.location = "/tutorials/1/videos/edit";
@@ -63,19 +78,41 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   // Simulate deleting a tutorial
   $scope.deleteTutorial = function() {
+    
 
     $scope.tutorialDetails.tutorialLoading = true;
 
     setTimeout(function() {
 
       $scope.tutorialDetails.tutorialLoading = false;
-      window.location = "/tutorials/1";
+      window.location = "/tutorials/browse";
 
     }, 1000);
   };
 
+  // Simulate move video up
+  $scope.moveVideoUp = function(e) {
+
+    e.preventDefault();
+
+    console.log('move video up!');
+
+  };
+
+  // Simulate move video down
+  $scope.moveVideoDown = function(e) {
+
+    e.preventDefault();
+
+    console.log('made video down!');
+
+  };
+
   // Simulate deleting a video
-  $scope.deleteVideo = function() {
+  $scope.deleteVideo = function(e) {
+
+    e.preventDefault();
+    
 
     $scope.tutorialDetails.loading = true;
 
