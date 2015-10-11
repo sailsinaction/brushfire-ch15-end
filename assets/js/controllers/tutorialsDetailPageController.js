@@ -102,12 +102,14 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     $http.delete('/tutorials/'+id)
     .then(function onSuccess(sailsResponse){
 
-      console.log(sailsResponse);
+      // console.log(sailsResponse);
 
       setTimeout(function() {
 
         $scope.tutorialDetails.deleteButtonLoading = false;
-        window.location = "/tutorials/browse";
+
+        // Head back to the profile that is editing the tutorial
+        window.location = "/" + sailsResponse.data.username;
 
       }, 1000);
       

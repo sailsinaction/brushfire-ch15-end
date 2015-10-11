@@ -172,7 +172,9 @@ module.exports = {
 
     console.log('id: ', req.param('id'));
 
-    return res.ok();
+    // TODO: Look-up the tutorial `id` and pass back the username.
+
+    return res.json({username: 'sails-in-action'});
 
   },
 
