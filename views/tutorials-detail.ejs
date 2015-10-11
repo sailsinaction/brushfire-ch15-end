@@ -1,4 +1,4 @@
-<script type="text/javascript"> //#A
+<script type="text/javascript">
     window.SAILS_LOCALS = {
       stars: <%-
       // Note that by putting these comments inside of the EJS tag, we prevent them from
@@ -39,11 +39,11 @@
                 <ul class="list-inline list-unstyled">
                   <li><a href="/tutorials/<%= tutorial.id %>/edit" class="btn btn-default">edit</a></li>
                   <li><a ng-click="deleteTutorial(<%= tutorial.id %>)" class="btn btn-default">
-                      <span ng-show="!tutorialDetails.tutorialLoading">delete</span>
-                      <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.tutorialLoading" ></span>
-                      <span ng-show="tutorialDetails.tutorialLoading"></span>
+                      <span ng-show="!tutorialDetails.deleteButtonLoading">delete</span>
+                      <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteButtonLoading" ></span>
+                      <span ng-show="tutorialDetails.deleteButtonLoading"></span>
                       </a></li>
-                  <li><a href="/tutorials/:id/videos/new" class="btn btn-default">add video</a></li>
+                  <li><a href="/tutorials/<%= tutorial.id %>/videos/new" class="btn btn-default">add video</a></li>
                 </ul>
               <% } %>
             </div>
@@ -64,13 +64,13 @@
                 </li>
                 <li>|</li>
                 <li>
-                  <span>rating average: <rating ng-model= "tutorial.stars" max="max" readonly="true" on-hover="hoveringOver()" on-leave="overStar = null"></rating></span>
+                  <span>rating average: <rating ng-model= "tutorial.stars" max="max" readonly="true" on-hover="hoveringOver()" on-leave="overStar = null" style="outline: none;"></rating></span>
                 </li>
                 <li>|</li>
                 <!-- Don't show myRating unless authenticated -->
                 <% if (me) { %>
                   <li>
-                    <span>myRating: <rating ng-model="myStars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, '<%= tutorial.id %>')" on-leave="overStar = null" style="outline: none;"></rating></span>
+                    <span>myRating: <rating ng-model="myStars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, <%= tutorial.id %>)" on-leave="overStar = null" style="outline: none;"></rating></span>
                     <span ng-show="tutorialDetails.loading" class="fa fa-spinner"></span>
                   </li>
                   <li>|</li>
@@ -89,7 +89,7 @@
               <li><%= i + 1 %> - <%= video.title %>
                 <ul class="list-inline  pull-right">
                   <li>
-                    <span class="fa fa-video-camera"> <%= video.duration %> 
+                    <span class="fa fa-video-camera"> <%= video.minutes %>m <%= video.seconds %>s
                   </li>
                   <% if (me) { %>
                     <li><button ng-click="editVideo($event)">edit</button></li>

@@ -1,51 +1,69 @@
 angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
+  /*
+   ____          _____                _           
+  / __ \        |  __ \              | |          
+ | |  | |_ __   | |__) |___ _ __   __| | ___ _ __ 
+ | |  | | '_ \  |  _  // _ \ '_ \ / _` |/ _ \ '__|
+ | |__| | | | | | | \ \  __/ | | | (_| |  __/ |   
+  \____/|_| |_| |_|  \_\___|_| |_|\__,_|\___|_|   
+                                                  
+                                                  
+*/
+
+  // Grab any locals from the me property on the windows object
   $scope.me = window.SAILS_LOCALS.me;
 
-
+  // Grab the number of stars (in a local) for this tutorial from the stars
+  // property of the window object
   $scope.tutorial = {
     stars: window.SAILS_LOCALS.stars
   };
 
-  console.log($scope.tutorial.stars);
-
   // set-up loading state
   $scope.tutorialDetails = {
     loading: false,
-    tutorialLoading: false
+
+    // This is a separate loading state for the delete button
+    deleteButtonLoading: false
   };
 
+  // We need a max for the stars (i.e. 1 out of 5 stars)
   $scope.max = 5;
+
+  // The user may not change the overall rating.
   $scope.isReadonly = false;
 
-  $scope.hoveringOver = function(value, id) {
-    $scope.id = id;
-    $scope.overStar = value;
-    $scope.percent = 100 * (value / $scope.max);
+/* 
+  _____   ____  __  __   ______               _       
+ |  __ \ / __ \|  \/  | |  ____|             | |      
+ | |  | | |  | | \  / | | |____   _____ _ __ | |_ ___ 
+ | |  | | |  | | |\/| | |  __\ \ / / _ \ '_ \| __/ __|
+ | |__| | |__| | |  | | | |___\ V /  __/ | | | |_\__ \
+ |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
+
+*/
+
+ // The number of stars currently being hovered over 
+  $scope.hoveringOver = function(rating, tutorialId) {
+
+    // The `id` of the tutorial, we'll need it for the $watch below because
+    // we can't pass the `id` in the $watch function
+    $scope.tutorialId = tutorialId;
+
+    // The number of stars currently being hovered over
+    $scope.overStar = rating;
   };
 
-  // When the user clicks on the rating post the rating
-  $scope.$watch('myStars', function(val, id) {
+  // When the user clicks on the the stars this will change the model and
+  //  we'll POST the rating
+  $scope.$watch('myStars', function(rating) {
 
-    function sucess(data) {
-
-      console.log(data);
-
-    }
-
-    function error(response) {
-
-      console.log(response);
-      alert("Can't post " + response.data + " Error:" + response.status);
-    }
-
-    if (val) {
+    if (rating) {
       $scope.tutorialDetails.loading = true;
-      console.log(val);
-      console.log('the id: ', $scope.id);
-      $http.put('/tutorials/' + $scope.id + '/rate', {
-        rating: val,
-        id: $scope.id
+      $http.put('/tutorials/' + $scope.tutorialId + '/rate', {
+        rating: rating,
+        id: $scope.tutorialId
       })
       .then(function onSuccess(sailsResponse) {
         
@@ -79,7 +97,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   // Simulate deleting a tutorial
   $scope.deleteTutorial = function(id) {
 
-    $scope.tutorialDetails.tutorialLoading = true;
+    $scope.tutorialDetails.deleteButtonLoading = true;
 
     $http.delete('/tutorials/'+id)
     .then(function onSuccess(sailsResponse){
@@ -88,7 +106,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
       setTimeout(function() {
 
-        $scope.tutorialDetails.tutorialLoading = false;
+        $scope.tutorialDetails.deleteButtonLoading = false;
         window.location = "/tutorials/browse";
 
       }, 1000);
@@ -98,7 +116,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
       console.log(sailsResponse);
     })
     .finally(function eitherWay(){
-      $scope.tutorialDetails.tutorialLoading = false;
+      
     });
 
   };

@@ -376,43 +376,54 @@ module.exports = {
       videos: [{
         id: 55,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        src: 'https://www.youtube.com/embed/pv5UhO_BRhw',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 23,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 34,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 64,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 95,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 106,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 73,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 88,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 96,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }, {
         id: 108,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        duration: '10m 43s',
+        minutes: 10,
+        seconds: 22
       }]
     };
 
@@ -529,11 +540,30 @@ module.exports = {
     var tutorial = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
-      createdOn: '2015-09-27T16:32:55.000Z',
+      owner: 'sails-in-action',
+      id: 1,
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: '4'
     };
+
+    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
+      var Datetime = require('machinepack-datetime');
+      
+      var formatDate = function(date) {  
+        var niceTimeAgoString = Datetime.timeFrom({
+          toWhen: Datetime.parse({
+            datetime: date
+          }).execSync(),
+          fromWhen: new Date().getTime()
+        }).execSync();
+
+        return niceTimeAgoString;
+      };
+
+      tutorial.createdAt = formatDate(tutorial.createdAt);
+      tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
     // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
     if (!req.session.userId) {

@@ -145,9 +145,15 @@ module.exports = {
 
   addVideo: function(req, res) {
 
-    var id = '1';
+    var options = {
+      tutorialId: req.param('id'),
+      title: req.param('title'),
+      src: req.param('src'),
+      minutes: req.param('minutes'),
+      seconds: req.param('seconds')
+    };
 
-    return res.json({id: id});
+    return res.json({video: options});
   },
 
   update: function(req, res) {
