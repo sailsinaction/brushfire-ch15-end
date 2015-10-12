@@ -25,7 +25,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     loading: false,
 
     // This is a separate loading state for the delete button
-    deleteButtonLoading: false
+    deleteTutorialLoading: false
   };
 
   // We need a max for the stars (i.e. 1 out of 5 stars)
@@ -85,19 +85,18 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     }
   });
 
-  $scope.editVideo = function(e) {
+  $scope.editVideo = function(e, videoId) {
 
     e.preventDefault();
 
-
-    // Redirect to the edit action
-    window.location = "/tutorials/1/videos/edit";
+    // Redirect to the edit page using the tutorial `id`
+    window.location = "/tutorials/" + videoId + "/videos/edit";
   };
 
   // Simulate deleting a tutorial
   $scope.deleteTutorial = function(id) {
 
-    $scope.tutorialDetails.deleteButtonLoading = true;
+    $scope.tutorialDetails.deleteTutorialLoading = true;
 
     $http.delete('/tutorials/'+id)
     .then(function onSuccess(sailsResponse){
@@ -106,7 +105,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
       setTimeout(function() {
 
-        $scope.tutorialDetails.deleteButtonLoading = false;
+        $scope.tutorialDetails.deleteTutorialLoading = false;
 
         // Head back to the profile that is editing the tutorial
         window.location = "/" + sailsResponse.data.username;
@@ -142,18 +141,36 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   };
 
   // Simulate deleting a video
-  $scope.deleteVideo = function(e) {
+  $scope.deleteVideo = function(e, videoId) {
 
     e.preventDefault();
-    
 
-    $scope.tutorialDetails.loading = true;
+    $scope.tutorialDetails.deleteVideoLoading = true;
 
-    setTimeout(function() {
+    $http.delete('/videos/'+videoId)
+    .then(function onSuccess(sailsResponse){
 
-      $scope.tutorialDetails.loading = false;
-      window.location = "/tutorials/1";
+      // console.log(sailsResponse);
 
-    }, 1000);
+      setTimeout(function() {
+
+        $scope.tutorialDetails.deleteVideoLoading = false;
+
+        // When fully implemented, will we refresh the page or make the change
+        // to the already provided tutorials dictionary??
+
+        // Head back to the profile that is editing the tutorial
+        // Simulated for now.
+        window.location = "/tutorials/1";
+
+      }, 1000);
+      
+    })
+    .catch(function onError(sailsResponse){
+      console.log(sailsResponse);
+    })
+    .finally(function eitherWay(){
+      
+    });
   };
 }]);

@@ -158,13 +158,17 @@ module.exports = {
 
   update: function(req, res) {
 
-    return res.ok();
+    console.log('id: ', req.param('id'));
+
+    return res.json({id: id});
 
   },
 
   updateVideo: function(req, res) {
 
-    return res.ok();
+    console.log('id: ', req.param('id'));
+
+    return res.json({id: id});
 
   },
 
@@ -179,6 +183,8 @@ module.exports = {
   },
 
   removeVideo: function(req, res) {
+
+    console.log('id: ', req.param('id'));
 
     return res.ok();
   }

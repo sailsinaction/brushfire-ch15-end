@@ -39,9 +39,9 @@
                 <ul class="list-inline list-unstyled">
                   <li><a href="/tutorials/<%= tutorial.id %>/edit" class="btn btn-default">edit</a></li>
                   <li><a ng-click="deleteTutorial(<%= tutorial.id %>)" class="btn btn-default">
-                      <span ng-show="!tutorialDetails.deleteButtonLoading">delete</span>
-                      <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteButtonLoading" ></span>
-                      <span ng-show="tutorialDetails.deleteButtonLoading"></span>
+                      <span ng-show="!tutorialDetails.deleteTutorialLoading">delete</span>
+                      <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteTutorialLoading" ></span>
+                      <span ng-show="tutorialDetails.deleteTutorialLoading"></span>
                       </a></li>
                   <li><a href="/tutorials/<%= tutorial.id %>/videos/new" class="btn btn-default">add video</a></li>
                 </ul>
@@ -92,12 +92,12 @@
                     <span class="fa fa-video-camera"> <%= video.minutes %>m <%= video.seconds %>s
                   </li>
                   <% if (me) { %>
-                    <li><button ng-click="editVideo($event)">edit</button></li>
+                    <li><button ng-click="editVideo($event, <%= video.id %>)">edit</button></li>
                     <li>
-                      <button ng-click="deleteVideo($event)">
-                        <span ng-show="!tutorialDetails.loading">delete</span>
-                        <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.loading" ></span>
-                        <span ng-show="tutorialDetails.loading">deleting video...</span>
+                      <button ng-click="deleteVideo($event, <%= video.id %>)">
+                        <span ng-show="!tutorialDetails.deleteVideoLoading">delete</span>
+                        <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteVideoLoading" ></span>
+                        <span ng-show="tutorialDetails.deleteVideoLoading">deleting video...</span>
                       </button>
                     </li>
                     <% if (i > 0) { %>
