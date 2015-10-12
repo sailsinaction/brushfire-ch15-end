@@ -55,7 +55,7 @@ module.exports.routes = {
   'PUT /user/generate-recovery-email': 'UserController.generateRecoveryEmail',
   'PUT /user/reset-password': 'UserController.resetPassword',
 
-  'POST /tutorials': 'TutorialsController.create',
+  'POST /tutorials/new': 'TutorialsController.newTutorial',
   'POST /tutorials/:id/videos': 'TutorialsController.addVideo',
   'PUT /tutorials/:id': 'TutorialsController.update',
   'PUT /tutorials/:id/videos/:id': 'TutorialsController.updateVideo',

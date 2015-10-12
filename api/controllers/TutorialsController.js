@@ -136,11 +136,14 @@ module.exports = {
 
   },
 
-  create: function(req, res) {
+  newTutorial: function(req, res) {
 
-    var id = '1';
+    console.log("username", req.param('username'));
 
-    return res.json({id: id});
+    // Create a tutorial record using `username`, `title`, and `description`
+
+    // Pass back the `id` of the new record, simulate `1` for now.
+    return res.json({id: '1'});
   },
 
   addVideo: function(req, res) {
