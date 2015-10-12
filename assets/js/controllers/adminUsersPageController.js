@@ -1,6 +1,6 @@
 angular.module('brushfire').controller('adminUsersPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr){
 
-  /*
+/*
    ____          _____                _           
   / __ \        |  __ \              | |          
  | |  | |_ __   | |__) |___ _ __   __| | ___ _ __ 

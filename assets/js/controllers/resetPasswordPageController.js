@@ -7,8 +7,7 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
  | |  | | '_ \  |  _  // _ \ '_ \ / _` |/ _ \ '__|
  | |__| | | | | | | \ \  __/ | | | (_| |  __/ |   
   \____/|_| |_| |_|  \_\___|_| |_|\__,_|\___|_|   
-                                                  
-                                                  
+                                                                                                  
 */
 
   $scope.passwordRecoveryToken = window.SAILS_LOCALS.passwordRecoveryToken;

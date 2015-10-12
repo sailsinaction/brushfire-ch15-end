@@ -1,14 +1,13 @@
 angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
-  /*
+/*
    ____          _____                _           
   / __ \        |  __ \              | |          
  | |  | |_ __   | |__) |___ _ __   __| | ___ _ __ 
  | |  | | '_ \  |  _  // _ \ '_ \ / _` |/ _ \ '__|
  | |__| | | | | | | \ \  __/ | | | (_| |  __/ |   
   \____/|_| |_| |_|  \_\___|_| |_|\__,_|\___|_|   
-                                                  
-                                                  
+                                                                                                    
 */
 
   // Grab any locals from the me property on the windows object
