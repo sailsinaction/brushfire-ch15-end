@@ -33,7 +33,8 @@ module.exports = {
           username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
-        }
+        },
+        showAddTutorialButton: true
       });
     });
   },
@@ -111,6 +112,7 @@ module.exports = {
       if (!req.session.userId) {
         return res.view('profile', {
           me: null,
+          showAddTutorialButton: false,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
           tutorials: tutorials
@@ -147,6 +149,7 @@ module.exports = {
         
         return res.view('profile', {
           me: me,
+          showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
           tutorials: tutorials
@@ -210,7 +213,8 @@ module.exports = {
             username: user.username,
             gravatarURL: user.gravatarURL,
             admin: user.admin
-          }
+          },
+          showAddTutorialButton: true
         });
       } else {
         return res.view('homepage', {
@@ -220,7 +224,8 @@ module.exports = {
             username: user.username,
             gravatarURL: user.gravatarURL,
             admin: user.admin
-          }
+          },
+          showAddTutorialButton: true
         });
       }
     });
@@ -356,7 +361,8 @@ module.exports = {
           username: user.username,
           admin: user.admin
         },
-        tutorials: tutorials
+        tutorials: tutorials,
+        showAddTutorialButton: true
       });
     });
   },
