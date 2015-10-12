@@ -11,12 +11,15 @@ angular.module('brushfire').controller('tutorialsDetailEditPageController', ['$s
 */
 
   // set-up loading state
-  $scope.tutorialDetails = {
+  $scope.tutorialDetailsEdit = {
     loading: false
   };
 
   $scope.me = window.SAILS_LOCALS.me;
+  $scope.tutorial = window.SAILS_LOCALS.tutorial;
 
+  $scope.tutorialDetailsEdit.title = $scope.tutorial.title;
+  $scope.tutorialDetailsEdit.description = $scope.tutorial.description;
 /* 
   _____   ____  __  __   ______               _       
  |  __ \ / __ \|  \/  | |  ____|             | |      
@@ -27,7 +30,21 @@ angular.module('brushfire').controller('tutorialsDetailEditPageController', ['$s
 
 */
 
+  $scope.submitEditTutorialForm = function(id) {
 
+    $http.put('/tutorials/'+id, {
+      title: $scope.tutorialDetailsEdit.title,
+      description: $scope.tutorialDetailsEdit.description
+    })
+    .then(function onSuccess(sailsResponse){
+      console.log(sailsResponse);
+      window.location="/tutorials/"+sailsResponse.data.id;
+    })
+    .catch(function onError(sailsResponse){
+      console.log(sailsResponse);
+    })
+    .finally(function eitherWay(){
 
-  
+    });
+  };
 }]);

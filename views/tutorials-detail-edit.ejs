@@ -1,27 +1,72 @@
+<script type="text/javascript">
+  // In case SAILS_LOCALS doesn't exist, set it to an empty dictionary.
+  window.SAILS_LOCALS = window.SAILS_LOCALS || {};
+  <% 
+  // This technique is called short-circuiting.  Here's why this works:
+  // ```
+  // false || true  // => true
+  // false || 6  // => 6
+  // undefined || true // => true
+  // undefined || 6 // => 6
+  // ```
+  // 
+  // Caveats:
+  // Note that this can have unexpected results if SAILS_LOCALS is something 
+  // unexpectedly falsy (like empty string, null, false, 0).  Also note this doesn't 
+  // ensure that window.SAILS_LOCALS is a dictionary.  We could check that, but it's 
+  // probably ok (also we don't have access to lodash here so I'm mainly being lazy)
+
+  // So the reason why we did that is just to be safe (what if the navigation.ejs 
+  // partial is no longer used at some point?  This would throw a weird error that 
+  // might make us annoyed or distressed)
+  // Now we can set a property on the window.SAILS_LOCALS dictionary with confidence
+  // that it is(...probably...) a dictionary.  And if it did already exist, we're not
+  //  overriding it (just adding a property to it.)
+  %>
+  window.SAILS_LOCALS.tutorial =
+  <%- typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) :null %>;
+</script>
 <div ng-controller="tutorialsDetailEditPageController" ng-cloak>
   <div class="container well">
-    <h1>Edit a Tutorial
-    <span class="pull-right">
-      <a href="/tutorials/1" class="btn btn-default">save</a>
-      <a href="/tutorials/1" class="btn btn-default">cancel</a>
-    </span>
-    </h1>
+    <h1>Edit a Tutorial </h1>
   </div>
   <div class="row">
     <!-- grey background with border -->
     <div class="container well">
-      <form role="form" class='form-horizontal'>
-        <div class="form-group">
-          <!-- white background with border -->
+      <%  
+        // Using EJS tags so this doesn't show up in the page.
+        // The validation is tied to the form's `name` property.  Each input has it's 
+        // own `ng-class` and `required` directives. The submit button's ng-disabled 
+        // directive is tied to $invalid.
+      %>
+      <!-- Add NEW tutorial form -->
+      <form role="form" class='form-horizontal' name="editTutorial" ng-submit="submitEditTutorialForm(<%= tutorial.id %>)">
+        <!-- white background with border -->
+        <!-- T I T L E -->
+        <div class="form-group" ng-class="{'has-error':editTutorial.title.$invalid &&editTutorial.title.$dirty}">
           <div class="list-group-item">
-          <label for="title" class=" control-label" style="font-size: 1.5em">Title</label>
-            <input type="text" class="form-control" name="title" placeholder="e.g. tutorial title" style="font-size: 1.5em">
+            <label for="title" class=" control-label" style="font-size: 1.5em">Title</label>
+            <input type="text" class="form-control" name="title" placeholder="e.g. tutorial title" style="font-size: 1.5em" ng-model="tutorialDetailsEdit.title" required>
           </div>
+          <span class="help-block has-error" ng-if="editTutorial.title.$dirty">
+            <span ng-show="editTutorial.title.$error.required" style="font-size: 1.5em">Title is required.</span>
+          </span>
+        </div>
+        <!-- D E S C R I P T I O N -->
+        <div class="form-group" ng-class="{'has-error':editTutorial.description.$invalid &&editTutorial.description.$dirty}">
+
           <div class="list-group-item">
             <label for="description" class=" control-label" style="font-size: 1.5em">Description</label>
-            <textarea class="form-control" rows="3" name="description" placeholder="e.g. tutorial description" style="font-size: 1.5em"></textarea>
+            <textarea class="form-control" rows="3" name="description" placeholder="e.g. tutorial description" style="font-size: 1.5em" ng-model="tutorialDetailsEdit.description" required></textarea>
           </div>
+          <span class="help-block has-error" ng-if="editTutorial.description.$dirty">
+            <span ng-show="editTutorial.description.$error.required" style="font-size: 1.5em">Description is required.</span>
+          </span>
         </div>
+        <span class="pull-right">
+          <a href="/<%=me.username%>" class="btn btn-default">cancel</a>
+          <button type="submit" ng-click="submitEditTutorialForm(<%= tutorial.id %>)" ng-disabled="editTutorial.$invalid" class="btn btn-success">save</button>
+        </span>
       </form>
     </div>
   </div>

@@ -163,6 +163,8 @@ module.exports = {
 
     console.log('id: ', req.param('id'));
 
+    var id = req.param('id');
+
     return res.json({id: id});
 
   },

@@ -369,7 +369,7 @@ module.exports = {
 
   tutorialDetail: function(req, res) {
 
-    // Fake tutorials detail dictionaryarray
+    // Fake tutorials detail dictionary 
     var tutorial = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -515,6 +515,14 @@ module.exports = {
 
   editTutorial: function(req, res) {
 
+    // Fake tutorials detail dictionary 
+    var tutorial = {
+      title: 'Sed ut perspiciatis unde omnis',
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      owner: 'sails-in-action',
+      id: 1
+    }
+
     // If not logged in set `me` property to `null` and redirect to the signin view.
     if (!req.session.userId) {
       return res.redirect('/signin');
@@ -536,7 +544,8 @@ module.exports = {
           gravatarURL: user.gravatarURL,
           username: user.username,
           admin: user.admin
-        }
+        },
+        tutorial: tutorial
       });
     });
   },
