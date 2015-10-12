@@ -1,13 +1,21 @@
 angular.module('brushfire').controller('editProfilePageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
+/*
+   ____          _____                _           
+  / __ \        |  __ \              | |          
+ | |  | |_ __   | |__) |___ _ __   __| | ___ _ __ 
+ | |  | | '_ \  |  _  // _ \ '_ \ / _` |/ _ \ '__|
+ | |__| | | | | | | \ \  __/ | | | (_| |  __/ |   
+  \____/|_| |_| |_|  \_\___|_| |_|\__,_|\___|_|   
+                                                  
+                                                  
+*/
+
   // Just a hack so we can type `SCOPE` in the Chrome inspector.
   SCOPE = $scope;
 
   $scope.me = window.SAILS_LOCALS.me;
 
-  /////////////////////////////////////////////////////////////////////////////////
-  // When HTML is rendered... (i.e. when the page loads)
-  /////////////////////////////////////////////////////////////////////////////////
 
   // Set up initial objects
   // (kind of like our schema for the page)
@@ -19,6 +27,16 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
     loading: false,
     changePassword: {}
   };
+
+/* 
+  _____   ____  __  __   ______               _       
+ |  __ \ / __ \|  \/  | |  ____|             | |      
+ | |  | | |  | | \  / | | |____   _____ _ __ | |_ ___ 
+ | |  | | |  | | |\/| | |  __\ \ / / _ \ '_ \| __/ __|
+ | |__| | |__| | |  | | | |___\ V /  __/ | | | |_\__ \
+ |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
+
+*/ 
 
   $scope.updateProfile = function() {
 

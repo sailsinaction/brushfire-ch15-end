@@ -1,5 +1,15 @@
 angular.module('brushfire').controller('signinPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr) {
 
+/*
+   ____          _____                _           
+  / __ \        |  __ \              | |          
+ | |  | |_ __   | |__) |___ _ __   __| | ___ _ __ 
+ | |  | | '_ \  |  _  // _ \ '_ \ / _` |/ _ \ '__|
+ | |__| | | | | | | \ \  __/ | | | (_| |  __/ |   
+  \____/|_| |_| |_|  \_\___|_| |_|\__,_|\___|_|   
+                                                                                                  
+*/
+
   //Set-up loading state
   $scope.loginForm = {};
 
@@ -7,6 +17,16 @@ angular.module('brushfire').controller('signinPageController', ['$scope', '$http
 
   // Set the loading state (i.e. show loading spinner)
     $scope.loginForm.loading = false;  
+
+/* 
+  _____   ____  __  __   ______               _       
+ |  __ \ / __ \|  \/  | |  ____|             | |      
+ | |  | | |  | | \  / | | |____   _____ _ __ | |_ ___ 
+ | |  | | |  | | |\/| | |  __\ \ / / _ \ '_ \| __/ __|
+ | |__| | |__| | |  | | | |___\ V /  __/ | | | |_\__ \
+ |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
+
+*/
 
   $scope.submitLoginForm = function() {
 
