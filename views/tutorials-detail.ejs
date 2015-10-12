@@ -84,6 +84,10 @@
         <!-- Videos -->
         <h2>Table of Contents</h2>
         <ul class="list-group list-unstyled">
+          <!-- Empty video state -->
+          <% if (tutorial.videos.length < 1) { %>
+            <p style="font-size: 1.2em">you don’t have any videos yet, want to <a href="/tutorials/<%= tutorial.id %>/videos/new">add</a> one? </p>
+          <% } %>
           <% _.forEach(tutorial.videos, function(video, i){ %>
             <a href="/showVideo" class="list-group-item">
               <li><%= i + 1 %> - <%= video.title %>
