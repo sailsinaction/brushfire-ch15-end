@@ -136,7 +136,7 @@ module.exports = {
 
   },
 
-  newTutorial: function(req, res) {
+  create: function(req, res) {
 
     console.log("username", req.param('username'));
 

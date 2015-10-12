@@ -29,7 +29,7 @@ angular.module('brushfire').controller('tutorialsDetailNewPageController', ['$sc
 
   $scope.createTutorial = function(username) {
 
-    $http.post('/tutorials/new', {
+    $http.post('/tutorials', {
       username: username,
       title: $scope.tutorialDetailsNew.title,
       description: $scope.tutorialDetailsNew.description
