@@ -34,16 +34,18 @@
       </div>
     </div>
     <!-- add video -->
-    <div class="row well">
+    <div class="row well ">
+
       <!-- grey background with border -->
      
       <h1>Add new video...
-      <span class="pull-right">
-      <a ng-click="saveVideo(<%= tutorial.id %>)" class="btn btn-default">save</a>
-      <a href="/tutorials/1" class="btn btn-default">cancel</a>
-    </span>
-    </h1>
+        <span class="pull-right">
+          <a href="/<%=me.username%>" class="btn btn-default">cancel</a>
+          <button type="submit" ng-click="createTutorial('<%= me.username %>')" ng-disabled="newTutorial.$invalid" class="btn btn-success">save</button>
+        </span>
+      </h1>
       <form>
+        <div class="form-inline">
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" class="form-control" id="title" placeholder="How to do almost anything." ng-model="title">
@@ -53,7 +55,9 @@
           <label for="youtubeURL">Youtube URL</label>
           <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50">
         </div>
-        Example: https://www.youtube.com/embed/wTLOsoMMDuE
+
+        <button class="btn btn-primary" ng-click="parseUrl()">parse video</button>
+        <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
       </div>
         <div class="form-inline">
           <label for="lengthMin">How long is this video?</label>
@@ -66,8 +70,9 @@
             <strong> seconds </strong>
           </div>
         </div>
+        <div class="panel panel-default">
         <div style="margin: 15px" ng-hide="tutorialsDetailVideoNew.iframeHide">
-          <iframe width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
+          <iframe class="center-block" width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
           </iframe>
         </div>
       </form>
