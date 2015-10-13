@@ -13,12 +13,16 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
   // set-up loading state
   $scope.tutorialsDetailVideoNew = {
     iframeHide: false,
-    loading: false
+    loading: false,
+    invalidUrl: false
   };
 
   $scope.src = '/images/preview.jpg';
 
   $scope.me = window.SAILS_LOCALS.me;
+
+  // We need a max for the stars (i.e. 1 out of 5 stars)
+  $scope.max = 5;
 
 /* 
   _____   ____  __  __   ______               _       
@@ -29,6 +33,41 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
  |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
 
 */
+
+$scope.parseUrl = function(){
+
+  $scope.tutorialsDetailVideoNew.invalidUrl = false;
+
+  var rawUrl = document.createElement('a');
+
+  rawUrl.href = $scope.src;
+
+  console.log(rawUrl.search.indexOf('&'))
+
+  if (rawUrl.search.indexOf('&')>0) {
+
+    YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf('=')+1, rawUrl.search.indexOf('&'));
+
+    $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
+
+    return;
+
+  } else if (rawUrl.search.indexOf('=')>0) {
+
+    var YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf("=") + 1, rawUrl.search.length);
+
+    $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
+
+    return;
+
+  } else {
+
+    console.log('made it here');
+
+    $scope.tutorialsDetailVideoNew.invalidUrl = true;
+  }
+
+};
 
 $scope.saveVideo = function(tutorialId) {
 
