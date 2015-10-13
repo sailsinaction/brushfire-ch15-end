@@ -37,7 +37,7 @@
           <li class="gravatarSm"><img class="gravatarSm" ng-src="<%= me && me.gravatarURL%>" height="30" width="30"/></li>
           <li class="activityOverlord active">
             <% /* if `me` is null, this would show an error (since you can't get `null.email`.)  So we check to be sure `me` exists. */ %>
-            <a href="/<%= me.username %>" class="pointer"> <%= me && me.email%></a>
+            <a href="/<%= me.username %>" class="pointer"> <%= me && me.username%></a>
           </li>
           <li>
             <a href="/logout">sign-out</a>
