@@ -73,21 +73,21 @@ module.exports = {
     var tutorials = [{
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '4'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '4'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
+      owner: 'sails-in-action',
       createdOn: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '4'
@@ -112,7 +112,7 @@ module.exports = {
       if (!req.session.userId) {
         return res.view('profile', {
           me: null,
-          showAddTutorialButton: false,
+          showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
           tutorials: tutorials
@@ -120,7 +120,6 @@ module.exports = {
       }
 
       // Otherwise the user-agent IS logged in.
-      // 
 
       // Look up the logged-in user from the database.
       User.findOne({id: req.session.userId}).exec(function (err, loggedInUser){
@@ -471,17 +470,36 @@ module.exports = {
         });
       }
 
-  
-      return res.view('tutorials-detail', {
-        me: {
+      // We'll provide `me` as a local to the profile page view.
+        // (this is so we can render the logged-in navbar state, etc.)
+        var me = {
           email: user.email,
           gravatarURL: user.gravatarURL,
           username: user.username,
           admin: user.admin
-        },
-        stars: tutorial.stars,
-        tutorial: tutorial
-      });
+        };
+
+      if (user.username === tutorial.owner) {
+        me.isMe = true;
+
+        return res.view('tutorials-detail', {
+          me: me,
+          stars: tutorial.stars,
+          tutorial: tutorial
+        });
+            
+      } else {
+        return res.view('tutorials-detail', {
+          me: {
+            email: user.email,
+            gravatarURL: user.gravatarURL,
+            username: user.username,
+            admin: user.admin
+          },
+          stars: tutorial.stars,
+          tutorial: tutorial
+        });
+      }
     });
   },
 
@@ -580,12 +598,9 @@ module.exports = {
       tutorial.createdAt = formatDate(tutorial.createdAt);
       tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
-    // If not logged in set `me` property to `null` and pass the fakeTutorialList to the view
+    // If not logged in redirect to homepage
     if (!req.session.userId) {
-      return res.view('tutorials-detail-video-new', {
-        me: null,
-        tutorial: tutorial
-      });
+      return res.redirect('/');
     }
 
     User.findOne(req.session.userId, function(err, user) {
