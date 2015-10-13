@@ -86,14 +86,15 @@ module.exports.routes = {
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
+  'GET /videos/:id/show': 'VideosController.showVideo',
 
-  'GET /showVideo': {
-    view: 'show-video',
-    locals: {
-      me: null,
-      src: 'https://www.youtube.com/embed/wkQomq_rgK4'
-    }
-  },
+  // 'GET /video': {
+  //   view: 'show-video',
+  //   locals: {
+  //     me: null,
+  //     src: 'https://www.youtube.com/embed/wkQomq_rgK4'
+  //   }
+  // },
 
   'GET /:username': 'PageController.profile',
   'GET /search/demo': {
