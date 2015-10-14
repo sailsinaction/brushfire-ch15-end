@@ -39,62 +39,62 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
 
 */
 
-$scope.parseUrl = function(){
+  $scope.parseUrl = function(){
 
-  $scope.tutorialsDetailVideoNew.invalidUrl = false;
+    $scope.tutorialsDetailVideoNew.invalidUrl = false;
 
-  var rawUrl = document.createElement('a');
+    var rawUrl = document.createElement('a');
 
-  rawUrl.href = $scope.src;
+    rawUrl.href = $scope.src;
 
-  console.log(rawUrl.search.indexOf('&'))
+    console.log(rawUrl.search.indexOf('&'))
 
-  if (rawUrl.search.indexOf('&')>0) {
+    if (rawUrl.search.indexOf('&')>0) {
 
-    YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf('=')+1, rawUrl.search.indexOf('&'));
+      YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf('=')+1, rawUrl.search.indexOf('&'));
 
-    $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
+      $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
 
-    return;
+      return;
 
-  } else if (rawUrl.search.indexOf('=')>0) {
+    } else if (rawUrl.search.indexOf('=')>0) {
 
-    var YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf("=") + 1, rawUrl.search.length);
+      var YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf("=") + 1, rawUrl.search.length);
 
-    $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
+      $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
 
-    return;
+      return;
 
-  } else {
+    } else {
 
-    console.log('made it here');
+      console.log('made it here');
 
-    $scope.tutorialsDetailVideoNew.invalidUrl = true;
-  }
+      $scope.tutorialsDetailVideoNew.invalidUrl = true;
+    }
 
-};
+  };
 
-$scope.saveVideo = function(tutorialId) {
+  $scope.addVideo = function(tutorialId) {
 
-  $http.post('/tutorials/'+tutorialId+'/videos', {
-    tutorialId: tutorialId,
-    title: $scope.title,
-    src: $scope.src,
-    minutes: $scope.minutes,
-    seconds: $scope.seconds
-  })
-  .then(function onSuccess(sailsResponse){
+    $http.post('/tutorials/'+tutorialId+'/videos', {
+      owner: tutorialId,
+      title: $scope.title,
+      src: $scope.src,
+      minutes: $scope.minutes,
+      seconds: $scope.seconds
+    })
+    .then(function onSuccess(sailsResponse){
 
-    console.log(sailsResponse);
-  })
-  .catch(function onError(sailsResponse){
+      console.log(sailsResponse);
+      window.location = "/tutorials/"+tutorialId;
+    })
+    .catch(function onError(sailsResponse){
 
-    console.log(sailsResponse);
-  })
-  .finally(function eitherWay(sailsResponse){
+      console.log(sailsResponse);
+    })
+    .finally(function eitherWay(sailsResponse){
 
 
-  });
-
-};
+    });
+  };
 }]);

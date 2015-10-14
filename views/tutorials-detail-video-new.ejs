@@ -55,14 +55,14 @@
     <div class="row well">
       <!-- grey background with border -->
       
-      <h1>Add new video...
-      <span class="pull-right">
-        <a href="/<%=me.username%>" class="btn btn-default">cancel</a>
-        <button type="submit" ng-click="createTutorial('<%= me.username %>')" ng-disabled="newTutorial.$invalid" class="btn btn-success">save</button>
-      </span>
-      </h1>
       <!-- The Form -->
-      <form>
+      <form ng-submit="addVideo(<%= tutorial.id %>)">
+        <h1>Add new video...
+        <span class="pull-right">
+          <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
+          <button type="submit"  class="btn btn-success">save</button>
+        </span>
+        </h1>
         <!-- T I T L E -->
         <div class="form-group">
           <label for="title">Title</label>
