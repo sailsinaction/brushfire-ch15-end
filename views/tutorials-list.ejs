@@ -3,43 +3,42 @@
     <div class="row">
       <div class="well">
         <div class="list-group">
-          <% _.forEach(tutorials, function(tutorial){ %>
-          <a href="/tutorials/<%= tutorial.id %>" class="list-group-item tutorials-list">
+          <div ng-repeat="tutorial in tutorials">
+          <a href="/tutorials/{{tutorial.id}}" class="list-group-item tutorials-list">
             <div class="col-md-11" style="margin-top: 25px">
               <h3 class="list-group-item-heading">
-                <%- tutorial.title %>
+                {{ tutorial.title }}
               </h3>
               <p class="list-group-item-text" style="font-size: 1.2em">
-                <%- tutorial.description %>
+                {{ tutorial.description }}
               </p>
               <ul class="list-inline list-unstyled">
                 <li>|</li>
                 <li>
-                  <span>by: <i class="fa fa-user"></i>  <%- tutorial.owner %></span>
+                  <span>by: <i class="fa fa-user"></i>  {{ tutorial.owner }}</span>
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-calendar"></i>  <%- tutorial.createdAt %></span>
+                  <span><i class="fa fa-calendar"></i>  {{ tutorial.createdAt }}</span>
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
+                  <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
                 </li>
                 <li>|</li>
-                <li>
-                  <% for (i = 0; i < tutorial.stars; i++) {  %>
-                    <span class="fa fa-star"></span>
-                  <% } %>
-                  <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
-                    <span class="fa fa-star-o"></span>
-                  <% } %>
-                </li>
-                <li>|</li>
+                  <li>
+                    <span><rating ng-model="tutorial.stars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span> 
+                  </li>
+                  <li>|</li>
               </ul>
             </div>
           </a>
-          <% }) %>
+          </div>
         </div>
+        <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" >
+          <span ng-show="!loading">show more tutorials</span>
+            <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
+        </button>
       </div>
     </div>
   </div>

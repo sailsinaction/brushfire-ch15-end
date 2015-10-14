@@ -80,7 +80,9 @@ module.exports.routes = {
   
   'GET /tutorials/search': 'TutorialsController.searchTutorials',
 
-  'GET /tutorials/browse': 'PageController.browseTutorials',
+  'GET /tutorials/browse': 'TutorialsController.browseTutorials',
+
+  'GET /tutorials/browse-page': 'PageController.showBrowsePage',
   'GET /tutorials/new': 'PageController.newTutorial',
   'GET /tutorials/:id': 'PageController.tutorialDetail',
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
