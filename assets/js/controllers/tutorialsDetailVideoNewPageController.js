@@ -17,9 +17,14 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
     invalidUrl: false
   };
 
+
   $scope.src = '/images/preview.jpg';
 
   $scope.me = window.SAILS_LOCALS.me;
+
+  $scope.tutorial = {
+    stars: window.SAILS_LOCALS.stars
+  };
 
   // We need a max for the stars (i.e. 1 out of 5 stars)
   $scope.max = 5;

@@ -30,7 +30,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   // We need a max for the stars (i.e. 1 out of 5 stars)
   $scope.max = 5;
 
-  // The user may not change the overall rating.
+  // Whether the user may change the  rating.
   $scope.isReadonly = false;
 
 /* 

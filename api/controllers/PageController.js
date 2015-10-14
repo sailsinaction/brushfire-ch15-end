@@ -487,7 +487,7 @@ module.exports = {
           stars: tutorial.stars,
           tutorial: tutorial
         });
-            
+
       } else {
         return res.view('tutorials-detail', {
           me: {
@@ -622,6 +622,7 @@ module.exports = {
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
+        stars: tutorial.stars,
         tutorial: tutorial
       });
     });
