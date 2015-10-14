@@ -74,24 +74,45 @@ module.exports = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sails-in-action',
-      createdOn: '2015-09-27T16:32:55.000Z',
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: '4'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sails-in-action',
-      createdOn: '2015-09-27T16:32:55.000Z',
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: '4'
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sails-in-action',
-      createdOn: '2015-09-27T16:32:55.000Z',
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: '4'
     }];
+
+    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
+    var Datetime = require('machinepack-datetime');
+
+    var formatDate = function(date) {
+      return niceTimeAgoString = Datetime.timeFrom({
+        toWhen: Datetime.parse({
+          datetime: date
+        }).execSync(),
+        fromWhen: new Date().getTime()
+      }).execSync();
+    };
+
+    var updatedTutorials = _.map(tutorials, function(tutorial){
+      tutorial.createdAt = formatDate(tutorial.createdAt);
+      tutorial.updatedAt = formatDate(tutorial.updatedAt);
+      return tutorial;
+    });
 
     // Look up the user record for the `username` parameter
     User.findOne({
@@ -115,7 +136,7 @@ module.exports = {
           showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
-          tutorials: tutorials
+          tutorials: updatedTutorials
         });
       }
 
@@ -151,7 +172,7 @@ module.exports = {
           showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
-          tutorials: tutorials
+          tutorials: updatedTutorials
         });
         
       }); //</ User.findOne({id: req.session.userId})
@@ -272,7 +293,7 @@ module.exports = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sailsinaction',
-      createdOn: '2015-09-27T16:32:55.000Z',
+      createdAt: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: '5'
     }, {
@@ -633,11 +654,37 @@ module.exports = {
     var tutorial = {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
-      owner: 'sailsinaction',
-      createdOn: '2015-09-27T16:32:55.000Z',
+      owner: 'sails-in-action',
+      id: 1,
+      createdAt: '2015-09-27T16:32:55.000Z',
+      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: '4',
+      video: {
+        id: 55,
+        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        minutes: 10,
+        seconds: 22
+      }
     };
+
+    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
+      var Datetime = require('machinepack-datetime');
+      
+      var formatDate = function(date) {  
+        var niceTimeAgoString = Datetime.timeFrom({
+          toWhen: Datetime.parse({
+            datetime: date
+          }).execSync(),
+          fromWhen: new Date().getTime()
+        }).execSync();
+
+        return niceTimeAgoString;
+      };
+
+      tutorial.createdAt = formatDate(tutorial.createdAt);
+      tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
     // If not logged in set `me` property to `null` and redirect to the signin view.
     if (!req.session.userId) {
@@ -651,7 +698,7 @@ module.exports = {
 
       if (!user) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/tutorials');
+        return res.redirect('/');
       }
 
       return res.view('tutorials-detail-video-edit', {

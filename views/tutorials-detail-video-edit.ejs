@@ -1,3 +1,20 @@
+<script type="text/javascript">
+  window.SAILS_LOCALS = {
+    tutorial: <%-
+    // Note that by putting these comments inside of the EJS tag, we prevent them from
+    // being sent down to client (i.e. they are boiled away on the server along 
+    // with the EJS tags)
+    //
+    // Notice we must check that `tutorial` exists using typeof to keep EJS from throwing
+    // and displaying an ugly error message when rendering certain pages
+    // (i.e. 404 /500 error pages)
+    typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) : 'null'
+    // Note that we deliberately use 'null' (a string) because EJS converts the 
+    // `null` literal  into empty string (''), which is not what we want (that would 
+    // be invalid JS and cause a client-side error in the browser)
+    %>
+  };
+</script>
 <div ng-controller="tutorialsDetailVideoEditPageController" ng-cloak>
   <div class="container well">
     <h1>Tutorial</h1>
@@ -6,7 +23,7 @@
       <div class="tutorials-detail list-group-item">
         <div class="col-md-8" style="margin-top: 25px">
           <h3 class="list-group-item-heading">
-          <%= tutorial.title %>
+            <%= tutorial.title %>
           </h3>
           <p class="list-group-item-text" style="font-size: 1.2em">
             <%= tutorial.description %>
@@ -18,7 +35,7 @@
             </li>
             <li>|</li>
             <li>
-              <span><i class="fa fa-calendar"></i>  <%= tutorial.createdOn %></span>
+              <span><i class="fa fa-calendar"></i>  <%= tutorial.createdAt %></span>
             </li>
             <li>|</li>
             <li>
@@ -26,57 +43,66 @@
             </li>
             <li>|</li>
             <li>
-              <% for (i = 0; i < tutorial.stars; i++) {  %>
-              <span class="fa fa-star"></span>
-              <% } %>
-              <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
-              <span class="fa fa-star-o"></span>
-              <% } %>
+              <span>rating average: <rating ng-model= "tutorial.stars" max="max" readonly="true" on-hover="hoveringOver()" on-leave="overStar = null"></rating></span>
             </li>
             <li>|</li>
           </ul>
-        </div>
-      </div>
-    </div>
+        </div> <!-- class="col-md-8" style="margin-top: 25px" -->
+      </div> <!-- class="tutorials-detail list-group-item" -->
+    </div>  <!-- <div class="list-group"> -->
+
     <!-- add video -->
     <div class="row well">
       <!-- grey background with border -->
       
-      <h1>Edit video...
-      <span class="pull-right">
-      <a href="/tutorials/1" class="btn btn-default">save</a>
-      <a href="/tutorials/1" class="btn btn-default">cancel</a>
-    </span>
-    </h1>
-      <form>
+      <!-- The Form -->
+      <form ng-submit="submitEditVideoForm(<%= tutorial.video.id %>)">
+        <h1>Edit video...
+        <span class="pull-right">
+          <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
+          <button type="submit"  class="btn btn-success">save</button>
+        </span>
+        </h1>
+        <!-- T I T L E -->
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" placeholder="How to do almost anything.">
+          <input type="text" class="form-control" id="title" placeholder="How to do almost anything." ng-model="title">
         </div>
-        <div class="form-inline">
-        <div class="form-group">
+
+        <!-- Y O U T U B E  U R L -->
+        <div class="form-group form-inline">
           <label for="youtubeURL">Youtube URL</label>
           <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50">
+          <button class="btn btn-primary" ng-click="parseUrl()">parse video</button>
+          <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
         </div>
-        <button class="btn btn-primary preview-youtube" ng-click="previewYoutubeURL()">preview youtube video</button>
-        Example: https://www.youtube.com/embed/wkQomq_rgK4
-      </div>
-        <div class="form-inline">
-          <label for="lengthMin">How long is this video?</label>
-          <div class="form-group">
-            <input type="text" class="form-control" id="lengthMin" placeholder="minutes">
-          </div>
-          <strong> minutes </strong>
-          <div class="form-group">
-            <input type="text" class="form-control" id="lengthSec" placeholder="seconds">
-            <strong> seconds </strong>
+        
+        <div class="form-group">
+          <div class="form-inline">
+
+            <!-- How long is this video? -->
+            <label for="lengthMin">How long is this video?</label>
+            
+            <input type="text" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes">
+            <strong> minutes </strong>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds">
+              <strong> seconds </strong>
+            </div>
           </div>
         </div>
-        <div style="margin: 15px" ng-hide="tutorialsDetailVideoNew.iframeHide">
-          <iframe width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
-          </iframe>
+
+        <!-- P R E V I E W -->
+        <div class="row">
+          <div class="panel panel-default col-md-4 col-md-offset-4">
+            <div style="margin: 15px;" ng-hide="tutorialsDetailVideoNew.iframeHide">
+              <iframe class="center-block" width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
+              </iframe>
+            </div>
+          </div>
         </div>
       </form>
-    </div>
-  </div>
-</div>
+    </div> <!-- class="row well" -->
+  </div> <!-- class="container well" -->
+</div>  <!-- ng-controller="tutorialsDetailVideoNewPageController" -->

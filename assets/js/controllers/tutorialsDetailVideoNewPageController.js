@@ -47,8 +47,6 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
 
     rawUrl.href = $scope.src;
 
-    console.log(rawUrl.search.indexOf('&'))
-
     if (rawUrl.search.indexOf('&')>0) {
 
       YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf('=')+1, rawUrl.search.indexOf('&'));
@@ -66,8 +64,6 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
       return;
 
     } else {
-
-      console.log('made it here');
 
       $scope.tutorialsDetailVideoNew.invalidUrl = true;
     }
