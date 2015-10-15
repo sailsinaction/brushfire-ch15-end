@@ -15,7 +15,7 @@ module.exports = {
       title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
       minutes: 10,
       seconds: 22,
-      src: 'https://www.youtube.com/embed/KH5E2TL-_e8'
+      src: 'https://www.youtube.com/embed/8aGhZQkoFbQ'
     };
 
     if (!req.session.userId) {
