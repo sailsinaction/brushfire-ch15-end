@@ -39,6 +39,10 @@ module.exports.routes = {
   'PUT /login': 'UserController.login',
   'GET /logout': 'UserController.logout',
 
+
+  'POST /videos/:id/up': 'VideosController.reorderVideoUp',
+  'POST /videos/:id/down': 'VideosController.reorderVideoDown',
+
   // added in chapter 10
   // 'GET /video': 'VideoController.find',
   // 'POST /video': 'VideoController.create',
@@ -79,6 +83,7 @@ module.exports.routes = {
   'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
   
   'GET /tutorials/search': 'TutorialsController.searchTutorials',
+
 
 
   'GET /tutorials/browse': 'PageController.showBrowsePage',
