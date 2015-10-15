@@ -345,52 +345,61 @@ module.exports = {
       videos: [{
         id: 55,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/pv5UhO_BRhw',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 23,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 34,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 64,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 95,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 106,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 73,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 88,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 96,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }, {
         id: 108,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
+        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
         minutes: 10,
         seconds: 22
       }]
