@@ -54,20 +54,7 @@ module.exports = function notFound (data, options) {
   // record in the database and provide it to the 404 view as a local(`me`).
   // If the user is not logged in, we don't need to worry about looking up
   // anything.
-  (function ifThenFinally (cb){
-    
-    // If we don't need to take the detour, just keep going to `afterwards()`
-    if (!req.session.userId) {
-      return cb();
-    }
-
-    // Our asynchonous detour:
-    User.findOne({ id: req.session.userId }).exec(function(err,user){
-      if (err) return cb(err);
-      return cb(null, user);
-    });
-
-  })(function afterwards(err,loggedInUser){
+  function afterwards(err,loggedInUser){
     if (err) { return res.serverError(err); }
 
     // If the requesting user-agent is logged in, we'll provide `me`
@@ -126,6 +113,18 @@ module.exports = function notFound (data, options) {
 
       return res.send(html);
     });
+  }
+
+
+  // If we don't need to take the detour, just keep going to `afterwards()`
+  if (!req.session.userId) {
+    return afterwards();
+  }
+
+  // Our asynchonous detour:
+  User.findOne({ id: req.session.userId }).exec(function(err,user){
+    if (err) return afterwards(err);
+    return afterwards(null, user);
   });
 
 };
