@@ -281,11 +281,15 @@ module.exports = {
 
   update: function(req, res) {
 
-    console.log('id: ', req.param('id'));
+    console.log('tutorial id: ', req.param('id'));
 
-    var id = req.param('id');
+    var options = {
+      id: req.param('id'),
+      title: req.param('title'),
+      description: req.param('description')
+    };
 
-    return res.json({id: id});
+    return res.json({tutorial: options});
 
   },
 
@@ -293,9 +297,15 @@ module.exports = {
 
     console.log('id: ', req.param('id'));
 
-    var id = req.param('id');
+    var options = {
+      id: req.param('id'),
+      title: req.param('title'),
+      src: req.param('src'),
+      minutes: req.param('minutes'),
+      seconds: req.param('seconds')
+    };
 
-    return res.json({id: id});
+    return res.json({video: options});
 
   },
 

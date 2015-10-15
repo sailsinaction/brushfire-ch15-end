@@ -71,7 +71,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
 
   $scope.submitEditVideoForm = function(id) {
 
-    $http.put('/tutorials/'+$scope.tutorial.id+'/videos/'+ $scope.tutorial.video.id, {
+    $http.put('/videos/'+id, {
       title: $scope.title,
       src: $scope.src,
       minutes: $scope.minutes,
@@ -79,7 +79,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
     })
     .then(function onSuccess(sailsResponse){
       console.log(sailsResponse);
-      // window.location="/tutorials/"+sailsResponse.data.id;
+      window.location="/tutorials/1";
     })
     .catch(function onError(sailsResponse){
       console.log(sailsResponse);
