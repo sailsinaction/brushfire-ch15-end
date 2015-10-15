@@ -58,7 +58,6 @@ module.exports.routes = {
   'POST /tutorials': 'TutorialsController.create',
   'POST /tutorials/:id/videos': 'TutorialsController.addVideo',
   'PUT /tutorials/:id': 'TutorialsController.update',
-  'PUT /tutorials/:id/videos/:id': 'TutorialsController.updateVideo',
   'PUT /tutorials/:id/rate': 'TutorialsController.rateTutorial',
   'DELETE /tutorials/:id': 'TutorialsController.deleteTutorial',
   'DELETE /videos/:id': 'TutorialsController.removeVideo',
@@ -66,6 +65,7 @@ module.exports.routes = {
   /*************************************************************
   * Server Rendered HTML Pages                                *
   *************************************************************/
+  'GET /tutorials': 'TutorialsController.browseTutorials',
 
   'GET /': 'PageController.home',
   'GET /profile/edit': 'PageController.editProfile',
@@ -80,15 +80,15 @@ module.exports.routes = {
   
   'GET /tutorials/search': 'TutorialsController.searchTutorials',
 
-  'GET /tutorials/browse': 'TutorialsController.browseTutorials',
 
-  'GET /tutorials/browse-page': 'PageController.showBrowsePage',
+  'GET /tutorials/browse': 'PageController.showBrowsePage',
   'GET /tutorials/new': 'PageController.newTutorial',
   'GET /tutorials/:id': 'PageController.tutorialDetail',
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
   'GET /videos/:id/show': 'VideosController.showVideo',
+  'PUT /videos/:id': 'TutorialsController.updateVideo',
 
   // 'GET /video': {
   //   view: 'show-video',
