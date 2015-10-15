@@ -54,8 +54,8 @@
           Something's fishy here.
         </h1>
         <h2>
-        	<% if (typeof error!== 'undefined') { %>
-          <%= error %>
+        	<% if (typeof data !== 'undefined') { %>
+          <%= data  %>
           <% } else { %>
           The page you were trying to reach doesn't exist.
           <% } %>

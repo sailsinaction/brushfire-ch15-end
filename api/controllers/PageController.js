@@ -289,6 +289,10 @@ module.exports = {
   // #3
   passwordReset: function(req, res) {
 
+    if (req.session.userId) {
+      return res.redirect('/');
+    }
+
     // Get the passwordRecoveryToken and render the view
     res.view('./password-recovery/password-reset', {
       me: null,
@@ -444,13 +448,13 @@ module.exports = {
       }
 
       // We'll provide `me` as a local to the profile page view.
-        // (this is so we can render the logged-in navbar state, etc.)
-        var me = {
-          email: user.email,
-          gravatarURL: user.gravatarURL,
-          username: user.username,
-          admin: user.admin
-        };
+      // (this is so we can render the logged-in navbar state, etc.)
+      var me = {
+        email: user.email,
+        gravatarURL: user.gravatarURL,
+        username: user.username,
+        admin: user.admin
+      };
 
       if (user.username === tutorial.owner) {
         me.isMe = true;

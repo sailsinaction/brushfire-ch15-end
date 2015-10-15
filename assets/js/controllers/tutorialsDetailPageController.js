@@ -58,30 +58,39 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   //  we'll POST the rating
   $scope.$watch('myStars', function(rating) {
 
-    if (rating) {
-      $scope.tutorialDetails.loading = true;
-      $http.put('/tutorials/' + $scope.tutorialId + '/rate', {
-        rating: rating,
-        id: $scope.tutorialId
-      })
-      .then(function onSuccess(sailsResponse) {
-        
-        console.log(sailsResponse);
-
-        toastr.success('Your rating has been saved', 'Rating', {
-            closeButton: true
-          });
-
-      })
-      .catch(function onError(sailsResponse) {
-
-        console.log(sailsResponse);
-
-      })
-      .finally(function eitherWay() {
-        $scope.tutorialDetails.loading = false;
-      });
+    // Doing this check because the rating directive will fire upon initial
+    // page load 
+    if (!rating) {
+      return;
     }
+
+    // This disables the rating element between AJAX PUT requests (e.g. double posting)
+    if ($scope.tutorialDetails.loading) {
+      return;
+    }
+    $scope.tutorialDetails.loading = true;
+    $http.put('/tutorials/' + $scope.tutorialId + '/rate', {
+      rating: rating,
+      id: $scope.tutorialId
+    })
+    .then(function onSuccess(sailsResponse) {
+      
+      console.log(sailsResponse);
+
+      toastr.success('Your rating has been saved', 'Rating', {
+          closeButton: true
+        });
+
+    })
+    .catch(function onError(sailsResponse) {
+
+      console.error(sailsResponse);
+
+    })
+    .finally(function eitherWay() {
+      $scope.tutorialDetails.loading = false;
+    });
+    
   });
 
   $scope.editVideo = function(e, videoId) {

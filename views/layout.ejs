@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
+
+    <!-- Expose sails locals on the window object -->
     <script type="text/javascript"> //#A
     window.SAILS_LOCALS = {
       me: <%-
@@ -28,6 +30,7 @@
       %>
     };
     </script>
+
   </head>
   <body ng-app="brushfire">
     <%- partial('./partials/navigation.ejs') %>
@@ -64,7 +67,6 @@
     <script src="/js/controllers/tutorialsDetailVideoEditPageController.js"></script>
     <script src="/js/controllers/tutorialsDetailVideoNewPageController.js"></script>
     <script src="/js/controllers/tutorialsListPageController.js"></script>
-    <script src="/js/controllers/tutorialsSearchPageController.js"></script>
     <!--SCRIPTS END-->
   </div>
 </body>

@@ -19,17 +19,20 @@
       <ul class="nav navbar-nav">
         <li><a style="font-family:verdana;font-size: 18px;" href="/tutorials/browse">browse</a></li>
         <% if (me && me.admin) { %>
+          <!--  Since you are logged in as an admin, we show the link to the admin dashboard -->
           <li><a href="/administration">User Administration</a></li>
         <% } %>
       </ul>
-      <% if (!me) { %>
+      <%
+      // Sign in and Sign out links (unauthenticated user state) -->
+      if (!me) { %>
         <ul class="nav navbar-nav navbar-right">
           <li style="margin-right:5px"><p class="navbar-btn"><a type="button" ng-hide="me" class="btn btn-success" href="/signin">sign in</a></p></li>
           <li style="margin-right:5px"><p class="navbar-btn"><a type="button" ng-hide="me" class="btn btn-primary" href="/signup">sign up</a></p></li>
         </ul>
-      <% } %>
-      <!--  Gravatar, Email, and logout link (authenticated user state) -->
-      <% if (me) { %>
+      <% }
+      // Gravatar, Email, and logout link (authenticated user state)
+      else if (me) { %>
         <ul class="nav navbar-nav navbar-right">
           <% if (typeof showAddTutorialButton !== 'undefined' && showAddTutorialButton) { %>
             <li style="margin-right:5px"><p class="navbar-btn"><a type="button" class="btn btn-primary" href="/tutorials/new">add tutorial</a></p></li>
