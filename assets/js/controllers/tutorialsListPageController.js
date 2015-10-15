@@ -21,7 +21,7 @@ angular.module('brushfire').controller('tutorialsListPageController', ['$scope',
   // Pagination properties
   $scope.skip = 0;
 
-  $http.get('/tutorials/browse')
+  $http.get('/tutorials')
     .then(function onSuccess(sailsResponse) {
 
       console.log(sailsResponse);
@@ -58,7 +58,7 @@ angular.module('brushfire').controller('tutorialsListPageController', ['$scope',
     $scope.loading = true;
 
     $http({
-      url: '/tutorials/browse',
+      url: '/tutorials',
       method: 'GET',
       params: {
         skip: $scope.skip
