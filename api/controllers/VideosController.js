@@ -51,6 +51,22 @@ module.exports = {
         tutorialId: req.param('tutorialId')
       });
     });
+  },
+
+  reorderVideoUp: function(req, res) {
+
+  console.log('sort video up: ', req.param('id'));
+
+  return res.ok();
+
+  },
+
+  reorderVideoDown: function(req, res) {
+
+    console.log('sort video down: ', req.param('id'));
+
+    return res.ok();
+
   }
 };
 

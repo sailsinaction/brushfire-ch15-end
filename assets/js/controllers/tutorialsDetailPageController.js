@@ -131,20 +131,46 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   };
 
   // Simulate move video up
-  $scope.moveVideoUp = function(e) {
+  $scope.moveVideoUp = function(e, videoId) {
 
     e.preventDefault();
 
-    console.log('move video up!');
+    // With refresh:
+    // 
+    // TODO: lock UI
+    // TODO: show loading state
+    $http.post('/videos/'+videoId+'/up')
+    .then(function (sailsResponse) {
+      console.log('moved video up!');
+
+      // Refresh the page
+      location.reload();
+    })
+    .catch(function (sailsResponse) {
+      console.error(sailsResponse);
+    });
 
   };
 
   // Simulate move video down
-  $scope.moveVideoDown = function(e) {
+  $scope.moveVideoDown = function(e, videoId) {
 
     e.preventDefault();
 
-    console.log('made video down!');
+    // With refresh:
+    // 
+    // TODO: lock UI
+    // TODO: show loading state
+    $http.post('/videos/'+videoId+'/down')
+    .then(function (sailsResponse) {
+      console.log('moved video down!');
+
+      // Refresh the page
+      location.reload();
+    })
+    .catch(function (sailsResponse) {
+      console.error(sailsResponse);
+    });
 
   };
 

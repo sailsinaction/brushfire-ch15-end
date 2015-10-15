@@ -249,10 +249,6 @@ module.exports = {
 
   rateTutorial: function(req, res) {
 
-    if (!req.session.userId) {
-      return res.redirect('/signin');
-    }
-
     return res.json({
       rating: req.param('rating'),
       id: req.param('id')
