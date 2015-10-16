@@ -41,10 +41,6 @@ module.exports = {
 
   editProfile: function(req, res) {
 
-    if (!req.session.userId) {
-      return res.redirect('/');
-    }
-
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
         console.log('error: ', err);
@@ -77,7 +73,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -86,7 +82,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '3'
+      stars: 3
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -95,7 +91,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -104,7 +100,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '1'
+      stars: 1
     }];
 
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
@@ -345,7 +341,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4',
+      stars: 4,
       videos: [{
         id: 55,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
@@ -555,7 +551,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: 4
     };
 
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
@@ -615,7 +611,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4',
+      stars: 4,
       video: {
         id: 55,
         title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',

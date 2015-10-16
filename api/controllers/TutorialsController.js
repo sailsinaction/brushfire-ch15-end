@@ -17,7 +17,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -26,7 +26,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '3'
+      stars: 3
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -35,7 +35,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -44,7 +44,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '1'
+      stars: 1
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -53,7 +53,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -62,7 +62,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '2'
+      stars: 2
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -71,7 +71,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -80,7 +80,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -89,7 +89,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -98,7 +98,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 4
     }];
 
     console.log('skip: ', req.param('skip'));
@@ -137,7 +137,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -146,7 +146,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '3'
+      stars: 3
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -155,7 +155,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -164,7 +164,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '1'
+      stars: 1
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -173,7 +173,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -182,7 +182,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '2'
+      stars: 2
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -191,7 +191,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '4'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -200,7 +200,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 5
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -209,7 +209,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 4
     }, {
       title: 'Sed ut perspiciatis unde omnis',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
@@ -218,7 +218,7 @@ module.exports = {
       createdAt: '2015-09-27T16:32:55.000Z',
       updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: '5'
+      stars: 4
     }];
 
     console.log('skip: ', req.param('skip'));
