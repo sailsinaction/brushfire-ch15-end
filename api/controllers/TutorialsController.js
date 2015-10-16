@@ -106,25 +106,16 @@ module.exports = {
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
     var Datetime = require('machinepack-datetime');
 
-    var updatedTutorials = _.map(tutorials, function(tutorial){
-      
-      var niceTimeAgoString = Datetime.timeFrom({
-        toWhen: Datetime.parse({
-          datetime: tutorial.createdAt
-        }).execSync(),
-        fromWhen: new Date().getTime()
-      }).execSync();
-
-      tutorial.createdAt = niceTimeAgoString;
-      return tutorial;
-    });
+    var updatedTutorials = _.map(tutorials, function(tutorial) {});
 
     var options = {
       totalTutorials: 30,
       updatedTutorials: updatedTutorials
     };
 
-    return res.json({options: options});
+    return res.json({
+      options: options
+    });
   },
 
   browseTutorials: function(req, res) {
@@ -226,8 +217,8 @@ module.exports = {
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
     var Datetime = require('machinepack-datetime');
 
-    var updatedTutorials = _.map(tutorials, function(tutorial){
-      
+    var updatedTutorials = _.map(tutorials, function(tutorial) {
+
       var niceTimeAgoString = Datetime.timeFrom({
         toWhen: Datetime.parse({
           datetime: tutorial.createdAt
@@ -244,7 +235,9 @@ module.exports = {
       updatedTutorials: updatedTutorials
     };
 
-    return res.json({options: options});
+    return res.json({
+      options: options
+    });
   },
 
   rateTutorial: function(req, res) {
@@ -276,7 +269,9 @@ module.exports = {
     // Create a tutorial record using `username`, `title`, and `description`
 
     // Pass back the `id` of the new record, simulate `1` for now.
-    return res.json({id: '1'});
+    return res.json({
+      id: '1'
+    });
   },
 
   addVideo: function(req, res) {
@@ -304,7 +299,9 @@ module.exports = {
         seconds: req.param('seconds')
       };
 
-      return res.json({video: options});
+      return res.json({
+        video: options
+      });
     });
   },
 
@@ -333,7 +330,9 @@ module.exports = {
         description: req.param('description')
       };
 
-      return res.json({tutorial: options});
+      return res.json({
+        tutorial: options
+      });
     });
   },
 
@@ -364,7 +363,9 @@ module.exports = {
         seconds: req.param('seconds')
       };
 
-      return res.json({video: options});
+      return res.json({
+        video: options
+      });
     });
   },
 
@@ -373,7 +374,7 @@ module.exports = {
     console.log('id: ', req.param('id'));
 
     // TODO: Look-up the tutorial `id` and pass back the username.
-    
+
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
         return res.negotiate(err);
@@ -389,7 +390,9 @@ module.exports = {
         return res.forbidden();
       }
 
-      return res.json({username: 'sails-in-action'});
+      return res.json({
+        username: 'sails-in-action'
+      });
     });
   },
 
@@ -415,6 +418,5 @@ module.exports = {
       return res.ok();
     });
   }
-	
-};
 
+};
