@@ -187,9 +187,6 @@ module.exports = {
   },
 
   signin: function(req, res) {
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
 
     return res.view('signin', {
       me: null
@@ -197,9 +194,6 @@ module.exports = {
   },
 
   signup: function(req, res) {
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
 
     return res.view('signup', {
       me: null
@@ -208,19 +202,12 @@ module.exports = {
 
   restoreProfile: function(req, res) {
 
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
     return res.view('restore-profile', {
       me: null
     });
   },
 
   administration: function(req, res) {
-    if (!req.session.userId) {
-      return res.redirect('/');
-    }
 
     User.findOne(req.session.userId, function(err, user) {
 
@@ -261,10 +248,6 @@ module.exports = {
   // #1
   passwordRecoveryEmail: function(req, res) {
 
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
     return res.view('./password-recovery/password-recovery-email', {
       me: null
     });
@@ -273,10 +256,6 @@ module.exports = {
   // #2
   passwordRecoveryEmailSent: function(req, res) {
 
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
-
     return res.view('./password-recovery/password-recovery-email-sent', {
       me: null
     });
@@ -284,10 +263,6 @@ module.exports = {
 
   // #3
   passwordReset: function(req, res) {
-
-    if (req.session.userId) {
-      return res.redirect('/');
-    }
 
     // Get the passwordRecoveryToken and render the view
     res.view('./password-recovery/password-reset', {
@@ -478,11 +453,6 @@ module.exports = {
 
   newTutorial: function(req, res) {
 
-    // If not logged in set `me` property to `null` and redirect to the signin view.
-    if (!req.session.userId) {
-      return res.redirect('/signin');
-    }
-
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
         return res.negotiate(err);
@@ -512,12 +482,7 @@ module.exports = {
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
       owner: 'sails-in-action',
       id: 1
-    }
-
-    // If not logged in set `me` property to `null` and redirect to the signin view.
-    if (!req.session.userId) {
-      return res.redirect('/signin');
-    }
+    };
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
@@ -529,6 +494,12 @@ module.exports = {
         return res.redirect('/tutorials');
       }
 
+      if (user.username !== tutorial.owner) {
+
+        return res.redirect('/tutorials/'+tutorial.id);
+
+      }
+
       return res.view('tutorials-detail-edit', {
         me: {
           email: user.email,
@@ -537,7 +508,7 @@ module.exports = {
           admin: user.admin
         },
         tutorial: tutorial
-      });
+      });    
     });
   },
 
@@ -571,11 +542,6 @@ module.exports = {
       tutorial.createdAt = formatDate(tutorial.createdAt);
       tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
-    // If not logged in redirect to homepage
-    if (!req.session.userId) {
-      return res.redirect('/');
-    }
-
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
         return res.negotiate(err);
@@ -586,6 +552,12 @@ module.exports = {
         return res.view('tutorials-detail-video-new', {
           me: null
         });
+      }
+
+      if (user.username !== tutorial.owner) {
+
+        return res.redirect('/tutorials/'+tutorial.id);
+
       }
 
       return res.view('tutorials-detail-video-new', {
@@ -638,11 +610,6 @@ module.exports = {
       tutorial.createdAt = formatDate(tutorial.createdAt);
       tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
-    // If not logged in set `me` property to `null` and redirect to the signin view.
-    if (!req.session.userId) {
-      return res.redirect('/signin');
-    }
-
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
         return res.negotiate(err);
@@ -651,6 +618,12 @@ module.exports = {
       if (!user) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
         return res.redirect('/');
+      }
+
+      if (user.username !== tutorial.owner) {
+
+        return res.redirect('/tutorials/'+tutorial.id);
+
       }
 
       return res.view('tutorials-detail-video-edit', {

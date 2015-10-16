@@ -1,5 +1,5 @@
 /**
- * Policy Mappings
+ * Brushfire Policy Mappings
  * (sails.config.policies)
  *
  * Policies are simple functions which run **before** your controllers.
@@ -19,61 +19,51 @@
 
 module.exports.policies = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Default policy for all controllers and actions (`true` allows public     *
-  * access)                                                                  *
-  *                                                                          *
-  ***************************************************************************/
+  PageController: {
+    editProfile: ['isLoggedIn'],
+    signin: ['isLoggedOut'],
+    signup: ['isLoggedOut'],
+    restoreProfile: ['isLoggedOut'],
+    administration: ['isLoggedIn', 'isAdmin'],
+    passwordRecoveryEmail: ['isLoggedOut'],
+    passwordRecoveryEmailSent: ['isLoggedOut'],
+    passwordReset: ['isLoggedOut'],
+    newTutorial: ['isLoggedIn'],
+    editTutorial: ['isLoggedIn'],
+    newVideo: ['isLoggedIn'],
+    editVideo: ['isLoggedIn']
+  },
 
-  // '*': true,
-
-  /***************************************************************************
-  *                                                                          *
-  * Here's an example of mapping some policies to run before a controller    *
-  * and its actions                                                          *
-  *                                                                          *
-  ***************************************************************************/
-
-  VideoController: {
-    create: ['isLoggedIn']
+  TutorialsController: {
+    rateTutorial: ['isLoggedIn'],
+    create: ['isLoggedIn'],
+    addVideo: ['isLoggedIn'],
+    update: ['isLoggedIn'],
+    updateVideo: ['isLoggedIn'],
+    rateVideo: ['isLoggedIn'],
+    delete: ['isLoggedIn'],
+    removeVideo: ['isLoggedIn']
   },
 
   UserController: {
     login: ['isLoggedOut'],
     logout: ['isLoggedIn'],
-    removeProfile: ['isLoggedIn'],
-    updateProfile: ['isLoggedIn'],
-    restoreGravatarURL: ['isLoggedIn'],
-    changePassword: ['isLoggedIn'],
     signup: ['isLoggedOut'],
+    removeProfile: ['isLoggedIn'],
     restoreProfile: ['isLoggedOut'],
+    restoreGravatarURL: ['isLoggedIn'],
+    updateProfile: ['isLoggedIn'],
+    changePassword: ['isLoggedIn'],
     adminUsers: ['isLoggedIn', 'isAdmin'],
     updateAdmin: ['isLoggedIn', 'isAdmin'],
     updateBanned: ['isLoggedIn', 'isAdmin'],
-    updateDeleted: ['isLoggedIn', 'isAdmin']
+    updateDeleted: ['isLoggedIn', 'isAdmin'],
+    generateRecoveryEmail:['isLoggedOut'],
+    resetPassword:['isLoggedIn']
   },
 
-  PageController: {
-    signup: ['isLoggedOut'],
-    administration: ['isLoggedIn', 'isAdmin'],
-    // profile: ['isLoggedIn'],
-    editProfile: ['isLoggedIn'],
-    restoreProfile: ['isLoggedOut']
+  VideosController: {
+    reorderVideoUp: ['isLoggedIn'],
+    reorderVideoDown: ['isLoggedIn']
   }
-
-  // RabbitController: {
-
-		// Apply the `false` policy as the default for all of RabbitController's actions
-		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
-		// '*': false,
-
-		// For the action `nurture`, apply the 'isRabbitMother' policy
-		// (this overrides `false` above)
-		// nurture	: 'isRabbitMother',
-
-		// Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
-		// before letting any users feed our rabbits
-		// feed : ['isNiceToAnimals', 'hasRabbitFood']
-	// }
 };

@@ -58,7 +58,6 @@ module.exports = {
   },
 
   logout: function(req, res) {
-    if (!req.session.userId) return res.redirect('/');
 
     User.findOne(req.session.userId, function foundUser(err, user) {
       if (err) return res.negotiate(err);
