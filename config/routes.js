@@ -6,23 +6,26 @@
 module.exports.routes = {
 
   /*************************************************************
-  * JSON API                                                  *
+  * JSON API ENDPOINTS                                         *
   *************************************************************/
 
   'PUT /login': 'UserController.login',
   'GET /logout': 'UserController.logout',
+
   'POST /user/signup': 'UserController.signup',
   'PUT /user/remove-profile': 'UserController.removeProfile',
   'PUT /user/restore-profile': 'UserController.restoreProfile',
   'PUT /user/restore-gravatar-URL': 'UserController.restoreGravatarURL',
   'PUT /user/update-profile': 'UserController.updateProfile',
   'PUT /user/change-password': 'UserController.changePassword',
+  'GET /user/admin-users': 'UserController.adminUsers',
   'PUT /user/update-admin/:id': 'UserController.updateAdmin',
   'PUT /user/update-banned/:id': 'UserController.updateBanned',
   'PUT /user/update-deleted/:id': 'UserController.updateDeleted',
   'PUT /user/generate-recovery-email': 'UserController.generateRecoveryEmail',
   'PUT /user/reset-password': 'UserController.resetPassword',
 
+  'GET /tutorials': 'TutorialsController.browseTutorials',
   'POST /tutorials': 'TutorialsController.create',
   'POST /tutorials/:id/videos': 'TutorialsController.addVideo',
   'PUT /tutorials/:id': 'TutorialsController.update',
@@ -35,10 +38,8 @@ module.exports.routes = {
   'PUT /videos/:id': 'TutorialsController.updateVideo',
 
   /*************************************************************
-  * Server Rendered HTML Pages                                *
+  * Server Rendered HTML Page Endpoints                        *
   *************************************************************/
-  'GET /tutorials': 'TutorialsController.browseTutorials',
-  'GET /user/admin-users': 'UserController.adminUsers',
 
   'GET /': 'PageController.home',
   'GET /profile/edit': 'PageController.editProfile',
@@ -61,6 +62,12 @@ module.exports.routes = {
   'GET /videos/:id/show': 'VideosController.showVideo',
 
   'GET /:username': 'PageController.profile',
+  
+  // 'GET /:username': {
+  //   controller: 'PageController',
+  //   action: 'profile',
+  //   skipAssets: true
+  // },
 
   // This route is the start of verifying an account...may take out for chapter 11  
   'GET /verify-email': {
