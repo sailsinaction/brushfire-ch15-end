@@ -103,21 +103,9 @@ module.exports = {
       stars: 1
     }];
 
-    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-    var Datetime = require('machinepack-datetime');
-
-    var formatDate = function(date) {
-      return niceTimeAgoString = Datetime.timeFrom({
-        toWhen: Datetime.parse({
-          datetime: date
-        }).execSync(),
-        fromWhen: new Date().getTime()
-      }).execSync();
-    };
-
     var updatedTutorials = _.map(tutorials, function(tutorial){
-      tutorial.createdAt = formatDate(tutorial.createdAt);
-      tutorial.updatedAt = formatDate(tutorial.updatedAt);
+      tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
+      tutorial.updatedAt = DatetimeService.getTimeAgo({ date: tutorial.updatedAt });
       return tutorial;
     });
 
@@ -525,22 +513,9 @@ module.exports = {
       stars: 4
     };
 
-    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-      var Datetime = require('machinepack-datetime');
-      
-      var formatDate = function(date) {  
-        var niceTimeAgoString = Datetime.timeFrom({
-          toWhen: Datetime.parse({
-            datetime: date
-          }).execSync(),
-          fromWhen: new Date().getTime()
-        }).execSync();
-
-        return niceTimeAgoString;
-      };
-
-      tutorial.createdAt = formatDate(tutorial.createdAt);
-      tutorial.updatedAt = formatDate(tutorial.updatedAt);
+    // Format the date the Tutorial was created into time ago (e.g. 10 days ago) format
+    tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
+    tutorial.updatedAt = DatetimeService.getTimeAgo({ date: tutorial.updatedAt });
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
@@ -594,21 +569,21 @@ module.exports = {
     };
 
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-      var Datetime = require('machinepack-datetime');
-      
-      var formatDate = function(date) {  
-        var niceTimeAgoString = Datetime.timeFrom({
-          toWhen: Datetime.parse({
-            datetime: date
-          }).execSync(),
-          fromWhen: new Date().getTime()
-        }).execSync();
+    var Datetime = require('machinepack-datetime');
+    
+    var formatDate = function(date) {  
+      var niceTimeAgoString = Datetime.timeFrom({
+        toWhen: Datetime.parse({
+          datetime: date
+        }).execSync(),
+        fromWhen: new Date().getTime()
+      }).execSync();
 
-        return niceTimeAgoString;
-      };
+      return niceTimeAgoString;
+    };
 
-      tutorial.createdAt = formatDate(tutorial.createdAt);
-      tutorial.updatedAt = formatDate(tutorial.updatedAt);
+    tutorial.createdAt = formatDate(tutorial.createdAt);
+    tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
