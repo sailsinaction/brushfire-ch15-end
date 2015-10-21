@@ -29,6 +29,8 @@ angular.module('brushfire').controller('tutorialsDetailNewPageController', ['$sc
 
   $scope.createTutorial = function(username) {
 
+    $scope.tutorialDetailsNew.loading = true;
+
     $http.post('/tutorials', {
       username: username,
       title: $scope.tutorialDetailsNew.title,
@@ -40,12 +42,10 @@ angular.module('brushfire').controller('tutorialsDetailNewPageController', ['$sc
 
     })
     .catch(function onError(sailsResponse){
-      console.log(sailsResponse);
+      console.error(sailsResponse);
     })
     .finally(function eitherWay(){
-
+      $scope.tutorialDetailsNew.loading = false;
     });
   };
-
-  
 }]);
