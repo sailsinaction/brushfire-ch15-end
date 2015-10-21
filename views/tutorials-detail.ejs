@@ -97,7 +97,7 @@
                   <% if (me && me.isMe) { %>
                     <li><button ng-click="editVideo($event, <%= video.id %>)">edit</button></li>
                     <li>
-                      <button ng-click="deleteVideo($event, <%= video.id %>)">
+                      <button ng-click="deleteVideo($event, <%= video.id %>, <%= i %>)">
                         <span ng-show="!tutorialDetails.deleteVideoLoading">delete</span>
                         <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteVideoLoading" ></span>
                         <span ng-show="tutorialDetails.deleteVideoLoading">deleting video...</span>

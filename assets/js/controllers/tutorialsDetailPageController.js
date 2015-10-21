@@ -74,8 +74,6 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
       id: $scope.tutorialId
     })
     .then(function onSuccess(sailsResponse) {
-      
-      console.log(sailsResponse);
 
       toastr.success('Your rating has been saved', 'Rating', {
           closeButton: true
@@ -175,29 +173,21 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   };
 
   // Simulate deleting a video
-  $scope.deleteVideo = function(e, videoId) {
+  $scope.deleteVideo = function(e, videoId, index) {
 
     e.preventDefault();
+    console.log('the index: ', index);
 
     $scope.tutorialDetails.deleteVideoLoading = true;
 
     $http.delete('/videos/'+videoId)
     .then(function onSuccess(sailsResponse){
 
-      // console.log(sailsResponse);
+      $scope.tutorialDetails.deleteVideoLoading = false;
 
-      setTimeout(function() {
-
-        $scope.tutorialDetails.deleteVideoLoading = false;
-
-        // When fully implemented, will we refresh the page or make the change
-        // to the already provided tutorials dictionary??
-
-        // Head back to the profile that is editing the tutorial
-        // Simulated for now.
-        window.location = "/tutorials/1";
-
-      }, 1000);
+      // Head back to the profile that is editing the tutorial
+      // Simulated for now.
+      window.history.back();
       
     })
     .catch(function onError(sailsResponse){
