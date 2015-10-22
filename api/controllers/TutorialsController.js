@@ -103,28 +103,19 @@ module.exports = {
 
     console.log('skip: ', req.param('skip'));
 
-    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-    var Datetime = require('machinepack-datetime');
-
     var updatedTutorials = _.map(tutorials, function(tutorial){
-      
-      var niceTimeAgoString = Datetime.timeFrom({
-        toWhen: Datetime.parse({
-          datetime: tutorial.createdAt
-        }).execSync(),
-        fromWhen: new Date().getTime()
-      }).execSync();
 
-      tutorial.createdAt = niceTimeAgoString;
+      tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
+      
       return tutorial;
     });
 
-    var options = {
-      totalTutorials: 30,
-      updatedTutorials: updatedTutorials
-    };
-
-    return res.json({options: options});
+    return res.json({
+      options: {
+        totalTutorials: 30,
+        updatedTutorials: updatedTutorials
+      }
+    });
   },
 
   browseTutorials: function(req, res) {
@@ -239,36 +230,20 @@ module.exports = {
       return tutorial;
     });
 
-    var options = {
-      totalTutorials: 30,
-      updatedTutorials: updatedTutorials
-    };
-
-    return res.json({options: options});
+    return res.json({
+      options: {
+        totalTutorials: 30,
+        updatedTutorials: updatedTutorials        
+      }
+    });
   },
 
   rateTutorial: function(req, res) {
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      if (user.username === tutorial.owner) {
-
-        return res.forbidden();
-      }
 
       return res.json({
         rating: req.param('rating'),
         id: req.param('id')
       });
-    });
   },
 
   create: function(req, res) {
@@ -276,25 +251,10 @@ module.exports = {
     // Create a tutorial record using `username`, `title`, and `description`
 
     // Pass back the `id` of the new record, simulate `1` for now.
-    return res.json({id: '1'});
+    return res.json({id: 1});
   },
 
   addVideo: function(req, res) {
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      if (user.username !== tutorial.owner) {
-
-        return res.forbidden();
-      }
 
       var options = {
         tutorialId: req.param('id'),
@@ -305,116 +265,42 @@ module.exports = {
       };
 
       return res.json({video: options});
-    });
   },
 
   update: function(req, res) {
 
-    console.log('tutorial id: ', req.param('id'));
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      if (user.username !== tutorial.owner) {
-
-        return res.forbidden();
-      }
-
-      var options = {
+    return res.json({
+      tutorial: {
         id: req.param('id'),
         title: req.param('title'),
         description: req.param('description')
-      };
-
-      return res.json({tutorial: options});
+      }
     });
   },
 
   updateVideo: function(req, res) {
 
-    console.log('id: ', req.param('id'));
+    var options = {
+      id: req.param('id'),
+      title: req.param('title'),
+      src: req.param('src'),
+      minutes: req.param('minutes'),
+      seconds: req.param('seconds')
+    };
 
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      if (user.username !== tutorial.owner) {
-
-        return res.forbidden();
-      }
-
-      var options = {
-        id: req.param('id'),
-        title: req.param('title'),
-        src: req.param('src'),
-        minutes: req.param('minutes'),
-        seconds: req.param('seconds')
-      };
-
-      return res.json({video: options});
-    });
+    return res.json({video: options});
   },
 
   deleteTutorial: function(req, res) {
 
     console.log('id: ', req.param('id'));
 
-    // TODO: Look-up the tutorial `id` and pass back the username.
-    
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      if (user.username !== tutorial.owner) {
-
-        return res.forbidden();
-      }
-
       return res.json({username: 'sails-in-action'});
-    });
   },
 
   removeVideo: function(req, res) {
 
-    console.log('id: ', req.param('id'));
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      if (user.username !== tutorial.owner) {
-
-        return res.forbidden();
-      }
-
       return res.ok();
-    });
   }
-	
 };
 
