@@ -49,8 +49,6 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
     })
     .then(function onSuccess(sailsResponse) {
 
-      console.log(sailsResponse);
-
       $scope.tutorials = sailsResponse.data.options.updatedTutorials;
       $scope.totalTutorials = sailsResponse.data.options.totalTutorials;
 

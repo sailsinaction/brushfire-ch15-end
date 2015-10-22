@@ -40,7 +40,7 @@ angular.module('brushfire').controller('passwordRecoveryPageController', ['$scop
     })
     .catch(function onError(sailsResponse) {
       
-      console.log(sailsResponse);
+      console.error(sailsResponse);
 
     })
     .finally(function eitherWay() {

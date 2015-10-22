@@ -81,12 +81,11 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
     })
     .then(function onSuccess(sailsResponse){
 
-      console.log(sailsResponse);
       window.location = "/tutorials/"+tutorialId;
     })
     .catch(function onError(sailsResponse){
 
-      console.log(sailsResponse);
+      console.error(sailsResponse);
     })
     .finally(function eitherWay(sailsResponse){
 

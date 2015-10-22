@@ -39,7 +39,7 @@ angular.module('brushfire').controller('restoreProfilePageController', ['$scope'
       window.location = '/' + sailsResponse.data[0].username;
     })
     .catch(function onError(sailsResponse) {
-      console.log('sailsresponse: ', sailsResponse)
+      console.error('sailsresponse: ', sailsResponse)
       // Otherwise, display generic error if the error is unrecognized.
       // $scope.restoreProfileForm.errorMsg = 'Email/Password combination does not match profile';
       if (sailsResponse.data.status >= 400 < 404) {

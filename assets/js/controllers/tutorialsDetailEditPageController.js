@@ -41,7 +41,7 @@ angular.module('brushfire').controller('tutorialsDetailEditPageController', ['$s
       window.location="/tutorials/"+sailsResponse.data.id;
     })
     .catch(function onError(sailsResponse){
-      console.log(sailsResponse);
+      console.error(sailsResponse);
     })
     .finally(function eitherWay(){
 

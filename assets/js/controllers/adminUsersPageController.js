@@ -27,7 +27,7 @@ $scope.me = window.SAILS_LOCALS.me;
 
   })
   .catch(function onError(sailsResponse){
-    console.log(sailsResponse);
+    console.error(sailsResponse);
 
   })
   .finally(function eitherWay(){

@@ -496,7 +496,7 @@ module.exports = {
           admin: user.admin
         },
         tutorial: tutorial
-      });    
+      });  
     });
   },
 

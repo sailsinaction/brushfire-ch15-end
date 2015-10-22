@@ -112,7 +112,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
     })
     .catch(function onError(sailsResponse){
-      console.log(sailsResponse);
+      console.error(sailsResponse);
     })
     .finally(function eitherWay(){
       
@@ -169,8 +169,6 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
     e.preventDefault();
 
-    console.log(index);
-
     $scope.tutorialDetails.deleteVideoLoading = index;
 
     $http.delete('/videos/'+videoId)
@@ -184,7 +182,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
       
     })
     .catch(function onError(sailsResponse){
-      console.log(sailsResponse);
+      console.error(sailsResponse);
     })
     .finally(function eitherWay(){
       

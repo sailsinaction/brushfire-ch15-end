@@ -78,11 +78,10 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
       seconds: $scope.seconds
     })
     .then(function onSuccess(sailsResponse){
-      console.log(sailsResponse);
       window.location="/tutorials/1";
     })
     .catch(function onError(sailsResponse){
-      console.log(sailsResponse);
+      console.error(sailsResponse);
     })
     .finally(function eitherWay(){
 

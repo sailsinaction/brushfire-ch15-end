@@ -40,8 +40,6 @@ angular.module('brushfire').controller('profilePageController', ['$scope', '$htt
 
   $scope.removeProfile = function() {
 
-    // console.log('the change userprofile is: ', $scope.userProfile);
-
     // var theRoute = '/user/removeProfile/' + $scope.userProfile.properties.id;
     // var theRoute = '/user/removeProfile/' + $scope.me.id;
     // var theRoute = '/user/removeProfile';
