@@ -247,15 +247,15 @@ module.exports = {
 
   addVideo: function(req, res) {
 
-      var options = {
+    return res.json({
+      video: {
         tutorialId: req.param('id'),
         title: req.param('title'),
         src: req.param('src'),
         minutes: req.param('minutes'),
         seconds: req.param('seconds')
-      };
-
-      return res.json({video: options});
+      }
+    });
   },
 
   update: function(req, res) {
@@ -272,14 +272,17 @@ module.exports = {
   updateVideo: function(req, res) {
 
     var options = {
-      id: req.param('id'),
-      title: req.param('title'),
-      src: req.param('src'),
-      minutes: req.param('minutes'),
-      seconds: req.param('seconds')
     };
 
-    return res.json({video: options});
+    return res.json({
+      video: {
+        id: req.param('id'),
+        title: req.param('title'),
+        src: req.param('src'),
+        minutes: req.param('minutes'),
+        seconds: req.param('seconds')
+      }
+    });
   },
 
   deleteTutorial: function(req, res) {
