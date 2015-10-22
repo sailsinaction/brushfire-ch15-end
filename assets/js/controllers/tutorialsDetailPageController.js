@@ -24,7 +24,8 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     loading: false,
 
     // This is a separate loading state for the delete button
-    deleteTutorialLoading: false
+    deleteTutorialLoading: false,
+    deleteVideoLoading: false
   };
 
   // We need a max for the stars (i.e. 1 out of 5 stars)
@@ -107,17 +108,8 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     $http.delete('/tutorials/'+id)
     .then(function onSuccess(sailsResponse){
 
-      // console.log(sailsResponse);
+      window.location = "/" + sailsResponse.data.username;
 
-      setTimeout(function() {
-
-        $scope.tutorialDetails.deleteTutorialLoading = false;
-
-        // Head back to the profile that is editing the tutorial
-        window.location = "/" + sailsResponse.data.username;
-
-      }, 1000);
-      
     })
     .catch(function onError(sailsResponse){
       console.log(sailsResponse);
@@ -176,9 +168,10 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   $scope.deleteVideo = function(e, videoId, index) {
 
     e.preventDefault();
-    console.log('the index: ', index);
 
-    $scope.tutorialDetails.deleteVideoLoading = true;
+    console.log(index);
+
+    $scope.tutorialDetails.deleteVideoLoading = index;
 
     $http.delete('/videos/'+videoId)
     .then(function onSuccess(sailsResponse){
@@ -187,7 +180,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
       // Head back to the profile that is editing the tutorial
       // Simulated for now.
-      window.history.back();
+      // window.location = '/tutorials/1';
       
     })
     .catch(function onError(sailsResponse){

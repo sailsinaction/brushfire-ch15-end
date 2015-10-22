@@ -98,9 +98,9 @@
                     <li><button ng-click="editVideo($event, <%= video.id %>)">edit</button></li>
                     <li>
                       <button ng-click="deleteVideo($event, <%= video.id %>, <%= i %>)">
-                        <span ng-show="!tutorialDetails.deleteVideoLoading">delete</span>
-                        <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteVideoLoading" ></span>
-                        <span ng-show="tutorialDetails.deleteVideoLoading">deleting video...</span>
+                        <span ng-show="tutorialDetails.deleteVideoLoading!==<%= i %>">delete</span>
+                        <span class="overlord-loading-spinner fa fa-spinner" ng-show="tutorialDetails.deleteVideoLoading===<%= i %>" ></span>
+                        <span ng-show="tutorialDetails.deleteVideoLoading===<%= i %>">deleting video...</span>
                       </button>
                     </li>
                     <% if (i > 0) { %>
