@@ -68,12 +68,4 @@ module.exports.routes = {
   //   action: 'profile',
   //   skipAssets: true
   // },
-
-  // This route is the start of verifying an account...may take out for chapter 11  
-  'GET /verify-email': {
-    view: 'verify-email',
-    locals: {
-      me: null
-    }
-  }
 };
