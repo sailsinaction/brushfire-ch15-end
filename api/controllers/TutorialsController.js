@@ -214,19 +214,10 @@ module.exports = {
 
     console.log('skip: ', req.param('skip'));
 
-    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-    var Datetime = require('machinepack-datetime');
-
     var updatedTutorials = _.map(tutorials, function(tutorial){
-      
-      var niceTimeAgoString = Datetime.timeFrom({
-        toWhen: Datetime.parse({
-          datetime: tutorial.createdAt
-        }).execSync(),
-        fromWhen: new Date().getTime()
-      }).execSync();
 
-      tutorial.createdAt = niceTimeAgoString;
+      tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
+      
       return tutorial;
     });
 
