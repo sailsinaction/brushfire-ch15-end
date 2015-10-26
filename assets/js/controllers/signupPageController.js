@@ -42,7 +42,7 @@ angular.module('brushfire').controller('signupPageController', ['$scope', '$http
     .then(function onSuccess(sailsResponse){
 
       // Redirect to the profile page [This is after we have a profile page built]
-      window.location = '/profile';
+      window.location = '/'+sailsResponse.data.username;
       
       // Redirect to the user blueprint record [This is before we have the profile page built]
       // window.location = '/user/' + sailsResponse.data.id;

@@ -158,7 +158,9 @@ module.exports = {
               // Log the user in
               req.session.userId = createdUser.id;
 
-              return res.ok();
+              return res.json({
+                username: createdUser.username
+              });
             });
           }
         });
