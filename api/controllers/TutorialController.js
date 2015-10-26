@@ -1,7 +1,7 @@
 /**
- * TutorialsController
+ * TutorialController
  *
- * @description :: Server-side logic for managing tutorials
+ * @description :: Server-side logic for managing tutorial
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 

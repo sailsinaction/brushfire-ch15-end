@@ -25,17 +25,17 @@ module.exports.routes = {
   'PUT /user/generate-recovery-email': 'UserController.generateRecoveryEmail',
   'PUT /user/reset-password': 'UserController.resetPassword',
 
-  'GET /tutorials': 'TutorialsController.browseTutorials',
-  'POST /tutorials': 'TutorialsController.create',
-  'POST /tutorials/:id/videos': 'TutorialsController.addVideo',
-  'PUT /tutorials/:id': 'TutorialsController.update',
-  'PUT /tutorials/:id/rate': 'TutorialsController.rateTutorial',
-  'DELETE /tutorials/:id': 'TutorialsController.deleteTutorial',
-  'DELETE /videos/:id': 'TutorialsController.removeVideo',
+  'GET /tutorials': 'TutorialController.browseTutorials',
+  'POST /tutorials': 'TutorialController.create',
+  'POST /tutorials/:id/videos': 'TutorialController.addVideo',
+  'PUT /tutorials/:id': 'TutorialController.update',
+  'PUT /tutorials/:id/rate': 'TutorialController.rateTutorial',
+  'DELETE /tutorials/:id': 'TutorialController.deleteTutorial',
+  'DELETE /videos/:id': 'TutorialController.removeVideo',
 
-  'POST /videos/:id/up': 'VideosController.reorderVideoUp',
-  'POST /videos/:id/down': 'VideosController.reorderVideoDown',
-  'PUT /videos/:id': 'TutorialsController.updateVideo',
+  'POST /videos/:id/up': 'VideoController.reorderVideoUp',
+  'POST /videos/:id/down': 'VideoController.reorderVideoDown',
+  'PUT /videos/:id': 'TutorialController.updateVideo',
 
   /*************************************************************
   * Server Rendered HTML Page Endpoints                        *
@@ -52,14 +52,14 @@ module.exports.routes = {
   'GET /password-recovery-email-sent': 'PageController.passwordRecoveryEmailSent',  
   'GET /password-reset-form/:passwordRecoveryToken': 'PageController.passwordReset',
   
-  'GET /tutorials/search': 'TutorialsController.searchTutorials',
+  'GET /tutorials/search': 'TutorialController.searchTutorials',
   'GET /tutorials/browse': 'PageController.showBrowsePage',
   'GET /tutorials/new': 'PageController.newTutorial',
   'GET /tutorials/:id': 'PageController.tutorialDetail',
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
-  'GET /videos/:id/show': 'VideosController.showVideo',
+  'GET /videos/:id/show': 'VideoController.showVideo',
 
   'GET /:username': 'PageController.profile',
   
