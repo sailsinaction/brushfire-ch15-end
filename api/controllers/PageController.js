@@ -548,12 +548,10 @@ module.exports = {
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
-      id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
       totalTime: '3h 22m',
       stars: 4,
       video: {
-        id: 55,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 102,
@@ -595,7 +593,6 @@ module.exports = {
 
       return res.view('tutorials-detail-video-edit', {
         me: {
-          email: user.email,
           username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
