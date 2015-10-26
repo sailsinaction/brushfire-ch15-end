@@ -453,7 +453,6 @@ module.exports = {
 
       return res.view('tutorials-detail-new', {
         me: {
-          email: user.email,
           gravatarURL: user.gravatarURL,
           username: user.username,
           admin: user.admin

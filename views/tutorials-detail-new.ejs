@@ -18,7 +18,7 @@
         <div class="form-group" ng-class="{'has-error':newTutorial.title.$invalid &&newTutorial.title.$dirty}">
           <div class="list-group-item">
             <label for="title" class=" control-label" style="font-size: 1.5em">Title</label>
-            <input type="text" class="form-control" name="title" placeholder="e.g. tutorial title" style="font-size: 1.5em" ng-model="tutorialDetailsNew.title" required>
+            <input type="text" class="form-control" name="title" autofocus placeholder="e.g. tutorial title" style="font-size: 1.5em" ng-model="tutorialDetailsNew.title" required>
           </div>
           <span class="help-block has-error" ng-if="newTutorial.title.$dirty">
             <span ng-show="newTutorial.title.$error.required" style="font-size: 1.5em">Title is required.</span>
