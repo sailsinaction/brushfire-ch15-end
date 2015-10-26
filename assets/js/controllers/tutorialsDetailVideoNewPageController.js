@@ -24,6 +24,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
 
   $scope.me = window.SAILS_LOCALS.me;
 
+  // Get the tutorials number of stars
   $scope.tutorial = {
     stars: window.SAILS_LOCALS.stars
   };

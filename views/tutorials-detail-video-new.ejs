@@ -35,7 +35,7 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
             </li>
             <li>|</li>
             <li>
-              <span><i class="fa fa-calendar"></i>  <%= tutorial.createdAt %></span>
+              <span>created </i>  <%= tutorial.createdAt %></span>
             </li>
             <li>|</li>
             <li>
@@ -65,7 +65,7 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
               <!-- T I T L E -->
               <div class="form-group" ng-class="{'has-error':addVideo.title.$invalid &&addVideo.title.$dirty}">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" placeholder="How to do almost anything." ng-model="title" required name="title">
+                <input type="text" class="form-control" id="title" autofocus placeholder="How to do almost anything." ng-model="title" required name="title">
               </div>
               <span class="help-block has-error" ng-if="addVideo.title.$dirty">
                 <span ng-show="addVideo.title.$error.required" style="font-size: 1.5em; color: red">A title is required.</span>

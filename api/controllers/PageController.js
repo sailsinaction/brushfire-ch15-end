@@ -507,9 +507,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
-      stars: 4
     };
 
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago) format
@@ -523,9 +521,7 @@ module.exports = {
 
       if (!user) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('tutorials-detail-video-new', {
-          me: null
-        });
+        return res.redirect('/');
       }
 
       if (user.username !== tutorial.owner) {
@@ -536,11 +532,12 @@ module.exports = {
 
       return res.view('tutorials-detail-video-new', {
         me: {
-          email: user.email,
           username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
         },
+        // We don't need all of the tutorial attributes on window.SAILS_LOCALS.tutorial
+        // so we're passing stars separately.
         stars: tutorial.stars,
         tutorial: tutorial
       });
