@@ -17,6 +17,8 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
     invalidUrl: false
   };
 
+  // Get the tutorial id form the current URL path:  /tutorials/1/videos/new
+  $scope.fromUrlTutorialId = window.location.pathname.split('/')[2];
 
   $scope.src = '/images/preview.jpg';
 
@@ -39,7 +41,9 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
 
 */
 
-  $scope.parseUrl = function(){
+  $scope.parseUrl = function(e){
+
+    e.preventDefault();
 
     $scope.tutorialsDetailVideoNew.invalidUrl = false;
 
@@ -70,10 +74,10 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
 
   };
 
-  $scope.addVideo = function(tutorialId) {
+  $scope.addVideo = function() {
 
-    $http.post('/tutorials/'+tutorialId+'/videos', {
-      owner: tutorialId,
+    $http.post('/tutorials/'+$scope.fromUrlTutorialId+'/videos', {
+      owner: $scope.fromUrlTutorialId,
       title: $scope.title,
       src: $scope.src,
       minutes: $scope.minutes,
@@ -81,15 +85,13 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
     })
     .then(function onSuccess(sailsResponse){
 
-      window.location = "/tutorials/"+tutorialId;
+      window.location = "/tutorials/"+$scope.fromUrlTutorialId;
     })
     .catch(function onError(sailsResponse){
 
       console.error(sailsResponse);
     })
     .finally(function eitherWay(sailsResponse){
-
-
     });
   };
 }]);
