@@ -41,7 +41,9 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
 
 */
 
-  $scope.parseUrl = function(){
+  $scope.parseUrl = function(e){
+
+    e.preventDefault();
 
     $scope.tutorialsDetailVideoNew.invalidUrl = false;
 
@@ -72,9 +74,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
 
   };
 
-  $scope.submitEditVideoForm = function(e) {
-
-    e.preventDefault();
+  $scope.submitEditVideoForm = function() {
 
     $http.put('/videos/'+$scope.fromUrlTutorialId, {
       title: $scope.title,
