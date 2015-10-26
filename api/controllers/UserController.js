@@ -155,9 +155,10 @@ module.exports = {
                 return res.negotiate(err);
               }
 
+              // Log the user in
               req.session.userId = createdUser.id;
 
-              return res.json(createdUser);
+              return res.ok();
             });
           }
         });
