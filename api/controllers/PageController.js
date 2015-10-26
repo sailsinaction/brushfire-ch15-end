@@ -307,62 +307,62 @@ module.exports = {
       stars: 4,
       videos: [{
         id: 55,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 23,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 34,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 64,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 95,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 106,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 73,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 88,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 96,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }, {
         id: 108,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
         minutes: 10,
         seconds: 22
       }]
@@ -545,20 +545,19 @@ module.exports = {
   editVideo: function(req, res) {
 
     var tutorial = {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: 4,
       video: {
         id: 55,
-        title: 'Tation libris prodesset nam id. Qui no epicuri oportere. Tritani delicata vix eu.',
-        src: 'https://www.youtube.com/embed/8aGhZQkoFbQ',
-        minutes: 10,
-        seconds: 22
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+        minutes: 102,
+        seconds: 8
       }
     };
 
@@ -577,7 +576,6 @@ module.exports = {
     };
 
     tutorial.createdAt = formatDate(tutorial.createdAt);
-    tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
