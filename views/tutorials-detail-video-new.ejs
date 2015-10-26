@@ -35,7 +35,7 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
             </li>
             <li>|</li>
             <li>
-              <span>created </i>  <%= tutorial.createdAt %></span>
+              <span>created <%= tutorial.createdAt %></span>
             </li>
             <li>|</li>
             <li>
@@ -74,11 +74,11 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
               <div class="form-group form-inline" ng-class="{'has-error':addVideo.src.$invalid &&addVideo.src.$dirty}">
                 <label for="youtubeURL">Youtube URL</label>
                 <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50" name="src" required>
+                <button class="btn btn-primary" ng-click="parseUrl($event)">parse video</button>
+                <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
                 <span class="help-block has-error" ng-if="addVideo.src.$dirty">
                   <span ng-show="addVideo.src.$error.required" style="font-size: 1.5em; color: red">A src URL is required.</span>
                 </span>
-                <button class="btn btn-primary" ng-click="parseUrl($event)">parse video</button>
-                <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
               </div>
               
               <div class="form-group" ng-class="{'has-error':addVideo.minutes.$invalid &&addVideo.minutes.$dirty}">

@@ -16,6 +16,9 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
     loading: false
   };
 
+  // Get the tutorial id form the current URL path:  /tutorials/55/videos/edit
+  $scope.fromUrlTutorialId = window.location.pathname.split('/')[2];
+
   $scope.me = window.SAILS_LOCALS.me;
 
   $scope.tutorial = window.SAILS_LOCALS.tutorial;
@@ -69,16 +72,18 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
 
   };
 
-  $scope.submitEditVideoForm = function(id) {
+  $scope.submitEditVideoForm = function(e) {
 
-    $http.put('/videos/'+id, {
+    e.preventDefault();
+
+    $http.put('/videos/'+$scope.fromUrlTutorialId, {
       title: $scope.title,
       src: $scope.src,
       minutes: $scope.minutes,
       seconds: $scope.seconds
     })
     .then(function onSuccess(sailsResponse){
-      window.location="/tutorials/1";
+      window.location="/tutorials/"+$scope.fromUrlTutorialId;
     })
     .catch(function onError(sailsResponse){
       console.error(sailsResponse);

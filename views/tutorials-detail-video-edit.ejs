@@ -35,7 +35,7 @@
             </li>
             <li>|</li>
             <li>
-              <span><i class="fa fa-calendar"></i>  <%= tutorial.createdAt %></span>
+              <span>created <%= tutorial.createdAt %></span>
             </li>
             <li>|</li>
             <li>
@@ -56,40 +56,51 @@
       <!-- grey background with border -->
       
       <!-- The Form -->
-      <form ng-submit="submitEditVideoForm(<%= tutorial.video.id %>)">
+      <form ng-submit="submitEditVideoForm()" name="editVideo">
         <h1>Edit video...
         <span class="pull-right">
           <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
-          <button type="submit"  class="btn btn-success">save</button>
+          <button type="submit"  ng-disabled="editVideo.$invalid" class="btn btn-success">save</button>
         </span>
         </h1>
         <!-- T I T L E -->
-        <div class="form-group">
+        <div class="form-group" ng-class="{'has-error':editVideo.title.$invalid &&editVideo.title.$dirty}">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" placeholder="How to do almost anything." ng-model="title">
+          <input type="text" class="form-control" id="title" autofocus placeholder="How to do almost anything." ng-model="title" required name="title">
         </div>
-
+        <span class="help-block has-error" ng-if="editVideo.title.$dirty">
+                <span ng-show="editVideo.title.$error.required" style="font-size: 1.5em; color: red">A title is required.</span>
+              </span>
         <!-- Y O U T U B E  U R L -->
-        <div class="form-group form-inline">
+        <div class="form-group form-inline" ng-class="{'has-error':editVideo.src.$invalid &&editVideo.src.$dirty}">
           <label for="youtubeURL">Youtube URL</label>
-          <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50">
-          <button class="btn btn-primary" ng-click="parseUrl()">parse video</button>
+          <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50" name="src" required>
+          <button class="btn btn-primary" ng-click="parseUrl($event)">parse video</button>
           <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
+          <span class="help-block has-error" ng-if="editVideo.src.$dirty">
+                  <span ng-show="editVideo.src.$error.required" style="font-size: 1.5em; color: red">A src URL is required.</span>
+                </span>
         </div>
         
-        <div class="form-group">
+        <div class="form-group" ng-class="{'has-error':editVideo.minutes.$invalid &&editVideo.minutes.$dirty}">
           <div class="form-inline">
 
             <!-- How long is this video? -->
             <label for="lengthMin">How long is this video?</label>
             
-            <input type="text" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes">
+            <input type="text" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes" name="minutes" required>
             <strong> minutes </strong>
 
-            <div class="form-group">
-              <input type="text" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds">
+            <div class="form-group" ng-class="{'has-error':editVideo.seconds.$invalid &&editVideo.seconds.$dirty}">
+              <input type="text" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds" name="seconds" required>
               <strong> seconds </strong>
             </div>
+            <span class="help-block has-error" ng-if="editVideo.minutes.$dirty">
+                    <span ng-show="editVideo.minutes.$error.required" style="font-size: 1.5em; color: red">A number must be entered for this field.</span>
+                  </span>
+                  <span class="help-block has-error" ng-if="editVideo.seconds.$dirty">
+                    <span ng-show="editVideo.seconds.$error.required" style="font-size: 1.5em; color: red">Needs a number.</span>
+                  </span>
           </div>
         </div>
 
