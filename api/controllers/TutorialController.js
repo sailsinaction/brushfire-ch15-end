@@ -10,8 +10,8 @@ module.exports = {
   searchTutorials: function(req, res) {
 
     var tutorials = [{
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -19,8 +19,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 4
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 2,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -28,8 +28,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 3
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 3,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -37,8 +37,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 5
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 4,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -46,8 +46,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 1
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 5,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -55,8 +55,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 5
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 6,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -64,8 +64,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 2
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 7,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -73,8 +73,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 4
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 8,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -82,8 +82,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 5
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 9,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -91,8 +91,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 4
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 10,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -121,8 +121,8 @@ module.exports = {
   browseTutorials: function(req, res) {
 
     var tutorials = [{
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -130,8 +130,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 4
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 2,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -139,8 +139,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 3
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 3,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -148,8 +148,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 5
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 4,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -157,8 +157,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 1
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 5,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -166,8 +166,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 5
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 6,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -175,8 +175,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 2
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 7,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -184,8 +184,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 4
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 8,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -193,8 +193,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 5
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 9,
       createdAt: '2015-09-27T16:32:55.000Z',
@@ -202,8 +202,8 @@ module.exports = {
       totalTime: '3h 22m',
       stars: 4
     }, {
-      title: 'Sed ut perspiciatis unde omnis',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea.',
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 10,
       createdAt: '2015-09-27T16:32:55.000Z',
