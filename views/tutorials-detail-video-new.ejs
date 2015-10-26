@@ -55,11 +55,11 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
             <!-- grey background with border -->
             
             <!-- The Form -->
-            <form ng-submit="addVideo()" name="addVideo">
+            <form ng-submit="addvideo()" name="addVideo">
               <h1>Add new video...
               <span class="pull-right">
                 <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
-                <button type="submit"  class="btn btn-success">save</button>
+                <button type="submit"  ng-disabled="addVideo.$invalid" class="btn btn-success">save</button>
               </span>
               </h1>
               <!-- T I T L E -->
