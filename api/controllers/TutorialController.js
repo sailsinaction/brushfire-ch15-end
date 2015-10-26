@@ -237,7 +237,7 @@ module.exports = {
       });
   },
 
-  create: function(req, res) {
+  createTutorial: function(req, res) {
 
     // Create a tutorial record using `username`, `title`, and `description`
 

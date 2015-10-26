@@ -26,7 +26,7 @@ module.exports.routes = {
   'PUT /user/reset-password': 'UserController.resetPassword',
 
   'GET /tutorials': 'TutorialController.browseTutorials',
-  'POST /tutorials': 'TutorialController.create',
+  'POST /tutorials': 'TutorialController.createTutorial',
   'POST /tutorials/:id/videos': 'TutorialController.addVideo',
   'PUT /tutorials/:id': 'TutorialController.update',
   'PUT /tutorials/:id/rate': 'TutorialController.rateTutorial',
