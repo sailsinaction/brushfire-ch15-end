@@ -46,7 +46,7 @@
         <div class="form-group" ng-class="{'has-error':editTutorial.title.$invalid &&editTutorial.title.$dirty}">
           <div class="list-group-item">
             <label for="title" class=" control-label" style="font-size: 1.5em">Title</label>
-            <input type="text" class="form-control" name="title" placeholder="e.g. tutorial title" style="font-size: 1.5em" ng-model="tutorialDetailsEdit.title" required>
+            <input type="text" class="form-control" name="title" autofocus placeholder="e.g. tutorial title" style="font-size: 1.5em" ng-model="tutorialDetailsEdit.title" required>
           </div>
           <span class="help-block has-error" ng-if="editTutorial.title.$dirty">
             <span ng-show="editTutorial.title.$error.required" style="font-size: 1.5em">Title is required.</span>
@@ -65,7 +65,7 @@
         </div>
         <span class="pull-right">
           <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
-          <button type="submit" ng-click="submitEditTutorialForm(<%= tutorial.id %>)" ng-disabled="editTutorial.$invalid" class="btn btn-success">save</button>
+          <button type="submit" ng-click="submitEditTutorialForm()" ng-disabled="editTutorial.$invalid" class="btn btn-success">save</button>
         </span>
       </form>
     </div>
