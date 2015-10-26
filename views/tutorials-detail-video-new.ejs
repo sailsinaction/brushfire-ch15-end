@@ -1,19 +1,19 @@
 <script type="text/javascript">
-  window.SAILS_LOCALS = {
-    stars: <%-
-    // Note that by putting these comments inside of the EJS tag, we prevent them from
-    // being sent down to client (i.e. they are boiled away on the server along 
-    // with the EJS tags)
-    //
-    // Notice we must check that `stars` exists using typeof to keep EJS from throwing
-    // and displaying an ugly error message when rendering certain pages
-    // (i.e. 404 /500 error pages)
-    typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
-    // Note that we deliberately use 'null' (a string) because EJS converts the 
-    // `null` literal  into empty string (''), which is not what we want (that would 
-    // be invalid JS and cause a client-side error in the browser)
-    %>
-  };
+window.SAILS_LOCALS = {
+stars: <%-
+// Note that by putting these comments inside of the EJS tag, we prevent them from
+// being sent down to client (i.e. they are boiled away on the server along
+// with the EJS tags)
+//
+// Notice we must check that `stars` exists using typeof to keep EJS from throwing
+// and displaying an ugly error message when rendering certain pages
+// (i.e. 404 /500 error pages)
+typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
+// Note that we deliberately use 'null' (a string) because EJS converts the
+// `null` literal  into empty string (''), which is not what we want (that would
+// be invalid JS and cause a client-side error in the browser)
+%>
+};
 </script>
 <div ng-controller="tutorialsDetailVideoNewPageController" ng-cloak>
   <div class="container well">
@@ -23,7 +23,7 @@
       <div class="tutorials-detail list-group-item">
         <div class="col-md-8" style="margin-top: 25px">
           <h3 class="list-group-item-heading">
-            <%= tutorial.title %>
+          <%= tutorial.title %>
           </h3>
           <p class="list-group-item-text" style="font-size: 1.2em">
             <%= tutorial.description %>
@@ -47,62 +47,70 @@
             </li>
             <li>|</li>
           </ul>
-        </div> <!-- class="col-md-8" style="margin-top: 25px" -->
-      </div> <!-- class="tutorials-detail list-group-item" -->
-    </div>  <!-- <div class="list-group"> -->
-
-    <!-- add video -->
-    <div class="row well">
-      <!-- grey background with border -->
-      
-      <!-- The Form -->
-      <form ng-submit="addVideo()">
-        <h1>Add new video...
-        <span class="pull-right">
-          <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
-          <button type="submit"  class="btn btn-success">save</button>
-        </span>
-        </h1>
-        <!-- T I T L E -->
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" placeholder="How to do almost anything." ng-model="title">
-        </div>
-
-        <!-- Y O U T U B E  U R L -->
-        <div class="form-group form-inline">
-          <label for="youtubeURL">Youtube URL</label>
-          <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50">
-          <button class="btn btn-primary" ng-click="parseUrl($event)">parse video</button>
-          <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
-        </div>
-        
-        <div class="form-group">
-          <div class="form-inline">
-
-            <!-- How long is this video? -->
-            <label for="lengthMin">How long is this video?</label>
+          </div> <!-- class="col-md-8" style="margin-top: 25px" -->
+          </div> <!-- class="tutorials-detail list-group-item" -->
+          </div>  <!-- <div class="list-group"> -->
+          <!-- add video -->
+          <div class="row well">
+            <!-- grey background with border -->
             
-            <input type="text" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes">
-            <strong> minutes </strong>
-
-            <div class="form-group">
-              <input type="text" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds">
-              <strong> seconds </strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- P R E V I E W -->
-        <div class="row">
-          <div class="panel panel-default col-md-4 col-md-offset-4">
-            <div style="margin: 15px;" ng-hide="tutorialsDetailVideoNew.iframeHide">
-              <iframe class="center-block" width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
-              </iframe>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div> <!-- class="row well" -->
-  </div> <!-- class="container well" -->
-</div>  <!-- ng-controller="tutorialsDetailVideoNewPageController" -->
+            <!-- The Form -->
+            <form ng-submit="addVideo()" name="addVideo">
+              <h1>Add new video...
+              <span class="pull-right">
+                <a href="/tutorials/<%=tutorial.id%>" class="btn btn-default">cancel</a>
+                <button type="submit"  class="btn btn-success">save</button>
+              </span>
+              </h1>
+              <!-- T I T L E -->
+              <div class="form-group" ng-class="{'has-error':addVideo.title.$invalid &&addVideo.title.$dirty}">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="How to do almost anything." ng-model="title" required name="title">
+              </div>
+              <span class="help-block has-error" ng-if="addVideo.title.$dirty">
+                <span ng-show="addVideo.title.$error.required" style="font-size: 1.5em; color: red">A title is required.</span>
+              </span>
+              <!-- Y O U T U B E  U R L -->
+              <div class="form-group form-inline" ng-class="{'has-error':addVideo.src.$invalid &&addVideo.src.$dirty}">
+                <label for="youtubeURL">Youtube URL</label>
+                <input type="text" class="form-control" id="youtubeURL" placeholder="https://www.youtube.com/embed/X9sIGpnpZeU" ng-model="src" size="50" name="src" required>
+                <span class="help-block has-error" ng-if="addVideo.src.$dirty">
+                  <span ng-show="addVideo.src.$error.required" style="font-size: 1.5em; color: red">A src URL is required.</span>
+                </span>
+                <button class="btn btn-primary" ng-click="parseUrl($event)">parse video</button>
+                <span ng-show="tutorialsDetailVideoNew.invalidUrl">Not a valid YouTube Url</span>
+              </div>
+              
+              <div class="form-group" ng-class="{'has-error':addVideo.minutes.$invalid &&addVideo.minutes.$dirty}">
+                <div class="form-inline">
+                  <!-- How long is this video? -->
+                  <label for="lengthMin">How long is this video?</label>
+                  
+                  <input type="number" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes" name="minutes" required>
+                  <strong> minutes </strong>              
+                  
+                  <div class="form-group" ng-class="{'has-error':addVideo.seconds.$invalid &&addVideo.seconds.$dirty}">
+                    <input type="number" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds" name="seconds" required>
+                    <strong> seconds </strong>
+                  </div>
+                  <span class="help-block has-error" ng-if="addVideo.minutes.$dirty">
+                    <span ng-show="addVideo.minutes.$error.required" style="font-size: 1.5em; color: red">A number must be entered for this field.</span>
+                  </span>
+                  <span class="help-block has-error" ng-if="addVideo.seconds.$dirty">
+                    <span ng-show="addVideo.seconds.$error.required" style="font-size: 1.5em; color: red">Needs a number.</span>
+                  </span>
+                </div>
+              </div>
+              <!-- P R E V I E W -->
+              <div class="row">
+                <div class="panel panel-default col-md-4 col-md-offset-4">
+                  <div style="margin: 15px;" ng-hide="tutorialsDetailVideoNew.iframeHide">
+                    <iframe class="center-block" width="320" height="195" ng-src="{{src}}" frameborder="0" allowfullscreen>
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+            </form>
+            </div> <!-- class="row well" -->
+            </div> <!-- class="container well" -->
+            </div>  <!-- ng-controller="tutorialsDetailVideoNewPageController" -->
