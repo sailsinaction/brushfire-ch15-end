@@ -88,7 +88,7 @@
             <p style="font-size: 1.2em">you don’t have any videos yet, want to <a href="/tutorials/<%= tutorial.id %>/videos/new">add</a> one? </p>
           <% } %>
           <% _.forEach(tutorial.videos, function(video, i){ %>
-            <a href="/videos/<%= video.id %>/show?tutorialId=<%=tutorial.id %>" class="list-group-item">
+            <a href="/tutorials/<%=tutorial.id %>/videos/<%=video.id %>/show" class="list-group-item">
               <li><%= i + 1 %> - <%= video.title %>
                 <ul class="list-inline  pull-right">
                   <li>

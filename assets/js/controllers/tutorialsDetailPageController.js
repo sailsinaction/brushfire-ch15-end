@@ -13,6 +13,9 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   // Grab any locals from the me property on the windows object
   $scope.me = window.SAILS_LOCALS.me;
 
+  // Get the tutorial id form the current URL path:  /tutorials/1
+  $scope.fromUrlTutorialId = window.location.pathname.split('/')[2];
+
   // Grab the number of stars (in a local) for this tutorial from the stars
   // property of the window object
   $scope.tutorial = {
@@ -96,8 +99,8 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
     e.preventDefault();
 
-    // Redirect to the edit page using the tutorial `id`
-    window.location = "/tutorials/" + videoId + "/videos/edit";
+    // Redirect to the edit page using the tutorial `id` and the video `id`
+    window.location = '/tutorials/' + $scope.fromUrlTutorialId + '/videos/' + videoId + '/edit';
   };
 
   // Simulate deleting a tutorial
@@ -178,7 +181,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
       // Head back to the profile that is editing the tutorial
       // Simulated for now.
-      // window.location = '/tutorials/1';
+      window.location = '/tutorials/' + $scope.fromUrlTutorialId;
       
     })
     .catch(function onError(sailsResponse){

@@ -409,7 +409,6 @@ module.exports = {
       // We'll provide `me` as a local to the profile page view.
       // (this is so we can render the logged-in navbar state, etc.)
       var me = {
-        email: user.email,
         gravatarURL: user.gravatarURL,
         username: user.username,
         admin: user.admin
@@ -427,7 +426,6 @@ module.exports = {
       } else {
         return res.view('tutorials-detail', {
           me: {
-            email: user.email,
             gravatarURL: user.gravatarURL,
             username: user.username,
             admin: user.admin
