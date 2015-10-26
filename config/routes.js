@@ -27,7 +27,7 @@ module.exports.routes = {
 
   'GET /tutorials': 'TutorialController.browseTutorials',
   'POST /tutorials': 'TutorialController.createTutorial',
-  'POST /tutorials/:id/videos': 'TutorialController.addVideo',
+  'POST /tutorials/:tutorialId/videos': 'TutorialController.addVideo',
   'PUT /tutorials/:id': 'TutorialController.update',
   'PUT /tutorials/:id/rate': 'TutorialController.rateTutorial',
   'DELETE /tutorials/:id': 'TutorialController.deleteTutorial',
