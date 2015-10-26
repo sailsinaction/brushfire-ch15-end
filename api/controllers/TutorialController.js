@@ -250,7 +250,7 @@ module.exports = {
     return res.ok(); 
   },
 
-  update: function(req, res) {
+  updateTutorial: function(req, res) {
 
     return res.json({
       tutorial: {
