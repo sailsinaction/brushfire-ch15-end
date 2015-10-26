@@ -512,7 +512,6 @@ module.exports = {
 
     // Format the date the Tutorial was created into time ago (e.g. 10 days ago) format
     tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
-    tutorial.updatedAt = DatetimeService.getTimeAgo({ date: tutorial.updatedAt });
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
