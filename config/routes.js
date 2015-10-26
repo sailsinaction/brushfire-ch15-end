@@ -58,7 +58,7 @@ module.exports.routes = {
   'GET /tutorials/:id': 'PageController.tutorialDetail',
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
-  'GET /tutorials/:id/videos/edit': 'PageController.editVideo',
+  'GET /tutorials/:tutorialId/videos/:id/edit': 'PageController.editVideo',
   'GET /videos/:id/show': 'VideoController.showVideo',
 
   'GET /:username': 'PageController.profile',

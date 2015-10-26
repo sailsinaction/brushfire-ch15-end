@@ -545,6 +545,8 @@ module.exports = {
   editVideo: function(req, res) {
 
     var tutorial = {
+      // We need the `id` for the cancel back to the tutorial.
+      id: 1,
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
