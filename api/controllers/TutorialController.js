@@ -247,15 +247,7 @@ module.exports = {
 
   addVideo: function(req, res) {
 
-    return res.json({
-      video: {
-        tutorialId: req.param('id'),
-        title: req.param('title'),
-        src: req.param('src'),
-        minutes: req.param('minutes'),
-        seconds: req.param('seconds')
-      }
-    });
+    return res.ok(); 
   },
 
   update: function(req, res) {
