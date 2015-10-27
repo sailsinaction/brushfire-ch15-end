@@ -34,8 +34,33 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   // We need a max for the stars (i.e. 1 out of 5 stars)
   $scope.max = 5;
 
-  // Whether the user may change the  rating.
-  $scope.isReadonly = false;
+  // Hide change rating button initially
+  $scope.hideChangeRating=true;
+
+  // Checks to see if there's an existing rating for myRating
+  $http.get('/tutorials/'+$scope.fromUrlTutorialId+'/my-rating')
+  .then(function onSuccess(sailsResponse){
+
+    if (sailsResponse.data.myRating) {
+      $scope.isReadonly = true;
+      $scope.alreadyHasValue = true;
+      $scope.myStars=sailsResponse.data.myRating;
+      $scope.hideChangeRating=false;
+    } else {
+      $scope.hideChangeRating=true;
+      return;
+    }
+
+  })
+  .catch(function onError(sailsResponse){
+    console.error(sailsResponse);
+  })
+  .finally(function eitherWay(){
+
+  });
+
+
+
 
 /* 
   _____   ____  __  __   ______               _       
@@ -46,6 +71,13 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
  |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
 
 */
+
+  // Sets myRating to editable mode
+  $scope.changeRating = function() {
+    $scope.isReadonly = false;
+    $scope.alreadyHasValue = false;
+    $scope.hideChangeRating=true;
+  }
 
  // The number of stars currently being hovered over 
   $scope.hoveringOver = function(rating, tutorialId) {
@@ -72,6 +104,10 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     if ($scope.tutorialDetails.loading) {
       return;
     }
+
+    if ($scope.alreadyHasValue) {
+      return;
+    }
     $scope.tutorialDetails.loading = true;
     $http.put('/tutorials/' + $scope.tutorialId + '/rate', {
       rating: rating,
@@ -82,6 +118,11 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
       toastr.success('Your rating has been saved', 'Rating', {
           closeButton: true
         });
+
+      // Sets myRating to read-only
+      $scope.isReadonly = true;
+      $scope.alreadyHasValue = true;
+      $scope.hideChangeRating=false;
 
     })
     .catch(function onError(sailsResponse) {

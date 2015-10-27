@@ -229,9 +229,16 @@ module.exports = {
     });
   },
 
+  myRating: function(req, res) {
+
+    return res.json({
+      myRating: null
+    });
+  },
+
   rateTutorial: function(req, res) {
 
-      return res.ok();
+    return res.ok();
   },
 
   createTutorial: function(req, res) {

@@ -71,6 +71,9 @@
                   <li>
                     <span>myRating: <rating ng-model="myStars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, <%= tutorial.id %>)" on-leave="overStar = null" style="outline: none;"></rating></span>
                     <span ng-show="tutorialDetails.loading" class="fa fa-spinner"></span>
+                    <span ng-hide="hideChangeRating">
+                      <button ng-click="changeRating()" class="btn btn-primary btn-xs">change</button>
+                    </span>
                   </li>
                   <li>|</li>
                 <% } %>
