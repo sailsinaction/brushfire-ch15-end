@@ -224,17 +224,14 @@ module.exports = {
     return res.json({
       options: {
         totalTutorials: 30,
-        updatedTutorials: updatedTutorials        
+        updatedTutorials: updatedTutorials
       }
     });
   },
 
   rateTutorial: function(req, res) {
 
-      return res.json({
-        rating: req.param('rating'),
-        id: req.param('id')
-      });
+      return res.ok();
   },
 
   createTutorial: function(req, res) {
