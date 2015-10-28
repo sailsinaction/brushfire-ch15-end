@@ -29,7 +29,6 @@ module.exports = {
 
       return res.view('homepage', {
         me: {
-          email: user.email,
           username: user.username,
           gravatarURL: user.gravatarURL,
           admin: user.admin
