@@ -50,7 +50,7 @@ module.exports = {
 
           req.session.userId = createdUser.id;
 
-          return res.json();
+          return res.ok();
 
         }
       });
