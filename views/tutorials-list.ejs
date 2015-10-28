@@ -19,15 +19,15 @@
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-calendar"></i>  {{ tutorial.createdAt }}</span>
+                  <span>created </i>  {{ tutorial.createdAt }}</span>
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
+                  <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }} long</span>
                 </li>
                 <li>|</li>
                   <li>
-                    <span><rating ng-model="tutorial.stars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span> 
+                    <span>rating average: <rating ng-model="tutorial.stars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span> 
                   </li>
                   <li>|</li>
               </ul>
