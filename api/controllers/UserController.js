@@ -379,78 +379,7 @@ module.exports = {
     }
   },
 
-  // // Added chapter 10
-  // // If you the user hasn't logged in
-  // if (!req.session.userId) {
-  //   return res.forbidden('You are not permitted to perform this action.');
-  // }
-
-  // // Added chapter 10
-  // // Look up the user whose gravatar is being restored
-  // if (_.isUndefined(req.param('email'))) {
-  //   return res.badRequest('Malformed request.');
-  // }
-
-  // Added chapter 10
-  // Does the current user match the user whose gravatar is being restored?
-  //   User.findOne({email: req.param('email')}).exec(function(err, foundUser){
-
-  //     // If no user is found, send not found status.
-  //     if (!foundUser) {
-  //       return res.notFound();
-  //     }
-
-  //     if (err) {
-  //       return res.negotiate(err);
-  //     }
-
-  //     // If current user does not match found user send forbidden status.
-  //     var isMe = req.session.userId == foundUser.id;
-  //     if (!isMe) {
-  //       return res.forbidden('You are not permitted to perform this action.');
-  //     }
-
-  //     try {
-
-  //       var restoredGravatarURL = gravatarURL = Gravatar.getImageUrl({
-  //         emailAddress: req.param('email')
-  //       }).execSync();
-
-  //       return res.json(restoredGravatarURL);
-
-  //     } catch (err) {
-  //       return res.serverError(err);
-  //     }
-  //   });
-  // },
-
   updateProfile: function(req, res) {
-
-    // // Added chapter 10
-    // // If you the user hasn't logged in
-    // if (!req.session.userId) {
-    //   return res.forbidden('You are not permitted to perform this action.');
-    // }
-
-    // // Added Chapter 10
-    // // If current user does not match found user send forbidden status.
-    // var isMe = req.session.userId == req.param('id');
-    //   if (!isMe) {
-    //     return res.forbidden('You are not permitted to perform this action.');
-    //   }
-
-    //   User.update({
-    //     id: req.param('id')
-    //   }, {
-    //     gravatarURL: req.param('gravatarURL')
-    //   }, function(err, updatedUser) {
-
-    //     if (err) return res.negotiate(err);
-
-    //     return res.json(updatedUser);
-
-    //   });
-    // },
 
     User.update({
       id: req.session.userId
@@ -466,18 +395,6 @@ module.exports = {
   },
 
   changePassword: function(req, res) {
-
-    // // Added chapter 10
-    // // If you the user hasn't logged in
-    // if (!req.session.userId) {
-    //   return res.forbidden('You are not permitted to perform this action.');
-    // }
-
-    // // If current user does not match found user send forbidden status.
-    // var isMe = req.session.userId == req.param('id');
-    //   if (!isMe) {
-    //     return res.forbidden('You are not permitted to perform this action.');
-    //   }
 
     // Fallback to client-side required validation
     if (_.isUndefined(req.param('password'))) {
@@ -523,28 +440,6 @@ module.exports = {
     });
   },
 
-  // // Added Chapter 10
-  // if (!req.session.userId) return res.forbidden();
-
-  // Added Chapter 10
-  //   User.findOne({id: req.session.userId}).exec(function(err, foundUser){
-  //     if (err) return res.negotiate(err);
-  //     if (!foundUser) return res.notFound();
-
-  //     if (!foundUser.admin) {
-  //       return res.forbidden();
-  //     } else {
-  //       User.find().exec(function(err, users) {
-
-  //         if (err) return res.negotiate(err);
-
-  //         return res.json(users);
-
-  //       });
-  //     }
-  //   });
-  // },
-
   updateAdmin: function(req, res) {
 
     User.update(req.param('id'), {
@@ -557,35 +452,6 @@ module.exports = {
     });
   },
 
-  //   // Added chapter 10
-
-  //   // if (!req.session.userId) return res.forbidden();
-
-  //   // if (!req.session.userId) return res.forbidden();
-
-  //   if (_.isUndefined(req.param('id'))) return res.badRequest();
-
-  //   if (_.isUndefined(req.param('admin'))) return res.badRequest();
-
-  //   User.findOne({id: req.session.userId}).exec(function(err, foundUser){
-  //     if (err) return res.negotiate(err);
-  //     if (!foundUser) return res.notFound();
-
-  //     if (!foundUser.admin) {
-  //       return res.forbidden();
-  //     } else {
-  //       User.update(req.param('id'), {
-  //         admin: req.param('admin')
-  //       }).exec(function(err, update) {
-
-  //         if (err) return res.negotiate(err);
-
-  //         return res.ok();
-  //       });
-  //     }
-  //   });
-  // },
-
   updateBanned: function(req, res) {
     User.update(req.param('id'), {
       banned: req.param('banned')
@@ -595,32 +461,6 @@ module.exports = {
     });
   },
 
-  //   // Added chapter 10
-  //   if (!req.session.userId) return res.forbidden();
-
-  //   if (!req.session.userId) return res.forbidden();
-
-  //   if (_.isUndefined(req.param('id'))) return res.badRequest();
-
-  //   if (_.isUndefined(req.param('banned'))) return res.badRequest();
-
-  //   User.findOne({id: req.session.userId}).exec(function(err, foundUser){
-  //     if (err) return res.negotiate(err);
-  //     if (!foundUser) return res.notFound();
-
-  //     if (!foundUser.admin) {
-  //       return res.forbidden();
-  //     } else {
-  //       User.update(req.param('id'), {
-  //         banned: req.param('banned')
-  //       }).exec(function(err, update) {
-  //         if (err) return res.negotiate(err);
-  //         return res.ok();
-  //       });
-  //     }
-  //   });
-  // },
-
   updateDeleted: function(req, res) {
     User.update(req.param('id'), {
       deleted: req.param('deleted')
@@ -629,30 +469,4 @@ module.exports = {
       return res.ok();
     });
   }
-
-  // // Added chapter 10
-  // if (!req.session.userId) return res.forbidden();
-
-  // if (!req.session.userId) return res.forbidden();
-
-  // if (_.isUndefined(req.param('id'))) return res.badRequest();
-
-  // if (_.isUndefined(req.param('deleted'))) return res.badRequest();
-
-  // User.findOne({id: req.session.userId}).exec(function(err, foundUser){
-  //   if (err) return res.negotiate(err);
-  //   if (!foundUser) return res.notFound();
-
-  //   if (!foundUser.admin) {
-  //     return res.forbidden();
-  //   } else {
-  //     User.update(req.param('id'), {
-  //       deleted: req.param('deleted')
-  //     }).exec(function(err, update) {
-  //       if (err) return res.negotiate(err);
-  //       return res.ok();
-  //     });
-  //   }
-  // });
-  // }
 };
