@@ -38,6 +38,33 @@ module.exports = {
     });
   },
 
+  logout: function(req, res) {
+
+    if (!req.session.userId) {
+      return res.redirect('/');
+    }
+
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        console.log('error: ', err);
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.view('homepage');
+      }
+
+      return res.view('signout', {
+        me: {
+          username: user.username,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        }
+      });
+    });
+  },
+
   editProfile: function(req, res) {
 
     User.findOne(req.session.userId, function(err, user) {

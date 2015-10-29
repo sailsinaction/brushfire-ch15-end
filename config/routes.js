@@ -11,6 +11,7 @@ module.exports.routes = {
 
   'PUT /login': 'UserController.login',
   'POST /logout': 'UserController.logout',
+  'GET /logout': 'PageController.logout',
 
   'POST /user/signup': 'UserController.signup',
   'PUT /user/remove-profile': 'UserController.removeProfile',
