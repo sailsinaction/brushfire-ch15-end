@@ -102,7 +102,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
         // console.log('sailsResponse: ', sailsResponse);
         // $scope.userProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
         // window.location = '#/profile/' + $scope.editProfile.properties.id;
-        window.location='/' + sailsResponse.data[0].username;
+        window.location='/' + sailsResponse.data.username;
         // toastr.success('Password Updated!');
 
         $scope.editProfile.loading = false;

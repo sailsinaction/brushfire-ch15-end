@@ -391,8 +391,6 @@ module.exports = {
 
       if (err) return res.negotiate(err);
 
-      console.log(updatedUser[0].username);
-
       return res.json({
         username: updatedUser[0].username
       });
@@ -429,7 +427,8 @@ module.exports = {
           if (err) {
             return res.negotiate(err);
           }
-          return res.json(updatedUser);
+          return res.json({
+            username: updatedUser[0].username});
         });
       }
     });
