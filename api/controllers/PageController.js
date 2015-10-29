@@ -171,6 +171,7 @@ module.exports = {
         // (this is so we can render the logged-in navbar state, etc.)
         var me = {
           username: loggedInUser.username,
+          email: loggedInUser.email,
           gravatarURL: loggedInUser.gravatarURL,
           admin: loggedInUser.admin
         };
