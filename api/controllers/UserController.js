@@ -322,13 +322,6 @@ module.exports = {
 
   restoreProfile: function(req, res) {
 
-    // Added in chapter 10
-    // Must be authenticated
-    // if (!req.session.userId) {
-    //   return res.redirect('/');
-    // }
-
-
     User.findOne({
       email: req.param('email')
     }, function foundUser(err, user) {
@@ -359,7 +352,9 @@ module.exports = {
 
             req.session.userId = user.id;
 
-            return res.json(updatedUser);
+            return res.json({
+              username: updatedUser[0].username
+            });
           });
         }
       });
