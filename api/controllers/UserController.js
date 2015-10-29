@@ -66,9 +66,10 @@ module.exports = {
         return res.redirect('/');
       }
 
+      // log the user-agent out.
       req.session.userId = null;
 
-      return res.redirect('/');
+      return res.ok();
     });
   },
 

@@ -43,7 +43,7 @@
             <a href="/<%= me.username %>" class="pointer"> <%= me && me.username%></a>
           </li>
           <li>
-            <a href="/logout">sign-out</a>
+            <a ng-click="signout()">sign-out</a>
           </li>
         </ul>
       <% } %>

@@ -10,7 +10,7 @@ module.exports.routes = {
   *************************************************************/
 
   'PUT /login': 'UserController.login',
-  'GET /logout': 'UserController.logout',
+  'POST /logout': 'UserController.logout',
 
   'POST /user/signup': 'UserController.signup',
   'PUT /user/remove-profile': 'UserController.removeProfile',
