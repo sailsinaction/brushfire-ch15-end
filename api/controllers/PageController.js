@@ -70,7 +70,6 @@ module.exports = {
       owner: 'sails-in-action',
       id: 1,
       createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: 4
     }, {
@@ -79,7 +78,6 @@ module.exports = {
       owner: 'sails-in-action',
       id: 2,
       createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: 3
     }, {
@@ -88,7 +86,6 @@ module.exports = {
       owner: 'sails-in-action',
       id: 3,
       createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: 5
     }, {
@@ -97,14 +94,12 @@ module.exports = {
       owner: 'sails-in-action',
       id: 4,
       createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
       totalTime: '3h 22m',
       stars: 1
     }];
 
     var updatedTutorials = _.map(tutorials, function(tutorial){
       tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
-      tutorial.updatedAt = DatetimeService.getTimeAgo({ date: tutorial.updatedAt });
       return tutorial;
     });
 
@@ -127,7 +122,6 @@ module.exports = {
       if (!req.session.userId) {
         return res.view('profile', {
           me: null,
-          showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
           tutorials: updatedTutorials
@@ -149,18 +143,18 @@ module.exports = {
         // We'll provide `me` as a local to the profile page view.
         // (this is so we can render the logged-in navbar state, etc.)
         var me = {
-          email: loggedInUser.email,
           username: loggedInUser.username,
           gravatarURL: loggedInUser.gravatarURL,
           admin: loggedInUser.admin
         };
 
         // We'll provide the `isMe` flag to the profile page view
-        // if the logged-in user is the same as the user whose profile this is.
+        // if the logged-in user is the same as the user whose profile we looked up earlier.
         if (req.session.userId === foundByUsername.id) {
           me.isMe = true;
         }
         
+        // Return me property for the nav and the remaining properties for the profile page.
         return res.view('profile', {
           me: me,
           showAddTutorialButton: true,
@@ -168,7 +162,6 @@ module.exports = {
           gravatarURL: foundByUsername.gravatarURL,
           tutorials: updatedTutorials
         });
-        
       }); //</ User.findOne({id: req.session.userId})
     });// </find user by username>
   },

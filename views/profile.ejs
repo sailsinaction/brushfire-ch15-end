@@ -40,14 +40,14 @@
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-calendar"></i>  <%- tutorial.createdAt %></span>
+                  <span>created </i>  <%- tutorial.createdAt %></span>
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
+                  <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %> length</span>
                 </li>
                 <li>|</li>
-                <li>
+                <li> ratings average:
                   <% for (i = 0; i < tutorial.stars; i++) {  %>
                   <span class="fa fa-star"></span>
                   <% } %>
