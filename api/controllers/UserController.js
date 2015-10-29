@@ -311,7 +311,9 @@ module.exports = {
             req.session.userId = updatedUsers[0].id;
 
             // If successful return updatedUsers
-            return res.json({updatedUsers: updatedUsers});
+            return res.json({
+              updatedUsers: updatedUsers
+            });
           });
         }
       });
@@ -389,7 +391,11 @@ module.exports = {
 
       if (err) return res.negotiate(err);
 
-      return res.json(updatedUser);
+      console.log(updatedUser[0].username);
+
+      return res.json({
+        username: updatedUser[0].username
+      });
 
     });
   },

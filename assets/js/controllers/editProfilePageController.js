@@ -52,7 +52,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
 
         // Notice that the sailsResponse is an array and not a single object
         // The .update() model method returns an array and not a single record.
-        window.location = '/' + sailsResponse.data[0].username;
+        window.location = '/' + sailsResponse.data.username;
 
         $scope.editProfile.loading = false;
       })
