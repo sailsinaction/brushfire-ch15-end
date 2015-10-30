@@ -96,7 +96,7 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 1,
-      createdAt: '2015-09-27T16:32:55.000Z',
+      created: 'a month ago',
       totalTime: '3h 22m',
       stars: 4
     }, {
@@ -104,7 +104,7 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 2,
-      createdAt: '2015-09-27T16:32:55.000Z',
+      created: 'a month ago',
       totalTime: '3h 22m',
       stars: 3
     }, {
@@ -112,7 +112,7 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 3,
-      createdAt: '2015-09-27T16:32:55.000Z',
+      created: 'a month ago',
       totalTime: '3h 22m',
       stars: 5
     }, {
@@ -120,15 +120,10 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 4,
-      createdAt: '2015-09-27T16:32:55.000Z',
+      created: 'a month ago',
       totalTime: '3h 22m',
       stars: 1
     }];
-
-    var updatedTutorials = _.map(tutorials, function(tutorial){
-      tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
-      return tutorial;
-    });
 
     // Look up the user record for the `username` parameter
     User.findOne({
@@ -151,7 +146,7 @@ module.exports = {
           me: null,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
-          tutorials: updatedTutorials
+          tutorials: tutorials
         });
       }
 
@@ -188,7 +183,7 @@ module.exports = {
           showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
-          tutorials: updatedTutorials
+          tutorials: tutorials
         });
       }); //</ User.findOne({id: req.session.userId})
     });// </find user by username>
@@ -291,7 +286,7 @@ module.exports = {
         });
       }
 
-      return res.view('tutorials-list', {
+      return res.view('browse-tutorials-list', {
         me: {
           email: user.email,
           gravatarURL: user.gravatarURL,
@@ -311,8 +306,8 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 1,
-      createdAt: '2015-09-27T16:32:55.000Z',
-      updatedAt: '2015-10-07T14:57:12.000Z',
+      created: 'a month ago',
+      updated: 'a month ago',
       totalTime: '3h 22m',
       stars: 4,
       videos: [{
@@ -377,23 +372,6 @@ module.exports = {
         seconds: 22
       }]
     };
-
-      // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-      var Datetime = require('machinepack-datetime');
-      
-      var formatDate = function(date) {  
-        var niceTimeAgoString = Datetime.timeFrom({
-          toWhen: Datetime.parse({
-            datetime: date
-          }).execSync(),
-          fromWhen: new Date().getTime()
-        }).execSync();
-
-        return niceTimeAgoString;
-      };
-
-      tutorial.createdAt = formatDate(tutorial.createdAt);
-      tutorial.updatedAt = formatDate(tutorial.updatedAt);
 
     // If not logged in set `me` property to `null` and pass the tutorial to the view
     if (!req.session.userId) {
@@ -513,12 +491,9 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       id: 1,
-      createdAt: '2015-09-27T16:32:55.000Z',
+      created: 'a month ago',
       totalTime: '3h 22m',
     };
-
-    // Format the date the Tutorial was created into time ago (e.g. 10 days ago) format
-    tutorial.createdAt = DatetimeService.getTimeAgo({ date: tutorial.createdAt });
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
@@ -558,7 +533,7 @@ module.exports = {
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
-      createdAt: '2015-09-27T16:32:55.000Z',
+      created: 'a month ago',
       totalTime: '3h 22m',
       stars: 4,
       video: {
@@ -569,21 +544,6 @@ module.exports = {
       }
     };
 
-    // Format the date the Tutorial was created into time ago (e.g. 10 days ago)
-    var Datetime = require('machinepack-datetime');
-    
-    var formatDate = function(date) {  
-      var niceTimeAgoString = Datetime.timeFrom({
-        toWhen: Datetime.parse({
-          datetime: date
-        }).execSync(),
-        fromWhen: new Date().getTime()
-      }).execSync();
-
-      return niceTimeAgoString;
-    };
-
-    tutorial.createdAt = formatDate(tutorial.createdAt);
 
     User.findOne(req.session.userId, function(err, user) {
       if (err) {
