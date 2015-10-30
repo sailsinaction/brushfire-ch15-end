@@ -22,7 +22,6 @@ $scope.me = window.SAILS_LOCALS.me;
   $http.get('/user/admin-users')
   .then(function onSuccess(sailsResponse){
 
-    console.log('sailsResponse: ', sailsResponse);
     $scope.userList.contents = sailsResponse.data;
 
   })
@@ -43,7 +42,7 @@ $scope.me = window.SAILS_LOCALS.me;
  | |__| | |__| | |  | | | |___\ V /  __/ | | | |_\__ \
  |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
 
-*/ 
+*/
 
   $scope.saveAdmin = function(id, change){
 
@@ -56,13 +55,8 @@ $scope.me = window.SAILS_LOCALS.me;
       })
       .then(function onSuccess(sailsResponse) {
 
-        // Notice that the sailsResponse is an array and not a single object
-        // The .update() model method returns an array and not a single record.
-        // window.location = '#/profile/' + sailsResponse.data[0].id;
-
         // $scope.editProfile.loading = false;
         toastr.success('user record saved!','', { timeOut: 1000 });
-        console.log('sailsResponse: ', sailsResponse);
       })
       .catch(function onError(sailsResponse) {
         // console.log(sailsResponse);
@@ -87,15 +81,10 @@ $scope.me = window.SAILS_LOCALS.me;
       })
       .then(function onSuccess(sailsResponse) {
 
-        // Notice that the sailsResponse is an array and not a single object
-        // The .update() model method returns an array and not a single record.
-        // window.location = '#/profile/' + sailsResponse.data[0].id;
-
         // $scope.editProfile.loading = false;
         // toastr.options.fadeOut = 1000;
         // toastr.success('Successfully Saved!');
         toastr.success('user record saved!','', { timeOut: 1000 });
-        console.log('sailsResponse: ', sailsResponse);
       })
       .catch(function onError(sailsResponse) {
         // console.log(sailsResponse);
@@ -120,13 +109,8 @@ $scope.me = window.SAILS_LOCALS.me;
       })
       .then(function onSuccess(sailsResponse) {
 
-        // Notice that the sailsResponse is an array and not a single object
-        // The .update() model method returns an array and not a single record.
-        // window.location = '#/profile/' + sailsResponse.data[0].id;
-
         // $scope.editProfile.loading = false;
         toastr.success('user record saved!','', { timeOut: 1000 });
-        console.log('sailsResponse: ', sailsResponse);
       })
       .catch(function onError(sailsResponse) {
         // console.log(sailsResponse);

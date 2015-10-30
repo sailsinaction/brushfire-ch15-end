@@ -435,8 +435,24 @@ module.exports = {
 
       if (err) return res.negotiate(err);
 
-      return res.json(users);
+      if (users.length === 0) return res.notFound();
 
+      var updatedUsers = _.map(users, function(user){
+
+        user = {
+          id: user.id,
+          gravatarURL: user.gravatarURL,
+          username: user.username,
+          email: user.email,
+          admin: user.admin,
+          banned: user.banned,
+          deleted: user.deleted,
+        };
+
+        return user;
+      });
+
+      return res.json(updatedUsers);
     });
   },
 

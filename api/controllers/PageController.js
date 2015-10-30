@@ -228,21 +228,11 @@ module.exports = {
         return res.view('homepage');
       }
 
-      if (user.admin) {
+      if (!user.admin) {
+        return res.redirect('/');
+      } else {
         return res.view('administration', {
           me: {
-            email: user.email,
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
-          showAddTutorialButton: true
-        });
-      } else {
-        return res.view('homepage', {
-          me: {
-            id: user.id,
-            email: user.email,
             username: user.username,
             gravatarURL: user.gravatarURL,
             admin: user.admin
