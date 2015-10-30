@@ -59,7 +59,7 @@ module.exports.policies = {
     updateBanned: ['isLoggedIn', 'isAdmin'],
     updateDeleted: ['isLoggedIn', 'isAdmin'],
     generateRecoveryEmail:['isLoggedOut'],
-    resetPassword:['isLoggedIn']
+    resetPassword:['isLoggedOut']
   },
 
   VideosController: {

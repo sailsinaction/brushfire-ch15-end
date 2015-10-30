@@ -24,7 +24,7 @@ angular.module('brushfire').controller('passwordRecoveryPageController', ['$scop
  | |__| | |__| | |  | | | |___\ V /  __/ | | | |_\__ \
  |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
 
-*/ 
+*/
 
   $scope.recoverPassword = function() {
     
@@ -34,11 +34,18 @@ angular.module('brushfire').controller('passwordRecoveryPageController', ['$scop
       email: $scope.passwordRecoveryForm.email
     })
     .then(function onSuccess(sailsResponse){
-      console.log(sailsResponse);
 
       window.location = '/password-recovery-email-sent';
     })
     .catch(function onError(sailsResponse) {
+
+      if (sailsResponse.status === 404) {
+          
+        toastr.error('There isn\'s an account with that email address.', 'Error', {
+          closeButton: true
+        });
+        return;
+      }
       
       console.error(sailsResponse);
 

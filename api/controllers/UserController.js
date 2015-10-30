@@ -312,7 +312,7 @@ module.exports = {
 
             // If successful return updatedUsers
             return res.json({
-              updatedUsers: updatedUsers
+              username: updatedUsers[0].username
             });
           });
         }
