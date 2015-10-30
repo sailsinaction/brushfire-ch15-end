@@ -47,8 +47,8 @@
         <td> {{user.username}} </td>
         <td> {{user.email}} </td>
         <td> <input type="checkbox" ng-model="user.admin" ng-click="saveAdmin(user.id, user.admin)"> </td>
-        <td> <input type="checkbox" ng-model="user.banned" ng-click="saveBanned(user.id, user.banned)"> </td>
-        <td> <input type="checkbox" ng-model="user.deleted" ng-click="saveDeleted(user.id, user.deleted)"> </td>
+        <td> <input type="checkbox" ng-disabled = "userList.loading" ng-model="user.banned" ng-click="saveBanned(user.id, user.banned)"> </td>
+        <td> <input type="checkbox" ng-disabled = "userList.loading" ng-model="user.deleted" ng-click="saveDeleted(user.id, user.deleted)"> </td>
       </table>
     </div>
   </div>

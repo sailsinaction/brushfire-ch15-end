@@ -48,6 +48,8 @@ $scope.me = window.SAILS_LOCALS.me;
 
     var theRoute = '/user/update-admin/' + id;
 
+    $scope.userList.loading = true;
+
     // Submit PUT request to Sails.
     $http.put(theRoute, {
         id: id,
@@ -55,7 +57,6 @@ $scope.me = window.SAILS_LOCALS.me;
       })
       .then(function onSuccess(sailsResponse) {
 
-        // $scope.editProfile.loading = false;
         toastr.success('user record saved!','', { timeOut: 1000 });
       })
       .catch(function onError(sailsResponse) {
@@ -65,12 +66,14 @@ $scope.me = window.SAILS_LOCALS.me;
 
       })
       .finally(function eitherWay() {
-        $scope.editProfile.loading = false;
+        $scope.userList.loading = false;
       });
 
   };
 
   $scope.saveBanned = function(id, change){
+
+    $scope.userList.loading = true;
 
     var theRoute = '/user/update-banned/' + id;
 
@@ -93,7 +96,7 @@ $scope.me = window.SAILS_LOCALS.me;
 
       })
       .finally(function eitherWay() {
-        $scope.editProfile.loading = false;
+        $scope.userList.loading = false;
       });
 
   };
@@ -101,6 +104,8 @@ $scope.me = window.SAILS_LOCALS.me;
   $scope.saveDeleted = function(id, change){
 
     var theRoute = '/user/update-deleted/' + id;
+
+    $scope.userList.loading = true;
 
     // Submit PUT request to Sails.
     $http.put(theRoute, {
@@ -119,7 +124,7 @@ $scope.me = window.SAILS_LOCALS.me;
 
       })
       .finally(function eitherWay() {
-        $scope.editProfile.loading = false;
+        $scope.userList.loading = false;
       });
 
   };
