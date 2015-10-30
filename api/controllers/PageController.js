@@ -274,7 +274,7 @@ module.exports = {
 
     // If not logged in set `me` property to `null` and pass tutorials to the view
     if (!req.session.userId) {
-      return res.view('tutorials-list', {
+      return res.view('browse-tutorials-list', {
         me: null
       });
     }

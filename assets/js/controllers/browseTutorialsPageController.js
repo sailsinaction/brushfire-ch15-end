@@ -1,4 +1,4 @@
-angular.module('brushfire').controller('tutorialsListPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr){
+angular.module('brushfire').controller('browseTutorialsPageController', ['$scope', '$http', 'toastr', function($scope, $http, toastr){
 
   /*
    ____          _____                _           
