@@ -37,7 +37,7 @@
                         <span class="input-group-addon">
                           <i class="fa fa-envelope" style="font-size: 1.5em"> email:</i>
                         </span>
-                        <input ng-model="signupForm.email" style="font-size: 1.5em" class="form-control" placeholder="nikola@tesla.com" name="email" type="email" required>
+                        <input ng-model="signupForm.email" autofocus style="font-size: 1.5em" class="form-control" placeholder="nikola@tesla.com" name="email" type="email" required>
                       </div>
                         <span class="help-block has-error" ng-if="signup.email.$dirty">
                           <span ng-show="signup.email.$error.required" style="font-size: 1.5em">Email address is required.</span>

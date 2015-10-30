@@ -26,7 +26,7 @@
           <form ng-submit="updateProfile()">
             <div class="control-group form-group col-md-12">
               <label>Your Gravatar Url</label>
-              <input type="text" class="form-control" name="name" ng-model="me.gravatarURL">
+              <input type="text" class="form-control" autofocus name="name" ng-model="me.gravatarURL">
               <!-- <img ng-src="{{editProfile.properties.gravatarURL}}"/> -->
               <img class="center-block gravatar-edit" ng-src="{{me.gravatarURL}}"/>
             </div>

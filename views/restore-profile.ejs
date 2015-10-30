@@ -8,7 +8,7 @@
         <span class="input-group-addon">
           <i class="fa fa-envelope" style="font-size: 1.5em"> email:</i>
         </span>
-        <input ng-model="restoreProfileForm.email" style="font-size: 1.5em" class="form-control"  placeholder="nikola@tesla.com" name="email" type="email"  required>
+        <input ng-model="restoreProfileForm.email" autofocus style="font-size: 1.5em" class="form-control"  placeholder="nikola@tesla.com" name="email" type="email"  required>
       </div>
       <span class="help-block has-error" ng-if="restoreprofile.email.$dirty">
         <span ng-show="restoreprofile.email.$error.required" style="font-size: 1.5em">Email address is required.</span>
