@@ -99,8 +99,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
       })
       .then(function onSuccess(sailsResponse) {
 
-        // console.log('sailsResponse: ', sailsResponse);
-        // $scope.userProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
+    
         // window.location = '#/profile/' + $scope.editProfile.properties.id;
         window.location='/' + sailsResponse.data.username;
         // toastr.success('Password Updated!');
@@ -108,7 +107,7 @@ angular.module('brushfire').controller('editProfilePageController', ['$scope', '
         $scope.editProfile.loading = false;
       })
       .catch(function onError(sailsResponse) {
-        // console.log('sailsresponse: ', sailsResponse)
+        
         // Otherwise, display generic error if the error is unrecognized.
         $scope.editProfile.changePassword.errorMsg = 'An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status);
 

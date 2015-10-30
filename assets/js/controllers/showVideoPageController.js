@@ -9,6 +9,5 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
   $scope.fromUrlTutorialId = window.location.pathname.split('/')[2];
 
   $scope.me = window.SAILS_LOCALS.me;
-
   
 }]);

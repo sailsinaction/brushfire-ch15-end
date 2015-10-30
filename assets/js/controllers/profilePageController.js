@@ -40,6 +40,8 @@ angular.module('brushfire').controller('profilePageController', ['$scope', '$htt
 
   $scope.removeProfile = function() {
 
+    $scope.userProfile.loading = true;
+
     // var theRoute = '/user/removeProfile/' + $scope.userProfile.properties.id;
     // var theRoute = '/user/removeProfile/' + $scope.me.id;
     // var theRoute = '/user/removeProfile';
@@ -47,23 +49,18 @@ angular.module('brushfire').controller('profilePageController', ['$scope', '$htt
         deleted: true
       })
       .then(function onSuccess(sailsResponse) {
-
-        // console.log('sailsResponse: ', sailsResponse);
-          // $scope.userProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
-          window.location = '/profile/restore';
-          // 
-          // toastr.success('Password Updated!');
-
-        $scope.userProfile.loading = false;
+        // $scope.userProfile.properties.gravatarURL = sailsResponse.data.gravatarURL;
+        window.location = '/profile/restore';
+        // 
+        // toastr.success('Password Updated!');
       })
       .catch(function onError(sailsResponse) {
-        // console.log('sailsresponse: ', sailsResponse)
         // Otherwise, display generic error if the error is unrecognized.
         $scope.userProfile.errorMsg = 'An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status);
 
       })
       .finally(function eitherWay() {
-        $scope.loading = false;
+        $scope.userProfile.loading = false;
       });
   };
 }]);
