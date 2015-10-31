@@ -27,12 +27,11 @@ angular.module('brushfire').controller('tutorialsDetailNewPageController', ['$sc
 
 */
 
-  $scope.createTutorial = function(username) {
+  $scope.createTutorial = function() {
 
     $scope.tutorialDetailsNew.loading = true;
 
     $http.post('/tutorials', {
-      username: username,
       title: $scope.tutorialDetailsNew.title,
       description: $scope.tutorialDetailsNew.description
     })
