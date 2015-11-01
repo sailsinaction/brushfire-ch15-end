@@ -15,7 +15,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 1,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -23,7 +23,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 2,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 3
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -31,7 +31,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 3,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -39,7 +39,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 4,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 1
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -47,7 +47,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 5,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -55,7 +55,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 6,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 2
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -63,7 +63,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 7,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -71,7 +71,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 8,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -79,7 +79,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 9,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -87,7 +87,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 10,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }];
 
@@ -110,7 +110,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 1,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -118,7 +118,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 2,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 3
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -126,7 +126,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 3,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -134,7 +134,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 4,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 1
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -142,7 +142,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 5,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -150,7 +150,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 6,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 2
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -158,7 +158,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 7,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -166,7 +166,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 8,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -174,7 +174,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 9,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -182,7 +182,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 10,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }];
 

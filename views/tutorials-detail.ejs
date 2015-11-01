@@ -59,7 +59,11 @@
                 </li>
                 <li>|</li>
                 <li>
-                  <span><i class="fa fa-video-camera"></i>  <%= tutorial.totalTime %> long</span>
+                  <% if (!tutorial.totalTime) { %>
+                    <span><i class="fa fa-video-camera"></i> no length set</span>
+                  <% } else { %>
+                    <span><i class="fa fa-video-camera"></i>  <%= tutorial.totalTime %></span>
+                  <% } %>
                 </li>
                 <li>|</li>
                 <li>
@@ -95,7 +99,7 @@
               <li><%= i + 1 %> - <%= video.title %>
                 <ul class="list-inline  pull-right">
                   <li>
-                    <span class="fa fa-video-camera"> <%= video.minutes %>m <%= video.seconds %>s
+                    <span class="fa fa-video-camera"> <%= video.totalTime %></span>
                   </li>
                   <% if (me && me.isMe) { %>
                     <li><button ng-click="editVideo($event, <%= video.id %>)">edit</button></li>

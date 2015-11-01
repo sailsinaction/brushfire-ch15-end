@@ -97,7 +97,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 1,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -105,7 +105,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 2,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 3
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -113,7 +113,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 3,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 5
     }, {
       title: 'The best of Douglas Crockford on JavaScript.',
@@ -121,7 +121,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 4,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 1
     }];
 
@@ -308,68 +308,58 @@ module.exports = {
       id: 1,
       created: 'a month ago',
       updated: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4,
       videos: [{
         id: 55,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 23,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 34,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 64,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 95,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 106,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 73,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 88,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 96,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }, {
         id: 108,
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
         src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        minutes: 10,
-        seconds: 22
+        totalTime: '1h 1m 2s'
       }]
     };
 
@@ -492,7 +482,7 @@ module.exports = {
       owner: 'sails-in-action',
       id: 1,
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
     };
 
     User.findOne(req.session.userId, function(err, user) {
@@ -534,7 +524,7 @@ module.exports = {
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sails-in-action',
       created: 'a month ago',
-      totalTime: '3h 22m',
+      totalTime: '3h 22m 23s',
       stars: 4,
       video: {
         title: 'Crockford on JavaScript - Volume 1: The Early Years',
