@@ -47,6 +47,10 @@ module.exports = {
       type: 'string'
     },
 
+    tutorials: {
+      type: 'json'
+    },
+
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;
