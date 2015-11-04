@@ -300,118 +300,123 @@ module.exports = {
 
   tutorialDetail: function(req, res) {
 
-    // Fake tutorials detail dictionary 
-    var tutorial = {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 1,
-      created: 'a month ago',
-      updated: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4,
-      videos: [{
-        id: 55,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 23,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 34,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 64,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 95,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 106,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 73,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 88,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 96,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }, {
-        id: 108,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        totalTime: '1h 1m 2s'
-      }]
-    };
+    // // Fake tutorials detail dictionary 
+    // var tutorial = {
+    //   title: 'The best of Douglas Crockford on JavaScript.',
+    //   description: 'Understanding JavaScript the good parts, and more.',
+    //   owner: 'sails-in-action',
+    //   id: 1,
+    //   created: 'a month ago',
+    //   updated: 'a month ago',
+    //   totalTime: '3h 22m 23s',
+    //   stars: 4,
+    //   videos: [{
+    //     id: 55,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 23,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 34,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 64,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 95,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 106,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 73,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 88,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 96,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }, {
+    //     id: 108,
+    //     title: 'Crockford on JavaScript - Volume 1: The Early Years',
+    //     src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+    //     totalTime: '1h 1m 2s'
+    //   }]
+    // };
 
-    // If not logged in set `me` property to `null` and pass the tutorial to the view
-    if (!req.session.userId) {
-      return res.view('tutorials-detail', {
-        me: null,
-        stars: tutorial.stars,
-        tutorial: tutorial
+    Tutorial.findOne(req.param('id')).exec(function(err, tutorial){
+      if (err) return res.negotiate(err);
+      if (!tutorial) return res.notFound();
+
+      // If not logged in set `me` property to `null` and pass the tutorial to the view
+      if (!req.session.userId) {
+        return res.view('tutorials-detail', {
+          me: null,
+          stars: tutorial.stars,
+          tutorial: tutorial
+        });
+      }
+
+      User.findOne(req.session.userId, function(err, user) {
+        if (err) {
+          return res.negotiate(err);
+        }
+
+        if (!user) {
+          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+          return res.view('tutorials-detail', {
+            me: null
+          });
+        }
+
+        // We'll provide `me` as a local to the profile page view.
+        // (this is so we can render the logged-in navbar state, etc.)
+        var me = {
+          gravatarURL: user.gravatarURL,
+          username: user.username,
+          admin: user.admin
+        };
+
+        if (user.username === tutorial.owner) {
+          me.isMe = true;
+
+          return res.view('tutorials-detail', {
+            me: me,
+            stars: tutorial.stars,
+            tutorial: tutorial
+          });
+
+        } else {
+          return res.view('tutorials-detail', {
+            me: {
+              gravatarURL: user.gravatarURL,
+              username: user.username,
+              admin: user.admin
+            },
+            stars: tutorial.stars,
+            tutorial: tutorial
+          });
+        }
       });
-    }
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('tutorials-detail', {
-          me: null
-        });
-      }
-
-      // We'll provide `me` as a local to the profile page view.
-      // (this is so we can render the logged-in navbar state, etc.)
-      var me = {
-        gravatarURL: user.gravatarURL,
-        username: user.username,
-        admin: user.admin
-      };
-
-      if (user.username === tutorial.owner) {
-        me.isMe = true;
-
-        return res.view('tutorials-detail', {
-          me: me,
-          stars: tutorial.stars,
-          tutorial: tutorial
-        });
-
-      } else {
-        return res.view('tutorials-detail', {
-          me: {
-            gravatarURL: user.gravatarURL,
-            username: user.username,
-            admin: user.admin
-          },
-          stars: tutorial.stars,
-          tutorial: tutorial
-        });
-      }
     });
   },
 
