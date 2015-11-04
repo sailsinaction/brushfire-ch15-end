@@ -1,4 +1,4 @@
-<div ng-controller="profilePageController" ng-cloak ng-hide="loading">
+<div ng-controller="profilePageController" ng-cloak>
   <div class="row">
     <div class="col-md-3">
       <img class="gravatarImage" src="<%= gravatarURL %>" >
@@ -15,53 +15,61 @@
     <% } %>
     </div>
   </div>
-  <div class="container">
+  <div class="container" ng-cloak>
     <% if (me && me.isMe ) { %>
       <h1>My Tutorials</h1>
+      <% if (tutorials.length === 0) { %>
+        <p style="font-size: 1.5em"> you don’t have any videos yet, want to <a href="/tutorials/new">add</a> one? </p>
+      <% } %>
     <% } else { %>
       <h1><%= username %>'s Tutorials</h1>
+      <% if (tutorials.length === 0) { %>
+        <p> ...no videos yet.</p>
+      <% } %>
     <% } %>
-    <div class="row">
-      <div class="well">
-        <div class="list-group">
-          <% _.forEach(tutorials, function(tutorial){ %>
-          <a href="/tutorials/<%= tutorial.id %>" class="list-group-item tutorials-list">
-            <div class="col-md-11" style="margin-top: 25px">
-              <h3 class="list-group-item-heading">
-              <%- tutorial.title %>
-              </h3>
-              <p class="list-group-item-text" style="font-size: 1.2em">
-                <%- tutorial.description %>
-              </p>
-              <ul class="list-inline list-unstyled">
-                <li>|</li>
-                <li>
-                  <span>by: <i class="fa fa-user"></i>  <%- tutorial.owner %></span>
-                </li>
-                <li>|</li>
-                <li>
-                  <span>created </i>  <%- tutorial.created %></span>
-                </li>
-                <li>|</li>
-                <li>
-                  <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
-                </li>
-                <li>|</li>
-                <li> ratings average:
-                  <% for (i = 0; i < tutorial.stars; i++) {  %>
-                  <span class="fa fa-star"></span>
-                  <% } %>
-                  <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
-                  <span class="fa fa-star-o"></span>
-                  <% } %>
-                </li>
-                <li>|</li>
-              </ul>
-            </div>
-          </a>
-          <% }) %>
+    <% if (tutorials.length !== 0) { %>
+      <div class="row">
+        <div class="well">
+          <div class="list-group">
+            <% _.forEach(tutorials, function(tutorial){ %>
+            <a href="/tutorials/<%= tutorial.id %>" class="list-group-item tutorials-list">
+              <div class="col-md-11" style="margin-top: 25px">
+                <h3 class="list-group-item-heading">
+                <%- tutorial.title %>
+                </h3>
+                <p class="list-group-item-text" style="font-size: 1.2em">
+                  <%- tutorial.description %>
+                </p>
+                <ul class="list-inline list-unstyled">
+                  <li>|</li>
+                  <li>
+                    <span>by: <i class="fa fa-user"></i>  <%- tutorial.owner %></span>
+                  </li>
+                  <li>|</li>
+                  <li>
+                    <span>created </i>  <%- tutorial.created %></span>
+                  </li>
+                  <li>|</li>
+                  <li>
+                    <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
+                  </li>
+                  <li>|</li>
+                  <li> ratings average:
+                    <% for (i = 0; i < tutorial.stars; i++) {  %>
+                    <span class="fa fa-star"></span>
+                    <% } %>
+                    <% for (i = 0; i < 5-tutorial.stars; i++) {  %>
+                    <span class="fa fa-star-o"></span>
+                    <% } %>
+                  </li>
+                  <li>|</li>
+                </ul>
+              </div>
+            </a>
+            <% }) %>
+          </div>
         </div>
       </div>
-    </div>
+    <% } %>
   </div>
 </div>
