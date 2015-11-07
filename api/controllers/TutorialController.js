@@ -232,10 +232,10 @@ module.exports = {
       Tutorial.create({
         title: req.param('title'),
         description: req.param('description'),
-        owner: foundUser.username,
-        videos: []
+        owner: { username: foundUser.username},
+        // videos: []
       }).exec(function(err, createdTutorial){
-        if (err) return res.negotate(err);
+        if (err) return res.negotiate(err);
 
         // Update the user to contain the new tutorial
         foundUser.tutorials = [];
@@ -265,7 +265,58 @@ module.exports = {
 
   updateTutorial: function(req, res) {
 
-    return res.ok();
+    // Validate parameters
+    if (!_.isString(req.param('title'))) {
+      return res.badRequest();
+    }
+
+    if (!_.isString(req.param('description'))) {
+      return res.badRequest();
+    }
+
+    // Update the tutorial coercing the incoming id from a string to an integer using the unary `+` 
+    Tutorial.update({
+      id: +req.param('id')
+    }).set({
+      title: req.param('title'),
+      description: req.param('description')
+    }).exec(function (err) {
+      if (err) return res.negotiate(err);
+
+      // Propagate updates to embedded (i.e. cached) arrays of tutorials on our user records.
+      User.find().exec(function (err, users) {
+        if (err) { return res.negotiate(err); }
+
+        async.each(users, function (user, next){
+
+          // If this user does not have the tutorial that is being updated,
+          // move on to the next user.
+          var cachedTutorial = _.find(user.tutorials, { id: +req.param('id') });
+
+          // Otherwise, keep move on to the next user.
+          if (!cachedTutorial) {
+            return next();
+          }
+
+          // Otherwise, this user has the cached version of our tutorial.
+          // So we'll change the `tutorials` array and save it back to the db.
+          cachedTutorial.title = req.param('title');
+          cachedTutorial.description = req.param('description');
+          // console.log('Updating user record with new tutorials array:',tutorials);
+          User.update({
+            id: user.id
+          }).set({
+            tutorials: user.tutorials
+          }).exec(function (err) {
+            if (err) { return next(err); }
+            return next();
+          });
+        }, function (err) {
+          if (err) {return res.negotiate(err);}
+          return res.ok();
+        });
+      });
+    });
   },
 
   updateVideo: function(req, res) {

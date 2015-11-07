@@ -16,22 +16,18 @@ module.exports = {
     description: {
       type: 'string'
     },
-    
-    stars: {
-      type: 'integer'
-    },
+
+    // stars: {
+    //   type: 'integer'
+    // },
 
     owner: {
-      type: 'string'
-    },
-
-    totalTime: {
-      type: 'string'
-    },
-
-    videos: {
       type: 'json'
     }
+
+    // videos: {
+    //   type: 'json'
+    // }
   }
 };
 

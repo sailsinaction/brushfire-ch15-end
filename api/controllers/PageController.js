@@ -91,39 +91,39 @@ module.exports = {
 
   profile: function(req, res) {
 
-    var tutorials = [{
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 1,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 2,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 3
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 3,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 4,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 1
-    }];
+    // var tutorials = [{
+    //   title: 'The best of Douglas Crockford on JavaScript.',
+    //   description: 'Understanding JavaScript the good parts, and more.',
+    //   owner: 'sails-in-action',
+    //   id: 1,
+    //   created: 'a month ago',
+    //   totalTime: '3h 22m 23s',
+    //   stars: 4
+    // }, {
+    //   title: 'The best of Douglas Crockford on JavaScript.',
+    //   description: 'Understanding JavaScript the good parts, and more.',
+    //   owner: 'sails-in-action',
+    //   id: 2,
+    //   created: 'a month ago',
+    //   totalTime: '3h 22m 23s',
+    //   stars: 3
+    // }, {
+    //   title: 'The best of Douglas Crockford on JavaScript.',
+    //   description: 'Understanding JavaScript the good parts, and more.',
+    //   owner: 'sails-in-action',
+    //   id: 3,
+    //   created: 'a month ago',
+    //   totalTime: '3h 22m 23s',
+    //   stars: 5
+    // }, {
+    //   title: 'The best of Douglas Crockford on JavaScript.',
+    //   description: 'Understanding JavaScript the good parts, and more.',
+    //   owner: 'sails-in-action',
+    //   id: 4,
+    //   created: 'a month ago',
+    //   totalTime: '3h 22m 23s',
+    //   stars: 1
+    // }];
 
     // Look up the user record for the `username` parameter
     User.findOne({
@@ -146,7 +146,7 @@ module.exports = {
           me: null,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
-          tutorials: tutorials
+          tutorials: foundByUsername.tutorials
         });
       }
 
@@ -183,7 +183,7 @@ module.exports = {
           showAddTutorialButton: true,
           username: foundByUsername.username,
           gravatarURL: foundByUsername.gravatarURL,
-          tutorials: tutorials
+          tutorials: foundByUsername.tutorials
         });
       }); //</ User.findOne({id: req.session.userId})
     });// </find user by username>
@@ -444,37 +444,35 @@ module.exports = {
 
   editTutorial: function(req, res) {
 
-    // Fake tutorials detail dictionary 
-    var tutorial = {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 1
-    };
+    Tutorial.findOne({id: req.param('id')}).exec(function (err, tutorial){
+      if (err) return res.negotiate(err);
 
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
+      if (!tutorial) return res.notFound();
 
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/tutorials');
-      }
+      User.findOne(req.session.userId, function(err, user) {
+        if (err) {
+          return res.negotiate(err);
+        }
 
-      if (user.username !== tutorial.owner) {
+        if (!user) {
+          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+          return res.redirect('/tutorials');
+        }
 
-        return res.redirect('/tutorials/'+tutorial.id);
+        if (user.username !== tutorial.owner) {
 
-      }
+          return res.redirect('/tutorials/'+tutorial.id);
 
-      return res.view('tutorials-detail-edit', {
-        me: {
-          gravatarURL: user.gravatarURL,
-          username: user.username,
-          admin: user.admin
-        },
-        tutorial: tutorial
+        }
+
+        return res.view('tutorials-detail-edit', {
+          me: {
+            gravatarURL: user.gravatarURL,
+            username: user.username,
+            admin: user.admin
+          },
+          tutorial: tutorial
+        });
       });
     });
   },
