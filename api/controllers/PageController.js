@@ -164,12 +164,13 @@ module.exports = {
       .exec(function(err, tutorials){
 
         _.each(tutorials, function(tutorial){
+          
+          // Format the createdAt attributes and assign them to the tutorial
+          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
 
           var totalSeconds = 0;
           _.each(tutorial.videos, function(video){
 
-            // Format the createdAt attributes and assign them to the tutorial
-            tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
 
             // Total the number of seconds for all videos for tutorial total time
             totalSeconds = totalSeconds + video.lengthInSeconds;
