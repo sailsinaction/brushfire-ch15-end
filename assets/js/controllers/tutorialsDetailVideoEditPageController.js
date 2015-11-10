@@ -28,6 +28,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
 
   $scope.title = $scope.tutorial.video.title;
   $scope.src = $scope.tutorial.video.src;
+  $scope.hours = $scope.tutorial.video.hours;
   $scope.minutes = $scope.tutorial.video.minutes;
   $scope.seconds = $scope.tutorial.video.seconds;
 
@@ -79,6 +80,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
     $http.put('/videos/'+$scope.fromUrlTutorialId, {
       title: $scope.title,
       src: $scope.src,
+      hours: $scope.hours,
       minutes: $scope.minutes,
       seconds: $scope.seconds
     })

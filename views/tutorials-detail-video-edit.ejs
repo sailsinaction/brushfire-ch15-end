@@ -39,7 +39,7 @@
             </li>
             <li>|</li>
             <li>
-              <span><%= tutorial.totalTime %></span>
+              <span> <%= tutorial.totalTime %></span>
             </li>
             <li>|</li>
             <li>
@@ -87,13 +87,13 @@
 
             <!-- How long is this video? -->
             <label for="lengthMin">How long is this video?</label>
+
+            <input type="number" class="form-control" id="lengthHours" placeholder="hours" ng-model="hours" name="hours" required>
             
             <input type="text" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes" name="minutes" required>
-            <strong> minutes </strong>
 
             <div class="form-group" ng-class="{'has-error':editVideo.seconds.$invalid &&editVideo.seconds.$dirty}">
               <input type="text" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds" name="seconds" required>
-              <strong> seconds </strong>
             </div>
             <span class="help-block has-error" ng-if="editVideo.minutes.$dirty">
                     <span ng-show="editVideo.minutes.$error.required" style="font-size: 1.5em; color: red">A number must be entered for this field.</span>

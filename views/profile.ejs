@@ -19,7 +19,7 @@
     <% if (me && me.isMe ) { %>
       <h1>My Tutorials</h1>
       <% if (tutorials.length === 0) { %>
-        <p style="font-size: 1.5em"> you don’t have any videos yet, want to <a href="/tutorials/new">add</a> one? </p>
+        <p style="font-size: 1.5em"> you don’t have any tutorials yet, want to <a href="/tutorials/new">add</a> one? </p>
       <% } %>
     <% } else { %>
       <h1><%= username %>'s Tutorials</h1>
@@ -43,7 +43,7 @@
                 <ul class="list-inline list-unstyled">
                   <li>|</li>
                   <li>
-                    <span>by: <i class="fa fa-user"></i>  <%- tutorial.owner %></span>
+                    <span>by: <i class="fa fa-user"></i>  <%- tutorial.owner.username %></span>
                   </li>
                   <li>|</li>
                   <li>

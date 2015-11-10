@@ -39,7 +39,11 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
             </li>
             <li>|</li>
             <li>
-              <span><%= tutorial.totalTime %></span>
+              <% if (!tutorial.totalTime) { %>
+                <span><i class="fa fa-video-camera"></i> no length set</span>
+              <% } else { %>
+                <span><i class="fa fa-video-camera"></i>  <%= tutorial.totalTime %></span>
+              <% } %>
             </li>
             <li>|</li>
             <li>
@@ -85,13 +89,14 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
                 <div class="form-inline">
                   <!-- How long is this video? -->
                   <label for="lengthMin">How long is this video?</label>
+
+                  <input type="number" class="form-control" id="lengthHours" placeholder="hours" ng-model="hours" name="hours" required>
                   
-                  <input type="number" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes" name="minutes" required>
-                  <strong> minutes </strong>              
+                  <input type="number" class="form-control" id="lengthMin" placeholder="minutes" ng-model="minutes" name="minutes" required>              
                   
                   <div class="form-group" ng-class="{'has-error':addVideo.seconds.$invalid &&addVideo.seconds.$dirty}">
                     <input type="number" class="form-control" id="lengthSec" placeholder="seconds" ng-model="seconds" name="seconds" required>
-                    <strong> seconds </strong>
+                    
                   </div>
                   <span class="help-block has-error" ng-if="addVideo.minutes.$dirty">
                     <span ng-show="addVideo.minutes.$error.required" style="font-size: 1.5em; color: red">A number must be entered for this field.</span>

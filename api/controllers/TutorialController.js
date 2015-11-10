@@ -232,35 +232,75 @@ module.exports = {
       Tutorial.create({
         title: req.param('title'),
         description: req.param('description'),
-        owner: { username: foundUser.username},
+        owner: foundUser.id,
         // videos: []
       }).exec(function(err, createdTutorial){
         if (err) return res.negotiate(err);
 
         // Update the user to contain the new tutorial
-        foundUser.tutorials = [];
-        foundUser.tutorials.push({
-          title: req.param('title'),
-          description: req.param('description'),
-          created: foundUser.createdAt,
-          updated: foundUser.updatedAt,
-          id: foundUser.id
-        });
-        User.update({id: req.session.userId})
-        .set({tutorials: foundUser.tutorials})
-        .exec(function(err){
+        foundUser.tutorials.add(createdTutorial.id);
+        // Then persist back to the database.
+        foundUser.save(function (err) {
           if (err) return res.negotiate(err);
-
+          
           // return the new tutorial id
           return res.json({id: createdTutorial.id});
         });
+
+        // // Update the user to contain the new tutorial
+        // foundUser.tutorials = [];
+        // foundUser.tutorials.push({
+        //   title: req.param('title'),
+        //   description: req.param('description'),
+        //   created: foundUser.createdAt,
+        //   updated: foundUser.updatedAt,
+        //   id: foundUser.id
+        // });
+        // User.update({id: req.session.userId})
+        // .set({tutorials: foundUser.tutorials})
+        // .exec(function(err){
+        //   if (err) return res.negotiate(err);
+
+        //   // return the new tutorial id
+        //   return res.json({id: createdTutorial.id});
+        // });
       });
     });
   },
 
   addVideo: function(req, res) {
 
-    return res.ok();
+    // Validate parameters
+    if (!_.isNumber(req.param('hours')) || !_.isNumber(req.param('minutes')) || !_.isNumber(req.param('seconds'))) {
+      return res.badRequest();
+    }
+    if (!_.isString(req.param('src')) || !_.isString(req.param('title'))) {
+      return res.badRequest();
+    }
+
+    Tutorial.findOne({
+      id: req.param('tutorialId')
+    }).exec(function(err, foundTutorial){
+      if (err) return res.negotiate(err);
+      if (!foundTutorial) return res.notFound();
+
+      Video.create({
+        title: req.param('title'),
+        src: req.param('src'),
+        lengthInSeconds: req.param('hours') * 60 * 60 + req.param('minutes') * 60 + req.param('seconds')
+      }).exec(function (err, createdVideo) {
+        if (err) return res.negotiate(err);
+
+        foundTutorial.videos.add(createdVideo.id);
+        foundTutorial.save(function (err) {
+          if (err) return res.negotiate(err);
+
+          console.log('foundTutorial: ', foundTutorial);
+
+          return res.ok();
+        });
+      });
+    });
   },
 
   updateTutorial: function(req, res) {
@@ -321,7 +361,32 @@ module.exports = {
 
   updateVideo: function(req, res) {
 
-    return res.ok();
+    if (!_.isString(req.param('title'))) {
+      return res.badRequest();
+    }
+
+    if (!_.isString(req.param('src'))) {
+      return res.badRequest();
+    }
+
+    var hours = +req.param('hours');
+    var minutes = +req.param('minutes');
+    var seconds = +req.param('seconds');
+
+    var convertedToSeconds = hours * 60 * 60 + minutes * 60 + seconds;
+
+    Video.update({
+      id: req.param('id')
+    }).set({
+      title: req.param('title'),
+      src: req.param('src'),
+      lengthInSeconds: convertedToSeconds
+    }).exec(function (err, updatedUser){
+      if (err) return res.negotiate(err);
+      if (!updatedUser) return res.notFound();
+
+      return res.ok();
+    });
   },
 
   deleteTutorial: function(req, res) {
@@ -330,7 +395,10 @@ module.exports = {
       return res.redirect('/');
     }
 
-    User.findOne({id: req.session.userId}).exec(function(err, foundUser){
+    // Find the currently logged in user and it's tutorials
+    User.findOne({id: req.session.userId})
+    .populate('tutorials')
+    .exec(function(err, foundUser){
       if (err) {
         return res.negotiate(err);
       }
@@ -339,15 +407,58 @@ module.exports = {
         return res.notFound();
       }
 
-      // Return the username of the user using the userId of the session.
-      return res.json({username: foundUser.username});
-      
+      // Remove the to be deleted tutorial from the user tutorials collection
+      foundUser.tutorials.remove(req.param('id'));
+      foundUser.save(function (err){
+        if (err) return res.negotiate(err);
+      });
+
+      // Destroy the tutorial
+      Tutorial.destroy({
+        id: req.param('id')
+      }).exec(function(err){
+        if (err) return res.negotiate(err);
+
+        // Return the username of the user using the userId of the session.
+        return res.json({username: foundUser.username});
+      });
     });
   },
 
   removeVideo: function(req, res) {
 
-      return res.ok();
+    Video.findOne({
+      id: req.param('id')
+    })
+    .populate('tutorialAssoc')
+    .exec(function(err, video){
+      if (err) return res.negotiate(err);
+      if (!video) return res.notFound();
+
+      Tutorial.findOne({
+        id: video.tutorialAssoc.id
+      })
+      .populate('videos')
+      .exec(function(err, tutorial){
+
+        var videoToUpdate = _.find(tutorial.videos, function(video){
+          return video.id === +req.param('id');
+        });
+
+        tutorial.videos.remove(videoToUpdate.id);
+        tutorial.save(function(err){
+          if (err) return res.negotiate(err);
+          
+          Video.destroy({
+            id: req.param('id')
+          }).exec(function(err){
+            if (err) return res.negotiate(err);
+        
+            return res.ok();
+          });
+        });
+      });
+    });
   },
 
   showVideo: function(req, res) {

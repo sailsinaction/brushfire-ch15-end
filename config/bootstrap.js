@@ -78,6 +78,7 @@ module.exports.bootstrap = function(cb) {
             deleted: false,
             admin: fakeUser.admin,
             banned: false,
+            tutorials: []
           }).exec(function(err, createdUser) {
             if (err) {
               return next(err);
@@ -92,6 +93,17 @@ module.exports.bootstrap = function(cb) {
       return cb(err);
     }
 
-    return cb();
+    // Tutorial.create({
+    //   title: 'The best of Douglas Crockford on JavaScript.',
+    //   description: 'Understanding JavaScript the good parts, and more.',
+    //   owner: {},
+    //   videos: []
+    // }).exec(function(err, tutorial){
+    //   if (err) return cb(err);
+
+    //   console.log(tutorial);
+
+      return cb();
+    // });
   });
 };

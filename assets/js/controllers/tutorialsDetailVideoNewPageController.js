@@ -81,6 +81,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
       owner: $scope.fromUrlTutorialId,
       title: $scope.title,
       src: $scope.src,
+      hours: $scope.hours,
       minutes: $scope.minutes,
       seconds: $scope.seconds
     })

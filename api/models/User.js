@@ -48,7 +48,8 @@ module.exports = {
     },
 
     tutorials: {
-      type: 'json'
+      collection: 'tutorial'
+      // via: 'owner'
     },
 
     toJSON: function() {
@@ -59,4 +60,4 @@ module.exports = {
       return obj;
     }
   }
-}
+};

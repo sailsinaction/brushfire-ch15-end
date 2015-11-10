@@ -15,6 +15,14 @@ module.exports = {
 
     src: {
       type: 'string'
+    },
+
+    lengthInSeconds: {
+      type: 'integer'
+    },
+
+    tutorialAssoc: {
+      model: 'tutorial'
     }
   }
 };

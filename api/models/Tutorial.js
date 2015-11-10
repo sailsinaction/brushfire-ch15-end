@@ -20,14 +20,19 @@ module.exports = {
     // stars: {
     //   type: 'integer'
     // },
+    
+    totalTime: {
+      type: 'string'
+    },
 
     owner: {
-      type: 'json'
-    }
+      model: 'user'
+    },
 
-    // videos: {
-    //   type: 'json'
-    // }
+    videos: {
+      collection: 'video',
+      via: 'tutorialAssoc'
+    }
   }
 };
 
