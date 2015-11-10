@@ -158,14 +158,38 @@ module.exports = {
       username: req.param('username')
     }).exec(function(err, foundByUsername){
 
-      Tutorial.find().populate('owner').exec(function(err, tutorials){
+      Tutorial.find()
+      .populate('owner')
+      .populate('videos')
+      .exec(function(err, tutorials){
 
+        _.each(tutorials, function(tutorial){
+
+          var totalSeconds = 0;
+          _.each(tutorial.videos, function(video){
+
+            // Format the createdAt attributes and assign them to the tutorial
+            tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+            // Total the number of seconds for all videos for tutorial total time
+            totalSeconds = totalSeconds + video.lengthInSeconds;
+            
+            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+          });
+        });
+
+        // The logged out case
         if (!req.session.userId) {
           
           return res.view('profile', {
+            // This is for the navigation bar
             me: null,
+
+            // This is for profile body
             username: foundByUsername.username,
             gravatarURL: foundByUsername.gravatarURL,
+
+            // This is for the list of tutorials
             tutorials: tutorials
           });
         }
@@ -339,8 +363,6 @@ module.exports = {
       // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
       tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
       tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
-
-
 
       var totalSeconds = 0;
       _.each(tutorial.videos, function(video){
