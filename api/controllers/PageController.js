@@ -156,84 +156,84 @@ module.exports = {
 
     User.findOne({
       username: req.param('username')
-    }).exec(function(err, foundByUsername){
+    })
+    .populate('tutorials')
+    .exec(function(err, foundByUsername){
 
-      Tutorial.find()
-      .populate('owner')
-      .populate('videos')
-      .exec(function(err, tutorials){
+      _.each(foundByUsername.tutorials, function(tutorial){
 
-        _.each(tutorials, function(tutorial){
+        // sync owner
+        tutorial.owner = foundByUsername.username;
+
+        // Format the createdAt attributes and assign them to the tutorial
+        tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+        var totalSeconds = 0;
+        _.each(tutorial.videos, function(video){
+
+
+          // Total the number of seconds for all videos for tutorial total time
+          totalSeconds = totalSeconds + video.lengthInSeconds;
           
-          // Format the createdAt attributes and assign them to the tutorial
-          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-          var totalSeconds = 0;
-          _.each(tutorial.videos, function(video){
-
-
-            // Total the number of seconds for all videos for tutorial total time
-            totalSeconds = totalSeconds + video.lengthInSeconds;
-            
-            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-          });
+          tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
         });
+      });
 
-        // The logged out case
-        if (!req.session.userId) {
-          
-          return res.view('profile', {
-            // This is for the navigation bar
-            me: null,
+      // The logged out case
+      if (!req.session.userId) {
+        
+        return res.view('profile', {
+          // This is for the navigation bar
+          me: null,
 
-            // This is for profile body
-            username: foundByUsername.username,
-            gravatarURL: foundByUsername.gravatarURL,
+          // This is for profile body
+          username: foundByUsername.username,
+          gravatarURL: foundByUsername.gravatarURL,
 
-            // This is for the list of tutorials
-            tutorials: tutorials
-          });
+          // This is for the list of tutorials
+          tutorials: foundByUsername.tutorials
+        });
+      }
+
+      // Otherwise the user-agent IS logged in.
+
+      // Look up the logged-in user from the database.
+      User.findOne({
+        id: req.session.userId
+      }).exec(function (err, loggedInUser){
+        if (err) {
+          return res.negotiate(err);
         }
 
-        // Otherwise the user-agent IS logged in.
+        if (!loggedInUser) {
+          return res.serverError('User record from logged in user is missing?');
+        }
 
-        // Look up the logged-in user from the database.
-        User.findOne({
-          id: req.session.userId
-        }).exec(function (err, loggedInUser){
-          if (err) {
-            return res.negotiate(err);
-          }
+        // We'll provide `me` as a local to the profile page view.
+        // (this is so we can render the logged-in navbar state, etc.)
+        var me = {
+          username: loggedInUser.username,
+          email: loggedInUser.email,
+          gravatarURL: loggedInUser.gravatarURL,
+          admin: loggedInUser.admin
+        };
 
-          if (!loggedInUser) {
-            return res.serverError('User record from logged in user is missing?');
-          }
-
-          // We'll provide `me` as a local to the profile page view.
-          // (this is so we can render the logged-in navbar state, etc.)
-          var me = {
-            username: loggedInUser.username,
-            email: loggedInUser.email,
-            gravatarURL: loggedInUser.gravatarURL,
-            admin: loggedInUser.admin
-          };
-
-          // We'll provide the `isMe` flag to the profile page view
-          // if the logged-in user is the same as the user whose profile we looked up earlier.
-          if (req.session.userId === foundByUsername.id) {
-            me.isMe = true;
-          }
-          
-          // Return me property for the nav and the remaining properties for the profile page.
-          return res.view('profile', {
-            me: me,
-            showAddTutorialButton: true,
-            username: foundByUsername.username,
-            gravatarURL: foundByUsername.gravatarURL,
-            tutorials: tutorials
-          });
-        }); //</ User.findOne({id: req.session.userId})
-      });
+        // We'll provide the `isMe` flag to the profile page view
+        // if the logged-in user is the same as the user whose profile we looked up earlier.
+        if (req.session.userId === foundByUsername.id) {
+          me.isMe = true;
+        }
+        
+        // Return me property for the nav and the remaining properties for the profile page.
+        return res.view('profile', {
+          me: me,
+          showAddTutorialButton: true,
+          username: foundByUsername.username,
+          gravatarURL: foundByUsername.gravatarURL,
+          tutorials: foundByUsername.tutorials
+        });
+      }); //</ User.findOne({id: req.session.userId})
+      
     });
   },
 

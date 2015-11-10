@@ -48,8 +48,8 @@ module.exports = {
     },
 
     tutorials: {
-      collection: 'tutorial'
-      // via: 'owner'
+      collection: 'tutorial',
+      via: 'owner'
     },
 
     toJSON: function() {
