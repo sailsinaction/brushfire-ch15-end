@@ -21,9 +21,9 @@ module.exports = {
     //   type: 'integer'
     // },
     
-    totalTime: {
-      type: 'string'
-    },
+    // totalTime: {
+    //   type: 'string'
+    // },
 
     owner: {
       model: 'user'
