@@ -1,62 +1,65 @@
-<div ng-controller="homePageController" class="container" style="margin-top: 150px;">
+<div ng-controller="homePageController" class="container" style="margin-top: 150px;" ng-cloak>
   <div class=" col-md-6 col-md-offset-3">
-      <h1> <img src="./images/b.jpg" height="80" width="48" />What do you want to learn?</h1>
+    <h1> <img src="./images/b.jpg" height="80" width="48" />What do you want to learn?</h1>
     <form class="form"  ng-submit="searchTutorials()">
       <div class="input-group" >
-        <input style="font-size: 1.5em" type="text" class="form-control" placeholder="Search" name="search" ng-model="searchCriteria">
+        <input style="font-size: 1.5em" type="text" class="form-control" placeholder="Search" name="search" ng-model="searchCriteria" autofocus>
         <div class="input-group-btn">
           <button class="btn btn-default" type="submit" ng-disabled="loading">
-            <span ng-show="!loading"><i class="fa fa-search" ></i></span>
-            <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
+          <span ng-show="!loading"><i class="fa fa-search" ></i></span>
+          <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
           </button>
         </div>
       </div>
     </form>
   </div>
-    <div class="container" ng-cloak ng-show="results">
-      <div class="row">
-    <div class="col-md-12">
-      <div>
-        <h1 class="text-primary">search results...</h1>
-      </div>
-      <div class="well">
-        <div class="list-group">
-          <div ng-repeat="tutorial in tutorials">
-            <a href="/tutorials/{{tutorial.id}}" class="list-group-item tutorials-list">
-              <div class="col-md-11" style="margin-top: 25px">
-                <h3 class="list-group-item-heading">
-                {{ tutorial.title }}
-                </h3>
-                <p class="list-group-item-text" style="font-size: 1.2em">
-                  {{ tutorial.description }}
-                </p>
-                <ul class="list-inline list-unstyled">
-                  <li>|</li>
-                  <li>
-                    <span>by: <i class="fa fa-user"></i>  {{ tutorial.owner }}</span>
-                  </li>
-                  <li>|</li>
-                  <li>
-                    <span>created {{ tutorial.created }}</span>
-                  </li>
-                  <li>|</li>
-                  <li>
-                    <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
-                  </li>
-                  <li>|</li>
-                  <li>
-                    <span>rating average: <rating ng-model="tutorial.stars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span> 
-                  </li>
-                  <li>|</li>
-                </ul>
-              </div>
-            </a>
-          </div>
+  <div class="container" ng-cloak ng-show="results" >
+    <div class="row">
+      <div class="col-md-12">
+        <div>
+          <h1 class="text-primary">search results...</h1>
         </div>
-        <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" >
-          <span ng-show="!loading">show more tutorials</span>
-            <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
-        </button>
+  
+        <div class="well">
+          <div class="list-group">
+            <div ng-repeat="tutorial in tutorials">
+              <a href="/tutorials/{{tutorial.id}}" class="list-group-item tutorials-list">
+                <div class="col-md-11" style="margin-top: 25px">
+                  <h3 class="list-group-item-heading">
+                  {{ tutorial.title }}
+                  </h3>
+                  <p class="list-group-item-text" style="font-size: 1.2em">
+                    {{ tutorial.description }}
+                  </p>
+                  <ul class="list-inline list-unstyled">
+                    <li>|</li>
+                    <li>
+                      <span>by: <i class="fa fa-user"></i>  {{ tutorial.owner }}</span>
+                    </li>
+                    <li>|</li>
+                    <li>
+                      <span>created {{ tutorial.created }}</span>
+                    </li>
+                    <li>|</li>
+                    <li>
+                      <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
+                    </li>
+                    <li>|</li>
+                    <li>
+                      <span>rating average: <rating ng-model="tutorial.stars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span>
+                    </li>
+                    <li>|</li>
+                  </ul>
+                </div>
+              </a>
+            </div>
+          </div>
+          <h3 ng-show="noResults ">  ...there are no results. </h3>
+          <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" ng-hide="noResults">
+          <span ng-show="!loading">showing more tutorials</span>
+          <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

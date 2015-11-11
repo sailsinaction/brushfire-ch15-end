@@ -9,190 +9,75 @@ module.exports = {
 
   searchTutorials: function(req, res) {
 
-    var tutorials = [{
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 1,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 2,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 3
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 3,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 4,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 1
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 5,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 6,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 2
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 7,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 8,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 9,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
-      id: 10,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }];
+    Tutorial.count().exec(function(err, found){
+      if (err) return res.negotiate(err);
+      if (!found) return res.notFound();
 
-    console.log('skip: ', req.param('skip'));
+      Tutorial.find({
+        or : [
+          {
+            title: {
+              'contains': req.param('searchCriteria')
+            },
+          },
+          {
+            description: {
+              'contains': req.param('searchCriteria')
+            }
+          }
+        ],
+        limit: 10,
+        skip: req.param('skip')
+      })
+      .populate('owner')
+      .populate('videos')
+      .exec(function(err, tutorials){
 
+        _.each(tutorials, function(tutorial){
 
-    return res.json({
-      options: {
-        totalTutorials: 30,
-        updatedTutorials: tutorials
-      }
+          tutorial.owner = tutorial.owner.username;
+          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+          var totalSeconds = 0;
+          _.each(tutorial.videos, function(video){
+
+            // Total the number of seconds for all videos for tutorial total time
+            totalSeconds = totalSeconds + video.lengthInSeconds;
+
+            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+          });
+        });
+
+        return res.json({
+          options: {
+            totalTutorials: found,
+            updatedTutorials: tutorials
+          }
+        });
+      });
     });
+    // .exec(function(err, tutorials){
+
+    //   console.log('tutorials', tutorials);
+
+    //   return res.json({
+    //     options: {
+    //       totalTutorials: 30,
+    //       updatedTutorials: tutorials
+    //     }
+    //   });
+    // });
   },
 
   browseTutorials: function(req, res) {
-
-    // var tutorials = [{
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 1,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 4
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 2,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 3
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 3,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 5
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 4,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 1
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 5,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 5
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 6,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 2
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 7,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 4
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 8,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 5
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 9,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 4
-    // }, {
-    //   title: 'The best of Douglas Crockford on JavaScript.',
-    //   description: 'Understanding JavaScript the good parts, and more.',
-    //   owner: 'sails-in-action',
-    //   id: 10,
-    //   created: 'a month ago',
-    //   totalTime: '3h 22m 23s',
-    //   stars: 4
-    // }];
-    // 
     
     Tutorial.count().exec(function(err, found){
       if (err) return res.negotiate(err);
       if (!found) return res.notFound();
 
       Tutorial.find({ limit: 10, skip: req.param('skip')})
-      .populateAll()
+      .populate('owner')
+      .populate('videos')
       .exec(function(err, tutorials){
 
         _.each(tutorials, function(tutorial){

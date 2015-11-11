@@ -10,7 +10,7 @@ angular.module('brushfire').controller('browseTutorialsPageController', ['$scope
                                                                                                     
 */
 
-  $scope.loading = false;
+  $scope.loading = true;
   $scope.results = false;
   $scope.noMoreTutorials = false;
 
@@ -29,8 +29,6 @@ angular.module('brushfire').controller('browseTutorialsPageController', ['$scope
       }
     })
     .then(function onSuccess(sailsResponse) {
-
-      console.log('sailsResponse: ', sailsResponse);
 
       $scope.tutorials = sailsResponse.data.options.updatedTutorials;
       $scope.totalTutorials = sailsResponse.data.options.totalTutorials;

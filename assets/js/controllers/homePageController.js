@@ -17,6 +17,7 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
   
   $scope.loading = false;
   $scope.results = false;
+  $scope.noResults = false;
   $scope.noMoreTutorials = false;
 
   // configuration for ui-bootstrap.rating
@@ -34,17 +35,19 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
  | |__| | |__| | |  | | | |___\ V /  __/ | | | |_\__ \
  |_____/ \____/|_|  |_| |______\_/ \___|_| |_|\__|___/
 
-*/                                                    
+*/
                                                       
   //
   $scope.searchTutorials = function() {
     $scope.loading = true;
+    $scope.skip = 0;
 
     $http({
       url: '/tutorials/search',
       method: 'GET',
       params: {
-        searchCriteria: $scope.searchCriteria
+        searchCriteria: $scope.searchCriteria,
+        skip: $scope.skip
       }
     })
     .then(function onSuccess(sailsResponse) {
@@ -53,6 +56,13 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
       $scope.totalTutorials = sailsResponse.data.options.totalTutorials;
 
       $scope.results = true;
+      // Prevents showing markup with no results
+      if ($scope.tutorials.length > 0) {
+        $scope.noResults = false;
+      } else {
+        $scope.noResults = true;
+        $scope.noMoreTutorials = true;
+      }
 
       $scope.skip = $scope.skip+=10;
 

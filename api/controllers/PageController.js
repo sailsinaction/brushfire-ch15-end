@@ -470,76 +470,77 @@ module.exports = {
       User.findOne({
         id: tutorial.owner.id
       }).exec(function(err, user){
+        if (err) return res.negotiate(err);
+        if (!user) return res.notFound();
+  
         tutorial.owner = user.username;
-      });
+        
+        // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
+        tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+        tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
 
-      console.log('tutorial.owner: ', tutorial.owner);
+        var totalSeconds = 0;
+        _.each(tutorial.videos, function(video){
 
-      // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
-      tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-      tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
+          // Total the number of seconds for all videos for tutorial total time
+          totalSeconds = totalSeconds + video.lengthInSeconds;
 
-      var totalSeconds = 0;
-      _.each(tutorial.videos, function(video){
+          // Format the video lengthInSeconds into xh xm xs format for each video
+          video.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: video.lengthInSeconds}).hoursMinutesSeconds;
 
-        // Total the number of seconds for all videos for tutorial total time
-        totalSeconds = totalSeconds + video.lengthInSeconds;
-
-        // Format the video lengthInSeconds into xh xm xs format for each video
-        video.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: video.lengthInSeconds}).hoursMinutesSeconds;
-
-        tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-      });
-
-      // If not logged in set `me` property to `null` and pass the tutorial to the view
-      if (!req.session.userId) {
-        return res.view('tutorials-detail', {
-          me: null,
-          stars: tutorial.stars,
-          tutorial: tutorial
+          tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
         });
-      }
 
-      User.findOne(req.session.userId, function(err, user) {
-        if (err) {
-          return res.negotiate(err);
-        }
-
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        // If not logged in set `me` property to `null` and pass the tutorial to the view
+        if (!req.session.userId) {
           return res.view('tutorials-detail', {
-            me: null
-          });
-        }
-
-        // We'll provide `me` as a local to the profile page view.
-        // (this is so we can render the logged-in navbar state, etc.)
-        var me = {
-          gravatarURL: user.gravatarURL,
-          username: user.username,
-          admin: user.admin
-        };
-
-        if (user.username === tutorial.owner) {
-          me.isMe = true;
-
-          return res.view('tutorials-detail', {
-            me: me,
-            stars: tutorial.stars,
-            tutorial: tutorial
-          });
-
-        } else {
-          return res.view('tutorials-detail', {
-            me: {
-              gravatarURL: user.gravatarURL,
-              username: user.username,
-              admin: user.admin
-            },
+            me: null,
             stars: tutorial.stars,
             tutorial: tutorial
           });
         }
+
+        User.findOne(req.session.userId, function(err, user) {
+          if (err) {
+            return res.negotiate(err);
+          }
+
+          if (!user) {
+            sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+            return res.view('tutorials-detail', {
+              me: null
+            });
+          }
+
+          // We'll provide `me` as a local to the profile page view.
+          // (this is so we can render the logged-in navbar state, etc.)
+          var me = {
+            gravatarURL: user.gravatarURL,
+            username: user.username,
+            admin: user.admin
+          };
+
+          if (user.username === tutorial.owner) {
+            me.isMe = true;
+
+            return res.view('tutorials-detail', {
+              me: me,
+              stars: tutorial.stars,
+              tutorial: tutorial
+            });
+
+          } else {
+            return res.view('tutorials-detail', {
+              me: {
+                gravatarURL: user.gravatarURL,
+                username: user.username,
+                admin: user.admin
+              },
+              stars: tutorial.stars,
+              tutorial: tutorial
+            });
+          }
+        });
       });
     });
   },
