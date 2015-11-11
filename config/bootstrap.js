@@ -287,7 +287,7 @@ module.exports.bootstrap = function(cb) {
         tutorialAssoc: 10
       }];
 
-      async.each(TEST_VIDEOS, function findOrCreateEachFakeVideo(fakeVideo, next){
+      async.eachSeries(TEST_VIDEOS, function findOrCreateEachFakeVideo(fakeVideo, next){
 
         Video.findOne({
           title: fakeVideo.title
