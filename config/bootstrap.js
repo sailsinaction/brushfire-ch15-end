@@ -94,57 +94,57 @@ module.exports.bootstrap = function(cb) {
     }
 
     var TEST_TUTORIALS = [{
-      title: 'The best of Douglas Crockford on JavaScript.',
+      title: 'aThe best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavasScript the good parts.',
       owner: 2,
       // stars: 5
     },{
-      title: 'Understanding Angular 2.0',
+      title: 'aUnderstanding Angular 2.0',
       description: 'Different sides of Angular 2.0',
       owner: 2,
       // stars: 5
     }, {
-      title: 'Biology 101.',
+      title: 'aBiology 101.',
       description: 'The best biology teacher on the planet.',
       owner: 2,
       // stars: 5
     },{
-      title: 'Dog Training.',
+      title: 'aDog Training.',
       description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
       owner: 2,
       // stars: 4
     }, {
-      title: 'How to play famous songs on the Ukulele.',
+      title: 'aHow to play famous songs on the Ukulele.',
       description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
       owner: 2,
       // stars: 3
     }, {
-      title: 'Character development 101.',
+      title: 'aCharacter development 101.',
       description: 'Writing better and more interesting characters.',
       owner: 2,
       // stars: 4
     }, {
-      title: 'Drawing Cartoons.',
+      title: 'aDrawing Cartoons.',
       description: 'Drawing techniques for the beginning cartoonist.',
       owner: 2,
       // stars: 5
     }, {
-      title: 'How to make whisky.',
+      title: 'aHow to make whisky.',
       description: 'Distilling corn into whisky.',
       owner: 2,
       // stars: 5
     }, {
-      title: 'How do toilets work.',
+      title: 'aHow do toilets work.',
       description: 'Everything you never thought you needed to know about how toilets flush.',
       owner: 2,
       // stars: 5
     }, {
-      title: 'Making fire.',
+      title: 'aMaking fire.',
       description: 'Techniques for making fire without a match.',
       owner: 2,
       // stars: 5
     },{
-      title: 'Making homemade beef jerky.',
+      title: 'aMaking homemade beef jerky.',
       description: 'Everything you need to know to make some jerky.',
       owner: 2,
       // stars: 5
