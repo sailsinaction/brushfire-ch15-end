@@ -1,5 +1,9 @@
-<div ng-controller="browseTutorialsPageController" ng-cloak>
-  <div class="container">
+<div ng-controller="browseTutorialsPageController" >
+  <div ng-show="loading" >
+    <span class="overlord-loading-spinner fa fa-spinner"></span>
+    <span style="font-size: 1.2em">Loading user data...</span>
+  </div>
+  <div class="container" ng-hide="loading" ng-cloak>
     <div class="row">
       <div class="well">
         <div class="list-group">
