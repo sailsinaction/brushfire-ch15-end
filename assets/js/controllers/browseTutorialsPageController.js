@@ -21,8 +21,16 @@ angular.module('brushfire').controller('browseTutorialsPageController', ['$scope
   // Pagination properties
   $scope.skip = 0;
 
-  $http.get('/tutorials')
+  $http({
+      url: '/tutorials',
+      method: 'GET',
+      params: {
+        skip: $scope.skip
+      }
+    })
     .then(function onSuccess(sailsResponse) {
+
+      console.log('sailsResponse: ', sailsResponse);
 
       $scope.tutorials = sailsResponse.data.options.updatedTutorials;
       $scope.totalTutorials = sailsResponse.data.options.totalTutorials;
