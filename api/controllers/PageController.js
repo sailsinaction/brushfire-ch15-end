@@ -154,86 +154,198 @@ module.exports = {
     // Find user by username
     // Find tutorials populate owner
 
+    // User.findOne({
+    //   username: req.param('username')
+    // })
+    // .populate('tutorials')
+    // .exec(function(err, foundByUsername){
+
+    //   _.each(foundByUsername.tutorials, function(tutorial){
+
+    //     // sync owner
+    //     tutorial.owner = foundByUsername.username;
+
+    //     // Format the createdAt attributes and assign them to the tutorial
+    //     tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+    //     var totalSeconds = 0;
+    //     _.each(tutorial.videos, function(video){
+
+
+    //       // Total the number of seconds for all videos for tutorial total time
+    //       totalSeconds = totalSeconds + video.lengthInSeconds;
+          
+    //       tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+    //     });
+    //   });
+
+    //   // The logged out case
+    //   if (!req.session.userId) {
+        
+    //     return res.view('profile', {
+    //       // This is for the navigation bar
+    //       me: null,
+
+    //       // This is for profile body
+    //       username: foundByUsername.username,
+    //       gravatarURL: foundByUsername.gravatarURL,
+
+    //       // This is for the list of tutorials
+    //       tutorials: foundByUsername.tutorials
+    //     });
+    //   }
+
+    //   // Otherwise the user-agent IS logged in.
+
+    //   // Look up the logged-in user from the database.
+    //   User.findOne({
+    //     id: req.session.userId
+    //   }).exec(function (err, loggedInUser){
+    //     if (err) {
+    //       return res.negotiate(err);
+    //     }
+
+    //     if (!loggedInUser) {
+    //       return res.serverError('User record from logged in user is missing?');
+    //     }
+
+    //     // We'll provide `me` as a local to the profile page view.
+    //     // (this is so we can render the logged-in navbar state, etc.)
+    //     var me = {
+    //       username: loggedInUser.username,
+    //       email: loggedInUser.email,
+    //       gravatarURL: loggedInUser.gravatarURL,
+    //       admin: loggedInUser.admin
+    //     };
+
+    //     // We'll provide the `isMe` flag to the profile page view
+    //     // if the logged-in user is the same as the user whose profile we looked up earlier.
+    //     if (req.session.userId === foundByUsername.id) {
+    //       me.isMe = true;
+    //     }
+        
+    //     // Return me property for the nav and the remaining properties for the profile page.
+    //     return res.view('profile', {
+    //       me: me,
+    //       showAddTutorialButton: true,
+    //       username: foundByUsername.username,
+    //       gravatarURL: foundByUsername.gravatarURL,
+    //       tutorials: foundByUsername.tutorials
+    //     });
+    //   }); //</ User.findOne({id: req.session.userId})
+      
+    // });
+    
     User.findOne({
       username: req.param('username')
     })
     .populate('tutorials')
     .exec(function(err, foundByUsername){
+      if (err) return res.negotiate(err);
+      if (!foundByUsername) return res.notFound();
 
-      _.each(foundByUsername.tutorials, function(tutorial){
+      // Turn this into a regular dictionary instead of a model instance.
+      var user = foundByUsername.toObject();
 
-        // sync owner
-        tutorial.owner = foundByUsername.username;
-
-        // Format the createdAt attributes and assign them to the tutorial
-        tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-        var totalSeconds = 0;
-        _.each(tutorial.videos, function(video){
-
-
-          // Total the number of seconds for all videos for tutorial total time
-          totalSeconds = totalSeconds + video.lengthInSeconds;
-          
-          tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-        });
-      });
-
-      // The logged out case
-      if (!req.session.userId) {
-        
-        return res.view('profile', {
-          // This is for the navigation bar
-          me: null,
-
-          // This is for profile body
-          username: foundByUsername.username,
-          gravatarURL: foundByUsername.gravatarURL,
-
-          // This is for the list of tutorials
-          tutorials: foundByUsername.tutorials
-        });
-      }
-
-      // Otherwise the user-agent IS logged in.
-
-      // Look up the logged-in user from the database.
-      User.findOne({
-        id: req.session.userId
-      }).exec(function (err, loggedInUser){
-        if (err) {
-          return res.negotiate(err);
-        }
-
-        if (!loggedInUser) {
-          return res.serverError('User record from logged in user is missing?');
-        }
-
-        // We'll provide `me` as a local to the profile page view.
-        // (this is so we can render the logged-in navbar state, etc.)
-        var me = {
-          username: loggedInUser.username,
-          email: loggedInUser.email,
-          gravatarURL: loggedInUser.gravatarURL,
-          admin: loggedInUser.admin
-        };
-
-        // We'll provide the `isMe` flag to the profile page view
-        // if the logged-in user is the same as the user whose profile we looked up earlier.
-        if (req.session.userId === foundByUsername.id) {
-          me.isMe = true;
-        }
-        
-        // Return me property for the nav and the remaining properties for the profile page.
-        return res.view('profile', {
-          me: me,
-          showAddTutorialButton: true,
-          username: foundByUsername.username,
-          gravatarURL: foundByUsername.gravatarURL,
-          tutorials: foundByUsername.tutorials
-        });
-      }); //</ User.findOne({id: req.session.userId})
+      // Now that we have the user and the tutorials, gather up all the references to each
+      // tutorial so that we can use it to find all the videos belonging that belong to
+      // the tutorials.
+      var tutorialIds = _.pluck(user.tutorials, 'id');
       
+      // Now let's find all the videos we need to fulfill the request
+      Video.find({
+        tutorialAssoc: tutorialIds
+      }).exec(function(err, videos){
+        if (err) return res.negotiate(err);
+        if (!videos) return res.notFound();
+
+        // Now we have all the data, lets loop through the tutorials and gather
+        // up all the videos related to each tutorial.
+        _.each(user.tutorials, function(tutorial) {
+
+          // Find all the videos that their tutorialAssoc value set to the tutorial's id
+          var tutorialVideos = _.filter(videos, { tutorialAssoc: tutorial.id });
+
+          // Then set tutorial.videos to the array
+          tutorial.videos = _.map(tutorialVideos, function(video) {
+            var obj = video.toObject();
+            return _.omit(obj, 'tutorialAssoc');
+          });
+        });
+
+        _.each(user.tutorials, function(tutorial){
+
+          // sync owner
+          tutorial.owner = user.username;
+
+          // Format the createdAt attributes and assign them to the tutorial
+          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+          var totalSeconds = 0;
+          _.each(tutorial.videos, function(video){
+
+            // Total the number of seconds for all videos for tutorial total time
+            totalSeconds = totalSeconds + video.lengthInSeconds;
+            
+            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+          });
+        });
+
+        // The logged out case
+        if (!req.session.userId) {
+          
+          return res.view('profile', {
+            // This is for the navigation bar
+            me: null,
+
+            // This is for profile body
+            username: user.username,
+            gravatarURL: user.gravatarURL,
+
+            // This is for the list of tutorials
+            tutorials: user.tutorials
+          });
+        }
+
+        // Otherwise the user-agent IS logged in.
+
+        // Look up the logged-in user from the database.
+        User.findOne({
+          id: req.session.userId
+        }).exec(function (err, loggedInUser){
+          if (err) {
+            return res.negotiate(err);
+          }
+
+          if (!loggedInUser) {
+            return res.serverError('User record from logged in user is missing?');
+          }
+
+          // We'll provide `me` as a local to the profile page view.
+          // (this is so we can render the logged-in navbar state, etc.)
+          var me = {
+            username: loggedInUser.username,
+            email: loggedInUser.email,
+            gravatarURL: loggedInUser.gravatarURL,
+            admin: loggedInUser.admin
+          };
+
+          // We'll provide the `isMe` flag to the profile page view
+          // if the logged-in user is the same as the user whose profile we looked up earlier.
+          if (req.session.userId === user.id) {
+            me.isMe = true;
+          }
+          
+          // Return me property for the nav and the remaining properties for the profile page.
+          return res.view('profile', {
+            me: me,
+            showAddTutorialButton: true,
+            username: user.username,
+            gravatarURL: user.gravatarURL,
+            tutorials: user.tutorials
+          });
+        }); //</ User.findOne({id: req.session.userId})
+      });
     });
   },
 
@@ -360,6 +472,8 @@ module.exports = {
       }).exec(function(err, user){
         tutorial.owner = user.username;
       });
+
+      console.log('tutorial.owner: ', tutorial.owner);
 
       // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
       tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
