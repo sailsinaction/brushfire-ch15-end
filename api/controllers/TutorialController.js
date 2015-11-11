@@ -319,8 +319,6 @@ module.exports = {
         foundTutorial.save(function (err) {
           if (err) return res.negotiate(err);
 
-          console.log('foundTutorial: ', foundTutorial);
-
           return res.ok();
         });
       });
@@ -366,7 +364,7 @@ module.exports = {
           // So we'll change the `tutorials` array and save it back to the db.
           cachedTutorial.title = req.param('title');
           cachedTutorial.description = req.param('description');
-          // console.log('Updating user record with new tutorials array:',tutorials);
+          
           User.update({
             id: user.id
           }).set({
