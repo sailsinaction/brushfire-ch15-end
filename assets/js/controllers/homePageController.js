@@ -64,6 +64,10 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
         $scope.noMoreTutorials = true;
       }
 
+      if ($scope.tutorials.length < 9) {
+        $scope.noMoreTutorials = true;
+      }
+
       $scope.skip = $scope.skip+=10;
 
     })
