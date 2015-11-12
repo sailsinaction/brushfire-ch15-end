@@ -235,52 +235,88 @@ module.exports = {
     //   }); //</ User.findOne({id: req.session.userId})
       
     // });
+    // 
+    // ============================================================
     
+    // User.findOne({
+    //   username: req.param('username')
+    // })
+    // .populate('tutorials')
+    // .exec(function(err, foundByUsername){
+    //   if (err) return res.negotiate(err);
+    //   if (!foundByUsername) return res.notFound();
+
+    //   // Turn this into a regular dictionary instead of a model instance.
+    //   var user = foundByUsername.toObject();
+
+    //   // Now that we have the user and the tutorials, gather up all the references to each
+    //   // tutorial so that we can use it to find all the videos belonging that belong to
+    //   // the tutorials.
+    //   var tutorialIds = _.pluck(user.tutorials, 'id');
+      
+    //   // Now let's find all the videos we need to fulfill the request
+    //   Video.find({
+    //     tutorialAssoc: tutorialIds
+    //   }).exec(function(err, videos){
+    //     if (err) return res.negotiate(err);
+    //     if (!videos) return res.notFound();
+
+    //     // Now we have all the data, lets loop through the tutorials and gather
+    //     // up all the videos related to each tutorial.
+    //     _.each(user.tutorials, function(tutorial) {
+
+    //       // Find all the videos that their tutorialAssoc value set to the tutorial's id
+    //       var tutorialVideos = _.filter(videos, { tutorialAssoc: tutorial.id });
+
+    //       // Then set tutorial.videos to the array
+    //       tutorial.videos = _.map(tutorialVideos, function(video) {
+    //         var obj = video.toObject();
+    //         return _.omit(obj, 'tutorialAssoc');
+    //       });
+    //     });
+
+    //     _.each(user.tutorials, function(tutorial){
+
+    //       // sync owner
+    //       tutorial.owner = user.username;
+
+    //       // Format the createdAt attributes and assign them to the tutorial
+    //       tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+    //       var totalSeconds = 0;
+    //       _.each(tutorial.videos, function(video){
+
+    //         // Total the number of seconds for all videos for tutorial total time
+    //         totalSeconds = totalSeconds + video.lengthInSeconds;
+            
+    //         tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+    //       });
+    //     });
+
     User.findOne({
       username: req.param('username')
-    })
-    .populate('tutorials')
-    .exec(function(err, foundByUsername){
+    }).exec(function(err, foundUser){
       if (err) return res.negotiate(err);
-      if (!foundByUsername) return res.notFound();
+      if (!foundUser) return res.notFound();
 
-      // Turn this into a regular dictionary instead of a model instance.
-      var user = foundByUsername.toObject();
-
-      // Now that we have the user and the tutorials, gather up all the references to each
-      // tutorial so that we can use it to find all the videos belonging that belong to
-      // the tutorials.
-      var tutorialIds = _.pluck(user.tutorials, 'id');
-      
-      // Now let's find all the videos we need to fulfill the request
-      Video.find({
-        tutorialAssoc: tutorialIds
-      }).exec(function(err, videos){
+      Tutorial.find({
+        owner: foundUser.id
+      })
+      .populate('ratings')
+      .populate('videos')
+      .exec(function(err, foundTutorials){
         if (err) return res.negotiate(err);
-        if (!videos) return res.notFound();
+        if (!foundTutorials) return res.notFound();        
 
-        // Now we have all the data, lets loop through the tutorials and gather
-        // up all the videos related to each tutorial.
-        _.each(user.tutorials, function(tutorial) {
-
-          // Find all the videos that their tutorialAssoc value set to the tutorial's id
-          var tutorialVideos = _.filter(videos, { tutorialAssoc: tutorial.id });
-
-          // Then set tutorial.videos to the array
-          tutorial.videos = _.map(tutorialVideos, function(video) {
-            var obj = video.toObject();
-            return _.omit(obj, 'tutorialAssoc');
-          });
-        });
-
-        _.each(user.tutorials, function(tutorial){
+        _.each(foundTutorials, function(tutorial){
 
           // sync owner
-          tutorial.owner = user.username;
+          tutorial.owner = foundUser.username;
 
           // Format the createdAt attributes and assign them to the tutorial
           tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
 
+          // Format Videos
           var totalSeconds = 0;
           _.each(tutorial.videos, function(video){
 
@@ -289,6 +325,21 @@ module.exports = {
             
             tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
           });
+
+          // Format average ratings
+          var totalRating = 0;
+          _.each(tutorial.ratings, function(rating){
+            totalRating = totalRating + rating.stars;
+          });
+
+          var averageRating = 0;
+          if (tutorial.ratings.length < 1) {
+            averageRating = 0;
+          } else {
+            averageRating = totalRating / tutorial.ratings.length;
+          }
+          
+          tutorial.averageRating = averageRating;
         });
 
         // The logged out case
@@ -299,11 +350,11 @@ module.exports = {
             me: null,
 
             // This is for profile body
-            username: user.username,
-            gravatarURL: user.gravatarURL,
+            username: foundUser.username,
+            gravatarURL: foundUser.gravatarURL,
 
             // This is for the list of tutorials
-            tutorials: user.tutorials
+            tutorials: foundTutorials
           });
         }
 
@@ -332,7 +383,7 @@ module.exports = {
 
           // We'll provide the `isMe` flag to the profile page view
           // if the logged-in user is the same as the user whose profile we looked up earlier.
-          if (req.session.userId === user.id) {
+          if (req.session.userId === foundUser.id) {
             me.isMe = true;
           }
           
@@ -340,9 +391,9 @@ module.exports = {
           return res.view('profile', {
             me: me,
             showAddTutorialButton: true,
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            tutorials: user.tutorials
+            username: foundUser.username,
+            gravatarURL: foundUser.gravatarURL,
+            tutorials: foundTutorials
           });
         }); //</ User.findOne({id: req.session.userId})
       });

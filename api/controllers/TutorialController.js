@@ -30,6 +30,7 @@ module.exports = {
         skip: req.param('skip')
       })
       .populate('owner')
+      .populate('ratings')
       .populate('videos')
       .exec(function(err, tutorials){
 
@@ -45,6 +46,21 @@ module.exports = {
             totalSeconds = totalSeconds + video.lengthInSeconds;
 
             tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+
+            // Format average ratings
+            var totalRating = 0;
+            _.each(tutorial.ratings, function(rating){
+              totalRating = totalRating + rating.stars;
+            });
+
+            var averageRating = 0;
+            if (tutorial.ratings.length < 1) {
+              averageRating = 0;
+            } else {
+              averageRating = totalRating / tutorial.ratings.length;
+            }
+            
+            tutorial.averageRating = averageRating;
           });
         });
 
@@ -77,6 +93,7 @@ module.exports = {
 
       Tutorial.find({ limit: 10, skip: req.param('skip')})
       .populate('owner')
+      .populate('ratings')
       .populate('videos')
       .exec(function(err, tutorials){
 
@@ -92,6 +109,21 @@ module.exports = {
             totalSeconds = totalSeconds + video.lengthInSeconds;
 
             tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+
+            // Format average ratings
+            var totalRating = 0;
+            _.each(tutorial.ratings, function(rating){
+              totalRating = totalRating + rating.stars;
+            });
+
+            var averageRating = 0;
+            if (tutorial.ratings.length < 1) {
+              averageRating = 0;
+            } else {
+              averageRating = totalRating / tutorial.ratings.length;
+            }
+            
+            tutorial.averageRating = averageRating;
           });
         });
 
