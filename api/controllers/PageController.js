@@ -634,6 +634,7 @@ module.exports = {
           return res.redirect('/');
         }
 
+        // TODO: Probably should be a policy
         if (user.username !== foundTutorial.owner.username) {
 
           return res.redirect('/tutorials/'+foundTutorial.id);

@@ -21,9 +21,6 @@ module.exports = {
     //   type: 'integer'
     // },
     
-    // totalTime: {
-    //   type: 'string'
-    // },
 
     owner: {
       model: 'user'
@@ -32,6 +29,11 @@ module.exports = {
     videos: {
       collection: 'video',
       via: 'tutorialAssoc'
+    },
+
+    ratings: {
+      collection: 'rating',
+      via: 'tutorial'
     }
   }
 };

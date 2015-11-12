@@ -41,10 +41,10 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   $http.get('/tutorials/'+$scope.fromUrlTutorialId+'/my-rating')
   .then(function onSuccess(sailsResponse){
 
-    if (sailsResponse.data.myRating) {
+    if (sailsResponse.data.rating) {
       $scope.isReadonly = true;
       $scope.alreadyHasValue = true;
-      $scope.myStars=sailsResponse.data.myRating;
+      $scope.myStars=sailsResponse.data.rating;
       $scope.hideChangeRating=false;
     } else {
       $scope.hideChangeRating=true;
@@ -59,7 +59,22 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   });
 
+  $scope.$watch('averageStars', function(rating) {
 
+    // Average Rating
+    $http.get('/tutorials/'+$scope.fromUrlTutorialId+'/average-rating')
+    .then(function onSuccess(sailsResponse){
+
+      $scope.averageRating=sailsResponse.data.averageStars;
+
+    })
+    .catch(function onError(sailsResponse){
+      console.error(sailsResponse);
+    })
+    .finally(function eitherWay(){
+
+    });
+  });
 
 
 /* 
@@ -108,10 +123,10 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     if ($scope.alreadyHasValue) {
       return;
     }
+
     $scope.tutorialDetails.loading = true;
-    $http.put('/tutorials/' + $scope.tutorialId + '/rate', {
-      rating: rating,
-      id: $scope.tutorialId
+    $http.put('/tutorials/' + $scope.fromUrlTutorialId + '/rate', {
+      stars: rating
     })
     .then(function onSuccess(sailsResponse) {
 

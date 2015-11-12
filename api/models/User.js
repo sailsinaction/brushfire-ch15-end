@@ -52,6 +52,11 @@ module.exports = {
       via: 'owner'
     },
 
+    ratings: {
+      collection: 'rating',
+      via: 'user'
+    },
+
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;

@@ -107,14 +107,91 @@ module.exports = {
 
   myRating: function(req, res) {
 
-    return res.json({
-      myRating: null
+    Rating.findOne({
+      user: req.session.userId,
+      tutorial: req.param('id')
+    }).exec(function(err, foundRating){
+      if (err) return res.negotiate(err);
+      if (!foundRating) return res.notFound();
+
+      res.json({
+        rating: foundRating.stars
+      });
+    });
+  },
+
+  averageRating: function(req, res) {
+
+    Tutorial.findOne({
+      id: req.param('id')
+    })
+    .populate('ratings')
+    .exec(function(err, foundTutorial){
+
+      var totalRating = 0;
+      _.each(foundTutorial.ratings, function(rating){
+        totalRating = totalRating + rating.stars;
+      });
+
+      var averageStars = 0;
+
+      averageStars = totalRating / foundTutorial.ratings.length;
+
+      return res.json({
+        averageStars: averageStars
+      });
     });
   },
 
   rateTutorial: function(req, res) {
 
-    return res.ok();
+    User.findOne({
+      id: req.session.userId
+    }).exec(function(err, foundUser){
+      if (err) return res.negotiate(err);
+      if (!foundUser) return res.notFound();
+
+      Tutorial.findOne({
+        id: req.param('id')
+      }).exec(function(err, foundTutorial){
+        if (err) return res.negotiate(err);
+        if (!foundTutorial) return res.notFound();
+
+        Rating.findOne({
+          user: foundUser.id,
+          tutorial: foundTutorial.id
+        }).exec(function(err, foundRating){
+          if (err) return res.negotiate(err);
+          
+
+          if (foundRating) {
+
+            Rating.update({
+              id: foundRating.id
+            }).set({
+              stars: req.param('stars')
+            }).exec(function(err, updatedRating){
+              if (err) return res.negotiate(err);
+              if (!updatedRating) return res.notFound();
+
+              return res.ok();
+            });
+          } else {
+
+            Rating.create({
+              stars: req.param('stars'),
+              user: foundUser.id,
+              tutorial: foundTutorial.id
+            }).exec(function(err, rating){
+              if (err) return res.negotiate(err);
+              if (!rating) return res.notFound();
+
+              return res.ok();
+            });
+          }
+        });
+      });
+    });
   },
 
   createTutorial: function(req, res) {
