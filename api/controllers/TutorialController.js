@@ -251,6 +251,7 @@ module.exports = {
         title: req.param('title'),
         description: req.param('description'),
         owner: foundUser.id,
+        videoOrder: [],
         // videos: []
       }).exec(function(err, createdTutorial){
         if (err) return res.negotiate(err);
@@ -296,12 +297,14 @@ module.exports = {
       return res.badRequest();
     }
 
+    // Look up the tutorial record.
     Tutorial.findOne({
       id: req.param('tutorialId')
     }).exec(function(err, foundTutorial){
       if (err) return res.negotiate(err);
       if (!foundTutorial) return res.notFound();
 
+      // Create the video record.
       Video.create({
         title: req.param('title'),
         src: req.param('src'),
@@ -309,7 +312,14 @@ module.exports = {
       }).exec(function (err, createdVideo) {
         if (err) return res.negotiate(err);
 
+        // Add a reference to the new video inside the tutorial record.
         foundTutorial.videos.add(createdVideo.id);
+
+        // Modify the `videoOrder` array embedded in our tutorial to reflect the new video.
+        // (We always add new videos to the bottom of the list)
+        foundTutorial.videoOrder.push(createdVideo.id);
+
+        // Persist (save) our changes to the tutorial record back to the database.
         foundTutorial.save(function (err) {
           if (err) return res.negotiate(err);
 
@@ -423,7 +433,7 @@ module.exports = {
         return res.notFound();
       }
 
-      // Remove the to be deleted tutorial from the user tutorials collection
+      // Remove the to-be-deleted tutorial from the owner's `tutorials` collection
       foundUser.tutorials.remove(req.param('id'));
       foundUser.save(function (err){
         if (err) return res.negotiate(err);
@@ -435,6 +445,9 @@ module.exports = {
       }).exec(function(err){
         if (err) return res.negotiate(err);
 
+        // TODO: destroy videos
+        // TODO: destroy ratings
+
         // Return the username of the user using the userId of the session.
         return res.json({username: foundUser.username});
       });
@@ -444,29 +457,40 @@ module.exports = {
   removeVideo: function(req, res) {
 
     Video.findOne({
-      id: req.param('id')
+      id: +req.param('id')
     })
-    .populate('tutorialAssoc')
+    .populate('tutorialAssoc') // consider renaming this association to `partOfTutorial`
     .exec(function(err, video){
       if (err) return res.negotiate(err);
       if (!video) return res.notFound();
 
+
+      // Now look up the tutorial record on its own... even though we already have it
+      // (this is purely so that we can call remove()-- but I don't think we have to)
+      // 
+      // TODO: could we just do:
+      // ```
+      // video.tutorialAssoc.videos.remove(...)
+      // video.tutorialAssoc.save(...)
+      // ```
+      // ?
       Tutorial.findOne({
         id: video.tutorialAssoc.id
       })
-      .populate('videos')
       .exec(function(err, tutorial){
+        if (err) return res.negotiate(err);
+        if (!tutorial) return res.notFound();
 
-        var videoToUpdate = _.find(tutorial.videos, function(video){
-          return video.id === +req.param('id');
-        });
-
-        tutorial.videos.remove(videoToUpdate.id);
+        // Remove the reference to this video from our tutorial record.
+        tutorial.videos.remove(+req.param('id'));
+        // Remove this video id from the `videoOrder` array
+        tutorial.videoOrder = _.without(tutorial.videoOrder, +req.param('id'));
+        // Persist our tutorial back to the database.
         tutorial.save(function(err){
           if (err) return res.negotiate(err);
           
           Video.destroy({
-            id: req.param('id')
+            id: +req.param('id')
           }).exec(function(err){
             if (err) return res.negotiate(err);
         

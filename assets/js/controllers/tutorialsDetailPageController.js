@@ -184,6 +184,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   $scope.moveVideoUp = function(e, videoId) {
 
     e.preventDefault();
+    e.stopPropagation();
 
     // With refresh:
     // 
@@ -192,6 +193,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     $http.post('/videos/'+videoId+'/up')
     .then(function (sailsResponse) {
       console.log('moved video up!');
+      console.log(sailsResponse);
 
       // Refresh the page
       location.reload();
@@ -206,6 +208,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   $scope.moveVideoDown = function(e, videoId) {
 
     e.preventDefault();
+    e.stopPropagation();
 
     // With refresh:
     // 

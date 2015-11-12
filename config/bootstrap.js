@@ -166,7 +166,9 @@ module.exports.bootstrap = function(cb) {
           title: fakeTutorial.title,
           description: fakeTutorial.description,
           owner: fakeTutorial.owner,
-          stars: fakeTutorial.stars
+          stars: fakeTutorial.stars,
+          videoOrder: [1,2,3,4,5,6,7,8], // These are the first 8 videos in the database
+          // TODO: fix this
         }).exec(function (err, fakeTutorial){
           if (err) return next(err);
           return next();
