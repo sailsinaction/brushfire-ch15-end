@@ -17,10 +17,9 @@ module.exports = {
       type: 'string'
     },
 
-    // stars: {
-    //   type: 'integer'
-    // },
-    
+    videoOrder: {
+      type: 'json'
+    },
 
     owner: {
       model: 'user'
