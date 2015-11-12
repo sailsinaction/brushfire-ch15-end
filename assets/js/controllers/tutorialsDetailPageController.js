@@ -59,6 +59,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   });
 
+  // Getting the average rating
   $scope.$watch('averageStars', function(rating) {
 
     // Average Rating
