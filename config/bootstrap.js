@@ -99,59 +99,69 @@ module.exports.bootstrap = function(cb) {
     }
 
     var TEST_TUTORIALS = [{
-      title: 'aThe best of Douglas Crockford on JavaScript.',
+      title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavasScript the good parts.',
       owner: 2,
+      videoOrder: [1,2,3,4,5,6,7,8]
       // stars: 5
     },{
-      title: 'aUnderstanding Angular 2.0',
+      title: 'Understanding Angular 2.0',
       description: 'Different sides of Angular 2.0',
       owner: 2,
+      videoOrder: [9,10,11]
       // stars: 5
     }, {
-      title: 'aBiology 101.',
+      title: 'Biology 101.',
       description: 'The best biology teacher on the planet.',
       owner: 2,
+      videoOrder: [12,13]
       // stars: 5
     },{
-      title: 'aDog Training.',
+      title: 'Dog Training.',
       description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
       owner: 2,
+      videoOrder: [14,15]
       // stars: 4
     }, {
-      title: 'aHow to play famous songs on the Ukulele.',
+      title: 'How to play famous songs on the Ukulele.',
       description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
       owner: 2,
+      videoOrder: [16,17]
       // stars: 3
     }, {
-      title: 'aCharacter development 101.',
+      title: 'Character development 101.',
       description: 'Writing better and more interesting characters.',
       owner: 2,
+      videoOrder: [18]
       // stars: 4
     }, {
-      title: 'aDrawing Cartoons.',
+      title: 'Drawing Cartoons.',
       description: 'Drawing techniques for the beginning cartoonist.',
       owner: 2,
+      videoOrder: [19]
       // stars: 5
     }, {
-      title: 'aHow to make whisky.',
+      title: 'How to make whisky.',
       description: 'Distilling corn into whisky.',
       owner: 2,
+      videoOrder: [20]
       // stars: 5
     }, {
-      title: 'aHow do toilets work.',
+      title: 'How do toilets work.',
       description: 'Everything you never thought you needed to know about how toilets flush.',
       owner: 2,
+      videoOrder: [21]
       // stars: 5
     }, {
-      title: 'aMaking fire.',
+      title: 'Making fire.',
       description: 'Techniques for making fire without a match.',
       owner: 2,
+      videoOrder: [22]
       // stars: 5
     },{
-      title: 'aMaking homemade beef jerky.',
+      title: 'Making homemade beef jerky.',
       description: 'Everything you need to know to make some jerky.',
-      owner: 2,
+      owner: 2
       // stars: 5
     }];
 
@@ -172,7 +182,7 @@ module.exports.bootstrap = function(cb) {
           description: fakeTutorial.description,
           owner: fakeTutorial.owner,
           stars: fakeTutorial.stars,
-          videoOrder: [1,2,3,4,5,6,7,8], // These are the first 8 videos in the database
+          videoOrder: fakeTutorial.videoOrder
           // TODO: fix this
         }).exec(function (err, fakeTutorial){
           if (err) return next(err);

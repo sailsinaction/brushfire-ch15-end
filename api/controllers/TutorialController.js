@@ -72,17 +72,6 @@ module.exports = {
         });
       });
     });
-    // .exec(function(err, tutorials){
-
-    //   console.log('tutorials', tutorials);
-
-    //   return res.json({
-    //     options: {
-    //       totalTutorials: 30,
-    //       updatedTutorials: tutorials
-    //     }
-    //   });
-    // });
   },
 
   browseTutorials: function(req, res) {
@@ -232,8 +221,6 @@ module.exports = {
               // Add the updated rating to the tutorial
               foundTutorial.ratings.push(updatedRating[0]);
 
-              console.log('foundTutorial.ratings after push: ', foundTutorial.ratings);
-
               // Get the average of all ratings with the updated rating
               var sumTutorialRatings = 0;
 
@@ -263,8 +250,6 @@ module.exports = {
               // Add the updated rating to the tutorial
               foundTutorial.ratings.push(createdRating);
 
-              console.log('foundTutorial.ratings after push: ', foundTutorial.ratings);
-
               // Get the average of all ratings with the updated rating
               var sumTutorialRatings = 0;
 
@@ -276,8 +261,6 @@ module.exports = {
 
               // Assign the average to the tutorial
               foundTutorial.averageRating = sumTutorialRatings / foundTutorial.ratings.length;
-
-              console.log('foundTutorial.averageRating', foundTutorial.averageRating);
 
               return res.json({
                 averageRating: foundTutorial.averageRating

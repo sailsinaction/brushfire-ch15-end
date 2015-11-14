@@ -172,7 +172,6 @@ module.exports = {
   removeProfile: function(req, res) {
 
     User.update({
-      // id: req.param('id')
       id: req.session.userId
     }, {
       deleted: true
@@ -186,7 +185,6 @@ module.exports = {
       req.session.userId = null;
       return res.ok();
     });
-    // }
   },
 
   generateRecoveryEmail: function(req, res) {

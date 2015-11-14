@@ -299,9 +299,9 @@ module.exports = {
       if (err) return res.negotiate(err);
       if (!foundUser) return res.notFound();
 
-      Tutorial.find({
+      Tutorial.find({where: {
         owner: foundUser.id
-      })
+      }, sort: 'title ASC'})
       .populate('ratings')
       .populate('videos')
       .exec(function(err, foundTutorials){
@@ -553,7 +553,6 @@ module.exports = {
               sumTutorialRatings = sumTutorialRatings + rating.stars;  
             });
 
-            
             // Assign the average to the tutorial
             tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
              
@@ -584,7 +583,7 @@ module.exports = {
             // the rank, then the newly sorted `tutorial.videos` array will be in the same order.
             return _.indexOf(tutorial.videoOrder,video.id);
           });
-          //
+
           // Given (e.g.):
           // tutorial.videoOrder= [3, 4, 5]
           // tutorial.videos = [{id: 5}, {id: 4}, {id: 3}]
