@@ -18,7 +18,7 @@ module.exports.bootstrap = function(cb) {
   // This is to prevent us from pulling our hair out creating test users manually in the app
   // `TEST_USERS` is an array of test users 
   var TEST_USERS = [{
-    email: 'sailsinaction@gmail.com',
+    email: 'sailsia@gmail.com',
     username: 'sails-in-action',
     password: 'abc123',
     admin: true
