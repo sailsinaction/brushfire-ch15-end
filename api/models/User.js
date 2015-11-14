@@ -12,8 +12,8 @@ module.exports = {
 
     email: {
       type: 'string',
-      email: 'true',
-      unique: 'true'
+      // email: 'true',
+      // unique: 'true'
     },
 
     username: {
