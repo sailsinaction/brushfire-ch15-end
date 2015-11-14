@@ -775,6 +775,7 @@ module.exports = {
     })
     .populate('videos')
     .populate('owner')
+    .populate('ratings')
     .exec(function(err, tutorial){
       if (err) return res.negotiate(err);
       if (!tutorial) return res.notFound();
@@ -793,6 +794,23 @@ module.exports = {
 
           return res.redirect('/tutorials/'+tutorial.id);
 
+        }
+
+        // Perform Average Ratings calculation if there are ratings
+        if (tutorial.ratings.length === 0) {
+          tutorial.averageRating = null;
+        } else {
+
+          var sumTutorialRatings = 0;
+
+          // Total the number of ratings for the Tutorial
+          _.each(tutorial.ratings, function(rating){
+
+            sumTutorialRatings = sumTutorialRatings + rating.stars;  
+          });
+
+          // Assign the average to the tutorial
+          tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
         }
 
         var totalSeconds = 0;
@@ -821,6 +839,7 @@ module.exports = {
             owner: tutorial.owner.username,
             created: tutorial.created,
             totalTime: tutorial.totalTime,
+            averageRating: tutorial.averageRating,
             video: {
               title: videoToUpdate.title,
               src: videoToUpdate.src,
