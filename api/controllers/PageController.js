@@ -306,7 +306,7 @@ module.exports = {
       .populate('videos')
       .exec(function(err, foundTutorials){
         if (err) return res.negotiate(err);
-        if (!foundTutorials) return res.notFound();        
+        if (!foundTutorials) return res.notFound();
 
         _.each(foundTutorials, function(tutorial){
 
@@ -513,6 +513,7 @@ module.exports = {
 
     Tutorial.findOne(req.param('id'))
     .populate('owner')
+    .populate('ratings')
     .populate('videos')
     .exec(function(err, tutorial){
       if (err) return res.negotiate(err);
@@ -523,91 +524,124 @@ module.exports = {
       }).exec(function(err, user){
         if (err) return res.negotiate(err);
         if (!user) return res.notFound();
-  
-        tutorial.owner = user.username;
-        
-        // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
-        tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-        tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
 
-        // Format the total time for each video and for the tutorial as a whole.
-        var totalSeconds = 0;
-        _.each(tutorial.videos, function(video){
+        Rating.findOne({
+          user: req.session.userId
+        }).exec(function(err, foundRating){
+          if (err) return res.negotiate(err);
 
-          // Total the number of seconds for all videos for tutorial total time
-          totalSeconds = totalSeconds + video.lengthInSeconds;
+          // Set username as owner
+          tutorial.owner = user.username;
 
-          // Format the video lengthInSeconds into xh xm xs format for each video
-          video.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: video.lengthInSeconds}).hoursMinutesSeconds;
-
-          tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-        });
-
-        // Finally use the embedded `videoOrder` array to apply the manual sort order
-        // to our videos.
-        tutorial.videos = _.sortBy(tutorial.videos, function getRank (video) {
-          // We use the index of this video id within the `videoOrder` array as our sort rank.
-          // Because that array is in the proper order, if we use the index of this video id as
-          // the rank, then the newly sorted `tutorial.videos` array will be in the same order.
-          return _.indexOf(tutorial.videoOrder,video.id);
-        });
-        //
-        // Given (e.g.):
-        // tutorial.videoOrder= [3, 4, 5]
-        // tutorial.videos = [{id: 5}, {id: 4}, {id: 3}]
-        // 
-        // Yields (e.g.):
-        // tutorial.videos <== [{id: 3}, {id: 4}, {id: 5}]
-
-        // If not logged in set `me` property to `null` and pass the tutorial to the view
-        if (!req.session.userId) {
-          return res.view('tutorials-detail', {
-            me: null,
-            stars: tutorial.stars, // TODO: just use tutorial for this instead of a separate `stars` property
-            tutorial: tutorial
-          });
-        }
-
-        User.findOne(req.session.userId, function(err, user) {
-          if (err) {
-            return res.negotiate(err);
-          }
-
-          if (!user) {
-            sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-            return res.view('tutorials-detail', {
-              me: null
-            });
-          }
-
-          // We'll provide `me` as a local to the profile page view.
-          // (this is so we can render the logged-in navbar state, etc.)
-          var me = {
-            gravatarURL: user.gravatarURL,
-            username: user.username,
-            admin: user.admin
-          };
-
-          if (user.username === tutorial.owner) {
-            me.isMe = true;
-
-            return res.view('tutorials-detail', {
-              me: me,
-              stars: tutorial.stars,
-              tutorial: tutorial
-            });
-
+          // Check for rating of currently authenticated user
+          if (!foundRating) {
+            tutorial.myRating = null;
           } else {
+            tutorial.myRating = foundRating.stars;
+          }
+
+          // Perform Average Ratings calculation if there are ratings
+          if (tutorial.ratings.length === 0) {
+            tutorial.averageRating = null;
+          } else {
+
+            var sumTutorialRatings = 0;
+
+            // Total the number of ratings for the Tutorial
+            _.each(tutorial.ratings, function(rating){
+
+              sumTutorialRatings = sumTutorialRatings + rating.stars;  
+            });
+
+            
+            // Assign the average to the tutorial
+            tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
+             
+          }
+
+          // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
+          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+          tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
+
+          // Format the total time for each video and for the tutorial as a whole.
+          var totalSeconds = 0;
+          _.each(tutorial.videos, function(video){
+
+            // Total the number of seconds for all videos for tutorial total time
+            totalSeconds = totalSeconds + video.lengthInSeconds;
+
+            // Format the video lengthInSeconds into xh xm xs format for each video
+            video.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: video.lengthInSeconds}).hoursMinutesSeconds;
+
+            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+          });
+
+          // Finally use the embedded `videoOrder` array to apply the manual sort order
+          // to our videos.
+          tutorial.videos = _.sortBy(tutorial.videos, function getRank (video) {
+            // We use the index of this video id within the `videoOrder` array as our sort rank.
+            // Because that array is in the proper order, if we use the index of this video id as
+            // the rank, then the newly sorted `tutorial.videos` array will be in the same order.
+            return _.indexOf(tutorial.videoOrder,video.id);
+          });
+          //
+          // Given (e.g.):
+          // tutorial.videoOrder= [3, 4, 5]
+          // tutorial.videos = [{id: 5}, {id: 4}, {id: 3}]
+          // 
+          // Yields (e.g.):
+          // tutorial.videos <== [{id: 3}, {id: 4}, {id: 5}]
+
+          // If not logged in set `me` property to `null` and pass the tutorial to the view
+          if (!req.session.userId) {
             return res.view('tutorials-detail', {
-              me: {
-                gravatarURL: user.gravatarURL,
-                username: user.username,
-                admin: user.admin
-              },
-              stars: tutorial.stars,
+              me: null,
+              // stars: tutorial.averageRating, // TODO: just use tutorial for this instead of a separate `stars` property
               tutorial: tutorial
             });
           }
+
+          User.findOne(req.session.userId, function(err, user) {
+            if (err) {
+              return res.negotiate(err);
+            }
+
+            if (!user) {
+              sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+              return res.view('tutorials-detail', {
+                me: null
+              });
+            }
+
+            // We'll provide `me` as a local to the profile page view.
+            // (this is so we can render the logged-in navbar state, etc.)
+            var me = {
+              gravatarURL: user.gravatarURL,
+              username: user.username,
+              admin: user.admin
+            };
+
+            if (user.username === tutorial.owner) {
+              me.isMe = true;
+
+              return res.view('tutorials-detail', {
+                me: me,
+                // stars: tutorial.averageRating,
+                tutorial: tutorial
+              });
+
+            } else {
+              return res.view('tutorials-detail', {
+                me: {
+                  gravatarURL: user.gravatarURL,
+                  username: user.username,
+                  admin: user.admin
+                },
+                // stars: tutorial.averageRating,
+                tutorial: tutorial
+              });
+            }
+          });
         });
       });
     });

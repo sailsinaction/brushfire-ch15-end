@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  window.SAILS_LOCALS.stars = <%-
+  window.SAILS_LOCALS.tutorial = <%-
     // Note that by putting these comments inside of the EJS tag, we prevent them from
     // being sent down to client (i.e. they are boiled away on the server along 
     // with the EJS tags)
@@ -7,7 +7,7 @@
     // Notice we must check that `stars` exists using typeof to keep EJS from throwing
     // and displaying an ugly error message when rendering certain pages
     // (i.e. 404 /500 error pages)
-    typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
+    typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) : 'null'
     // Note that we deliberately use 'null' (a string) because EJS converts the 
     // `null` literal  into empty string (''), which is not what we want (that would 
     // be invalid JS and cause a client-side error in the browser)
@@ -67,13 +67,19 @@
                 </li>
                 <li>|</li>
                 <li>
-                  <span>rating average: <rating ng-model= "averageRating" max="max" readonly="true"  style="outline: none;"></rating></span>
+                  <!-- Empty state of tutorial.averageRating -->
+                  <% if (!tutorial.averageRating) { %>
+                    <span style="outline: none">rating average: <i>none<i></span>
+                  <% } else { %>
+                    <!-- tutorial.averageRating -->
+                    <span>rating average: <rating ng-model="averageRating" max="max" readonly="true"  style="outline: none;"></rating></span>
+                  <% } %>
                 </li>
                 <li>|</li>
                 <!-- Don't show myRating unless authenticated -->
                 <% if (me && !me.isMe) { %>
                   <li>
-                    <span>myRating: <rating ng-model="myStars" max="max" readonly="isReadonly" on-hover="hoveringOver(value, <%= tutorial.id %>)" on-leave="overStar = null" style="outline: none;"></rating></span>
+                    <span>myRating: <rating ng-model="myRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, <%= tutorial.id %>)" style="outline: none;"></rating></span>
                     <span ng-show="tutorialDetails.loading" class="fa fa-spinner"></span>
                     <span ng-hide="hideChangeRating">
                       <button ng-click="changeRating()" class="btn btn-primary btn-xs">change</button>

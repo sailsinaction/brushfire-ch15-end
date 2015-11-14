@@ -27,6 +27,11 @@ module.exports.bootstrap = function(cb) {
     username: 'nikola-tesla',
     password: 'abc123',
     admin: false
+  }, {
+    email: 'franksinatra@myWay.com',
+    username: 'frank-sinatra',
+    password: 'abc123',
+    admin: false
   }];
 
   // Iterate over testUsers array of dictionaries
@@ -77,8 +82,8 @@ module.exports.bootstrap = function(cb) {
             username: fakeUser.username,
             deleted: false,
             admin: fakeUser.admin,
-            banned: false,
-            tutorials: []
+            banned: false
+            // tutorials: []
           }).exec(function(err, createdUser) {
             if (err) {
               return next(err);
@@ -315,7 +320,26 @@ module.exports.bootstrap = function(cb) {
       }, function afterwards(err) {
         if (err) return cb(err);
 
-        return cb();
+        var TEST_RATINGS = [{
+          stars: 3,
+          user: 1,
+          tutorial: 1
+        }];
+
+        async.eachSeries(TEST_RATINGS, function createEachFakeRating(fakeRating, next){
+ 
+          Rating.create({
+            stars: fakeRating.stars,
+            user: fakeRating.user,
+            tutorial: fakeRating.tutorial
+          }).exec(function(err){
+            if (err) return next(err);
+            return next();
+          });
+        }, function afterwards(err) {
+          if (err) return cb(err);
+          return cb();
+        });
       });
     });
   });

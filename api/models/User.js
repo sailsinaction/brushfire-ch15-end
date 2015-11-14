@@ -54,8 +54,21 @@ module.exports = {
 
     ratings: {
       collection: 'rating',
-      via: 'user'
+      via: 'user' // TODO: `byUser` (so readers don't get confused and think it _has_ to be the model name)
     },
+
+    // A good example of a unidirectional association:
+    // following: { collection: 'user' },
+
+    // Here's the bidirectional version:
+    // following: {
+    //   collection: 'user',
+    //   via: 'followedBy'
+    // },
+    // followedBy: {
+    //   collection: 'user',
+    //   via: 'following'
+    // }
 
     toJSON: function() {
       var obj = this.toObject();

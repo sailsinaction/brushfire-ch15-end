@@ -18,9 +18,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   // Grab the number of stars (in a local) for this tutorial from the stars
   // property of the window object
-  $scope.tutorial = {
-    stars: window.SAILS_LOCALS.stars
-  };
+  $scope.tutorial = window.SAILS_LOCALS.tutorial;
 
   // set-up loading state
   $scope.tutorialDetails = {
@@ -34,48 +32,22 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
   // We need a max for the stars (i.e. 1 out of 5 stars)
   $scope.max = 5;
 
-  // Hide change rating button initially
-  $scope.hideChangeRating=true;
+  // Initial state for the rating directives.
+  // Show change rating button initially
 
-  // Checks to see if there's an existing rating for myRating
-  $http.get('/tutorials/'+$scope.fromUrlTutorialId+'/my-rating')
-  .then(function onSuccess(sailsResponse){
+  
+  // $scope.myRating = 4;
+  $scope.myRating = $scope.tutorial.myRating;
+  // $scope.averageRating = 4;
+  $scope.averageRating = $scope.tutorial.averageRating;  // TODO: use window.SAILS_LOCALS... instead of sailsResponse.data.averageStars;
 
-    if (sailsResponse.data.rating) {
-      $scope.isReadonly = true;
-      $scope.alreadyHasValue = true;
-      $scope.myStars=sailsResponse.data.rating;
-      $scope.hideChangeRating=false;
-    } else {
-      $scope.hideChangeRating=true;
-      return;
-    }
-
-  })
-  .catch(function onError(sailsResponse){
-    console.error(sailsResponse);
-  })
-  .finally(function eitherWay(){
-
-  });
-
-  // Getting the average rating
-  $scope.$watch('averageStars', function(rating) {
-
-    // Average Rating
-    $http.get('/tutorials/'+$scope.fromUrlTutorialId+'/average-rating')
-    .then(function onSuccess(sailsResponse){
-
-      $scope.averageRating=sailsResponse.data.averageStars;
-
-    })
-    .catch(function onError(sailsResponse){
-      console.error(sailsResponse);
-    })
-    .finally(function eitherWay(){
-
-    });
-  });
+  if ($scope.myRating) {
+    $scope.hideChangeRating = false;
+    $scope.isReadonly = true;
+  } else {
+    $scope.hideChangeRating = true;
+    $scope.isReadonly = false;
+  }
 
 
 /* 
@@ -88,70 +60,71 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
 */
 
-  // Sets myRating to editable mode
+  // When you click the "Change" button for your rating...
   $scope.changeRating = function() {
+    // (sets myRating to editable mode)
     $scope.isReadonly = false;
-    $scope.alreadyHasValue = false;
     $scope.hideChangeRating=true;
-  }
-
- // The number of stars currently being hovered over 
-  $scope.hoveringOver = function(rating, tutorialId) {
-
-    // The `id` of the tutorial, we'll need it for the $watch below because
-    // we can't pass the `id` in the $watch function
-    $scope.tutorialId = tutorialId;
-
-    // The number of stars currently being hovered over
-    $scope.overStar = rating;
   };
 
-  // When the user clicks on the the stars this will change the model and
-  //  we'll POST the rating
-  $scope.$watch('myStars', function(rating) {
+  // When you hover over "My stars" in edit mode....
+  // $scope.hoveringOver = function(rating, tutorialId) {
+
+  //   // The `id` of the tutorial, we'll need it for the $watch below because
+  //   // we can't pass the `id` in the $watch function
+  //   $scope.tutorialId = tutorialId;
+
+  //   // The number of stars currently being hovered over
+  //   $scope.overStar = rating;
+  // };
+
+var origRating = $scope.myRating;
+  // When the user changes their rating or sets their initial rating by
+  // clicking on the stars in our fancy directive, it changes the `myRating` property
+  // on our $scope (which is an ng-model or something) so this watch function fires...
+  $scope.$watch('myRating', function(rating) {
 
     // Doing this check because the rating directive will fire upon initial
     // page load 
-    if (!rating) {
-      return;
-    }
+    // if (!rating) {
+    //   return;
+    // }
 
     // This disables the rating element between AJAX PUT requests (e.g. double posting)
     if ($scope.tutorialDetails.loading) {
       return;
     }
+    
+    if (rating !== origRating) {
+      $scope.tutorialDetails.loading = true;
+      $http.put('/tutorials/' + $scope.fromUrlTutorialId + '/rate', {
+        stars: rating
+      })
+      .then(function onSuccess(sailsResponse) {
 
-    if ($scope.alreadyHasValue) {
-      return;
-    }
-
-    $scope.tutorialDetails.loading = true;
-    $http.put('/tutorials/' + $scope.fromUrlTutorialId + '/rate', {
-      stars: rating
-    })
-    .then(function onSuccess(sailsResponse) {
-
-      toastr.success('Your rating has been saved', 'Rating', {
+        toastr.success('Your rating has been saved', 'Rating', {
           closeButton: true
         });
 
-      // Sets myRating to read-only
-      $scope.isReadonly = true;
-      $scope.alreadyHasValue = true;
-      $scope.hideChangeRating=false;
+        // Sets myRating to read-only
+        $scope.isReadonly = true;
+        $scope.hideChangeRating = false;
 
-    })
-    .catch(function onError(sailsResponse) {
+        // Now, also update the average rating.
+        // TODO: instead of this fake thing, use the new average rating returned in `sailsResponse`.
+        $scope.averageRating = sailsResponse.data.averageRating;
 
-      console.error(sailsResponse);
-
-    })
-    .finally(function eitherWay() {
-      $scope.tutorialDetails.loading = false;
-    });
-    
+      })
+      .catch(function onError(sailsResponse) {
+        console.error(sailsResponse);
+      })
+      .finally(function eitherWay() {
+        $scope.tutorialDetails.loading = false;
+      });
+    }
   });
 
+  // When you click on a video...
   $scope.editVideo = function(e, videoId) {
 
     e.preventDefault();
@@ -160,7 +133,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
     window.location = '/tutorials/' + $scope.fromUrlTutorialId + '/videos/' + videoId + '/edit';
   };
 
-  // Simulate deleting a tutorial
+  // When you click the "Delete tutorial" button...
   $scope.deleteTutorial = function(id) {
 
     $scope.tutorialDetails.deleteTutorialLoading = true;
@@ -180,7 +153,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   };
 
-  // Simulate move video up
+  // When you click the up arrow next to a video...
   $scope.moveVideoUp = function(e, videoId) {
 
     e.preventDefault();
@@ -204,7 +177,7 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   };
 
-  // Simulate move video down
+  // When you click the down arrow next to a video...
   $scope.moveVideoDown = function(e, videoId) {
 
     e.preventDefault();
@@ -227,10 +200,11 @@ angular.module('brushfire').controller('tutorialsDetailPageController', ['$scope
 
   };
 
-  // Simulate deleting a video
+  // When you click the delete button next to a video...
   $scope.deleteVideo = function(e, videoId, index) {
 
     e.preventDefault();
+    e.stopPropagation();
 
     $scope.tutorialDetails.deleteVideoLoading = index;
 

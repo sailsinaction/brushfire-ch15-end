@@ -177,25 +177,31 @@ module.exports = {
 
   rateTutorial: function(req, res) {
 
+    // Find the currently authenticated user
     User.findOne({
       id: req.session.userId
     }).exec(function(err, foundUser){
       if (err) return res.negotiate(err);
       if (!foundUser) return res.notFound();
 
+      // Find the tutorial whose being rated
       Tutorial.findOne({
         id: req.param('id')
-      }).exec(function(err, foundTutorial){
+      })
+      .populate('ratings')
+      .exec(function(err, foundTutorial){
         if (err) return res.negotiate(err);
         if (!foundTutorial) return res.notFound();
 
+        // Find the rating, if any, of the tutorial from the currently logged in user.
         Rating.findOne({
           user: foundUser.id,
           tutorial: foundTutorial.id
         }).exec(function(err, foundRating){
           if (err) return res.negotiate(err);
-          
 
+          // If the currently authenticated user-agent (user) has already rated this tutorial
+          // update it with the new rating.
           if (foundRating) {
 
             Rating.update({
@@ -206,7 +212,43 @@ module.exports = {
               if (err) return res.negotiate(err);
               if (!updatedRating) return res.notFound();
 
-              return res.ok();
+              // Iterate over the ratings and remove the old rating from the current user 
+              _.each(foundTutorial.ratings, function(rating){
+
+                if (rating) {
+                  // Find the old rating from this user
+                  if (rating.id === foundRating.id) {
+
+                    // Remove the old rating
+                    _.remove(foundTutorial.ratings, function(rating){
+                      return rating.id === foundRating.id;
+                    });
+                  } else {
+                    return;
+                  }
+                }
+              });
+
+              // Add the updated rating to the tutorial
+              foundTutorial.ratings.push(updatedRating[0]);
+
+              console.log('foundTutorial.ratings after push: ', foundTutorial.ratings);
+
+              // Get the average of all ratings with the updated rating
+              var sumTutorialRatings = 0;
+
+              // Total the number of ratings for the Tutorial
+              _.each(foundTutorial.ratings, function(rating){
+
+                sumTutorialRatings = sumTutorialRatings + rating.stars;
+              });
+
+              // Assign the average to the tutorial
+              foundTutorial.averageRating = Math.floor(sumTutorialRatings / foundTutorial.ratings.length);
+
+              return res.json({
+                averageRating: foundTutorial.averageRating
+              });
             });
           } else {
 
@@ -214,11 +256,32 @@ module.exports = {
               stars: req.param('stars'),
               user: foundUser.id,
               tutorial: foundTutorial.id
-            }).exec(function(err, rating){
+            }).exec(function(err, createdRating){
               if (err) return res.negotiate(err);
-              if (!rating) return res.notFound();
+              if (!createdRating) return res.notFound();
 
-              return res.ok();
+              // Add the updated rating to the tutorial
+              foundTutorial.ratings.push(createdRating);
+
+              console.log('foundTutorial.ratings after push: ', foundTutorial.ratings);
+
+              // Get the average of all ratings with the updated rating
+              var sumTutorialRatings = 0;
+
+              // Total the number of ratings for the Tutorial
+              _.each(foundTutorial.ratings, function(rating){
+
+                sumTutorialRatings = sumTutorialRatings + rating.stars;
+              });
+
+              // Assign the average to the tutorial
+              foundTutorial.averageRating = sumTutorialRatings / foundTutorial.ratings.length;
+
+              console.log('foundTutorial.averageRating', foundTutorial.averageRating);
+
+              return res.json({
+                averageRating: foundTutorial.averageRating
+              });
             });
           }
         });
