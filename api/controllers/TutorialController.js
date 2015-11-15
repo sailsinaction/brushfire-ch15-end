@@ -467,7 +467,7 @@ module.exports = {
       return res.redirect('/');
     }
 
-    // Find the currently logged in user and it's tutorials
+    // Find the currently logged in user and its tutorials
     User.findOne({id: req.session.userId})
     .populate('tutorials')
     .exec(function(err, foundUser){
@@ -483,19 +483,48 @@ module.exports = {
       foundUser.tutorials.remove(req.param('id'));
       foundUser.save(function (err){
         if (err) return res.negotiate(err);
-      });
 
-      // Destroy the tutorial
-      Tutorial.destroy({
-        id: req.param('id')
-      }).exec(function(err){
-        if (err) return res.negotiate(err);
+        Tutorial.findOne({
+          id: req.param('id')
+        })
+        .populate ('ratings')
+        .populate('videos')
+        .exec(function(err, foundTutorial){
+          if (err) return res.negotiate(err);
+          if (!foundTutorial) return res.notFound();
 
-        // TODO: destroy videos
-        // TODO: destroy ratings
+          _.each(foundTutorial.videos, function(video){
+            foundTutorial.videos.remove(video.id);
+          });
 
-        // Return the username of the user using the userId of the session.
-        return res.json({username: foundUser.username});
+          _.each(foundTutorial.ratings, function(rating){
+            foundTutorial.ratings.remove(rating.id);
+          });
+
+          foundTutorial.save(function(err){
+            if (err) return res.negotiate(err);
+
+            // Destroy the tutorial
+            Tutorial.destroy({
+              id: req.param('id')
+            }).exec(function(err){
+              if (err) return res.negotiate(err);
+
+              // Destroy videos
+              Video.destroy({id: _.pluck(foundTutorial.videos, 'id')}).exec(function(err){
+                if (err) return res.negotiate(err);
+
+                // Destroy ratings
+                Tutorial.destroy({id: _.pluck(foundTutorial.ratings, 'id')}).exec(function(err){
+                  if (err) return res.negotiate(err);
+
+                  // Return the username of the user using the userId of the session.
+                  return res.json({username: foundUser.username});
+                });
+              });
+            });
+          });
+        });
       });
     });
   },
@@ -509,39 +538,21 @@ module.exports = {
     .exec(function(err, video){
       if (err) return res.negotiate(err);
       if (!video) return res.notFound();
-
-
-      // Now look up the tutorial record on its own... even though we already have it
-      // (this is purely so that we can call remove()-- but I don't think we have to)
-      // 
-      // TODO: could we just do:
-      // ```
-      // video.tutorialAssoc.videos.remove(...)
-      // video.tutorialAssoc.save(...)
-      // ```
-      // ?
-      Tutorial.findOne({
-        id: video.tutorialAssoc.id
-      })
-      .exec(function(err, tutorial){
+      
+      // Remove the reference to this video from our tutorial record.
+      video.tutorialAssoc.videos.remove(+req.param('id'));
+      // Remove this video id from the `videoOrder` array
+      video.tutorialAssoc.videoOrder = _.without(video.tutorialAssoc.videoOrder, +req.param('id'));
+      // Persist our tutorial back to the database.
+      video.tutorialAssoc.save(function(err){
         if (err) return res.negotiate(err);
-        if (!tutorial) return res.notFound();
-
-        // Remove the reference to this video from our tutorial record.
-        tutorial.videos.remove(+req.param('id'));
-        // Remove this video id from the `videoOrder` array
-        tutorial.videoOrder = _.without(tutorial.videoOrder, +req.param('id'));
-        // Persist our tutorial back to the database.
-        tutorial.save(function(err){
-          if (err) return res.negotiate(err);
-          
-          Video.destroy({
-            id: +req.param('id')
-          }).exec(function(err){
-            if (err) return res.negotiate(err);
         
-            return res.ok();
-          });
+        Video.destroy({
+          id: +req.param('id')
+        }).exec(function(err){
+          if (err) return res.negotiate(err);
+      
+          return res.ok();
         });
       });
     });
