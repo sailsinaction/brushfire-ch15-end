@@ -33,9 +33,18 @@ angular.module('brushfire').controller('browseTutorialsPageController', ['$scope
       $scope.tutorials = sailsResponse.data.options.updatedTutorials;
       $scope.totalTutorials = sailsResponse.data.options.totalTutorials;
 
-      $scope.results = true;
+      // Prevent markup from being displayed if no tutorials
+      if ($scope.tutorials.length > 0) {
+        $scope.results = true;
+      }
 
+      // Increment the skip variable by the total possible number of tutorials on the page
       $scope.skip = $scope.skip+=10;
+
+      // Disable the more tutorials button if there are no more tutorials.
+      if ($scope.tutorials < 10  || $scope.totalTutrials - $scope.skip <= 10){
+        $scope.noMoreTutorials = true;
+      }
 
     })
     .catch(function onError(sailsResponse) {

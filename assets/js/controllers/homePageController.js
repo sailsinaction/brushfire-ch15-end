@@ -64,7 +64,7 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
         $scope.noMoreTutorials = true;
       }
 
-      if ($scope.tutorials.length < 9) {
+      if ($scope.tutorials.length <= 10) {
         $scope.noMoreTutorials = true;
       }
 
