@@ -499,24 +499,15 @@ module.exports = {
       // Add the currently authenticated user-agent (user) as 
       // a follower of owner of the tutorial
       user.followers.add(req.session.userId);
-      user.save(function(err){
+      user.save(function(err, updatedUser){
         if (err) return res.negotiate(err);
+        if (!updatedUser) return res.notFound();
 
-        User.findOne({
-          username: req.param('username'),
-        })
-        .populate('followers')
-        .populate('following')
-        .exec(function (err, user){
-          if (err) return res.negotiate(err);
-          if (!user) return res.notFound();
-
-          return res.json({
-            numOfFollowers: user.followers.length,
-            numOfFollowing: user.following.length,
-            followers: user.followers,
-            following: user.following
-          });
+        return res.json({
+          numOfFollowers: updatedUser.followers.length,
+          numOfFollowing: updatedUser.following.length,
+          followers: updatedUser.followers,
+          following: updatedUser.following
         });
       });
     });
@@ -537,24 +528,15 @@ module.exports = {
       // Remove the currently authenticated user-agent (user) as 
       // a follower of owner of the tutorial
       user.followers.remove(req.session.userId);
-      user.save(function(err){
+      user.save(function(err, updatedUser){
         if (err) return res.negotiate(err);
-
-        User.findOne({
-          username: req.param('username'),
-        })
-        .populate('followers')
-        .populate('following')
-        .exec(function (err, user){
-          if (err) return res.negotiate(err);
-          if (!user) return res.notFound();
+        if (!updatedUser) return res.notFound();
         
-          return res.json({
-            numOfFollowers: user.followers.length,
-            numOfFollowing: user.following.length,
-            followers: user.followers,
-            following: user.following
-          });
+        return res.json({
+          numOfFollowers: updatedUser.followers.length,
+          numOfFollowing: updatedUser.following.length,
+          followers: updatedUser.followers,
+          following: updatedUser.following
         });
       });
     });
