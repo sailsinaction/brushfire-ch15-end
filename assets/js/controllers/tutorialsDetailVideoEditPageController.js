@@ -26,6 +26,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
   // We need a max for the stars (i.e. 1 out of 5 stars)
   $scope.max = 5;
 
+  $scope.id = $scope.tutorial.video.id;
   $scope.title = $scope.tutorial.video.title;
   $scope.src = $scope.tutorial.video.src;
   $scope.hours = $scope.tutorial.video.hours;
@@ -77,7 +78,7 @@ angular.module('brushfire').controller('tutorialsDetailVideoEditPageController',
 
   $scope.submitEditVideoForm = function() {
 
-    $http.put('/videos/'+$scope.fromUrlTutorialId, {
+    $http.put('/videos/'+$scope.id, {
       title: $scope.title,
       src: $scope.src,
       hours: $scope.hours,

@@ -448,7 +448,7 @@ module.exports = {
     var convertedToSeconds = hours * 60 * 60 + minutes * 60 + seconds;
 
     Video.update({
-      id: req.param('id')
+      id: +req.param('id')
     }).set({
       title: req.param('title'),
       src: req.param('src'),

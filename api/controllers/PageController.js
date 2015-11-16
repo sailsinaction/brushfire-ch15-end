@@ -859,6 +859,7 @@ module.exports = {
             totalTime: tutorial.totalTime,
             averageRating: tutorial.averageRating,
             video: {
+              id: videoToUpdate.id,
               title: videoToUpdate.title,
               src: videoToUpdate.src,
               hours: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).hours,
