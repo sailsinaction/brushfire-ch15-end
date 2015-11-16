@@ -25,6 +25,8 @@ module.exports.routes = {
   'PUT /user/update-deleted/:id': 'UserController.updateDeleted',
   'PUT /user/generate-recovery-email': 'UserController.generateRecoveryEmail',
   'PUT /user/reset-password': 'UserController.resetPassword',
+  'PUT /user/follow': 'UserController.follow',
+  'PUT /user/unfollow': 'UserController.unFollow',
 
   'GET /tutorials': 'TutorialController.browseTutorials',
   'POST /tutorials': 'TutorialController.createTutorial',
@@ -49,6 +51,35 @@ module.exports.routes = {
   /*************************************************************
   * Server Rendered HTML Page Endpoints                        *
   *************************************************************/
+  
+  'GET /profile/followers': 'PageController.profileFollower',
+
+  // 'GET /profile/followers': {
+  //   view: 'profile-followers',
+  //   locals: {
+  //     gravatarURL: 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  //     me: {
+  //       username: 'yaya',
+  //       email: 'yaya@ya.com',
+  //       isMe: true
+  //     },
+  //     user: {
+  //       followers: [{
+  //         name: 'sails-in-action'
+  //       },{
+  //         name: 'sails-in-action'
+  //       },{
+  //         name: 'sails-in-action'
+  //       },{
+  //         name: 'sails-in-action'
+  //       },{
+  //         name: 'sails-in-action'
+  //       },{
+  //         name: 'sails-in-action'
+  //       }]
+  //     }
+  //   }
+  // },
 
   'GET /': 'PageController.home',
   'GET /profile/edit': 'PageController.editProfile',
@@ -70,6 +101,7 @@ module.exports.routes = {
   'GET /tutorials/:tutorialId/videos/:id/edit': 'PageController.editVideo',
   'GET /tutorials/:tutorialId/videos/:id/show': 'TutorialController.showVideo',
 
+  'GET /:username/followers': 'PageController.profileFollower',
   'GET /:username': 'PageController.profile',
   
   // 'GET /:username': {

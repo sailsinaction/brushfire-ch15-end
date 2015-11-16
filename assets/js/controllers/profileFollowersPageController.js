@@ -1,4 +1,4 @@
-angular.module('brushfire').controller('profilePageController', ['$scope', '$http', function($scope, $http){
+angular.module('brushfire').controller('profileFollowersPageController', ['$scope', '$http', function($scope, $http){
 
 /*
    ____          _____                _           

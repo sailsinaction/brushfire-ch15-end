@@ -57,6 +57,18 @@ module.exports = {
       via: 'user' // TODO: `byUser` (so readers don't get confused and think it _has_ to be the model name)
     },
 
+    // Who is following me?
+    followers: {
+      collection: 'user',
+      via: 'following'
+    },
+
+    // Who am I following?
+    following: {
+      collection: 'user',
+      via: 'followers'
+    },
+
     // A good example of a unidirectional association:
     // following: { collection: 'user' },
 

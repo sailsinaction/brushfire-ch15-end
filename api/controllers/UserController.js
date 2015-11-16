@@ -482,5 +482,77 @@ module.exports = {
       if (err) return res.negotiate(err);
       return res.ok();
     });
+  },
+
+  follow: function(req, res) {
+    
+    // Find the user that owns the tutorial
+    User.findOne({
+      username: req.param('username'),
+    })
+    .populate('followers')
+    .populate('following')
+    .exec(function (err, user){
+      if (err) return res.negotiate(err);
+      if (!user) return res.notFound();
+
+      // Add the currently authenticated user-agent (user) as 
+      // a follower of owner of the tutorial
+      user.followers.add(req.session.userId);
+      user.save(function(err){
+        if (err) return res.negotiate(err);
+
+        User.findOne({
+          username: req.param('username'),
+        })
+        .populate('followers')
+        .populate('following')
+        .exec(function (err, user){
+          if (err) return res.negotiate(err);
+          if (!user) return res.notFound();
+
+          return res.json({
+            numOfFollowers: user.followers.length,
+            numOfFollowing: user.following.length
+          });
+        });
+      });
+    });
+  },
+
+  unFollow: function(req, res) {
+    
+    // Find the user that owns the tutorial
+    User.findOne({
+      username: req.param('username'),
+    })
+    .populate('followers')
+    .populate('following')
+    .exec(function (err, user){
+      if (err) return res.negotiate(err);
+      if (!user) return res.notFound();
+
+      // Remove the currently authenticated user-agent (user) as 
+      // a follower of owner of the tutorial
+      user.followers.remove(req.session.userId);
+      user.save(function(err){
+        if (err) return res.negotiate(err);
+
+        User.findOne({
+          username: req.param('username'),
+        })
+        .populate('followers')
+        .populate('following')
+        .exec(function (err, user){
+          if (err) return res.negotiate(err);
+          if (!user) return res.notFound();
+        
+          return res.json({
+            numOfFollowers: user.followers.length,
+            numOfFollowing: user.following.length
+          });
+        });
+      });
+    });
   }
 };

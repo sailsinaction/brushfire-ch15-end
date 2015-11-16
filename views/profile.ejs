@@ -1,6 +1,21 @@
+<script type="text/javascript">
+  window.SAILS_LOCALS.frontEnd = <%-
+    // Note that by putting these comments inside of the EJS tag, we prevent them from
+    // being sent down to client (i.e. they are boiled away on the server along 
+    // with the EJS tags)
+    //
+    // Notice we must check that `stars` exists using typeof to keep EJS from throwing
+    // and displaying an ugly error message when rendering certain pages
+    // (i.e. 404 /500 error pages)
+    typeof frontEnd !== 'undefined' ? JSON.stringify(frontEnd) : 'null'
+    // Note that we deliberately use 'null' (a string) because EJS converts the 
+    // `null` literal  into empty string (''), which is not what we want (that would 
+    // be invalid JS and cause a client-side error in the browser)
+    %>;
+</script>
 <div ng-controller="profilePageController" ng-cloak>
   <div class="row">
-    <div class="col-md-3">
+    <div class= "col-md-2 col-md-offset-1">
       <img class="gravatarImage" src="<%= gravatarURL %>" >
     </div>
     <% if (me && me.isMe ) { %>
@@ -13,6 +28,41 @@
         </div>
       </div>
     <% } %>
+  </div>
+  <div class="row">
+    <div style="margin-top: 10px;">
+      <div class= "col-md-2 col-md-offset-1">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <i class="fa fa-asterisk"></i>
+            <span class="badge">{{ numOfTutorials }}</span>
+            TUTORIALS
+          </li>
+          <li class="list-group-item">
+            <span class="badge">{{ numOfFollowing }}</span>
+            FOLLOWING
+          </li>
+          <a href="/<%= username %>/followers">
+            <li class="list-group-item">
+              <span class="badge">{{ numOfFollowers }}</span>
+              FOLLOWERS
+            </li>
+          </a>
+        </ul>
+        <% if (me && !me.isMe) { %>
+            <div class="text-center" ng-show="!followedByLoggedInUser">
+              <button class="btn btn-primary" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
+                Follow me <span class="badge"><span class="fa fa-user"></span></span>
+              </button>
+            </div>
+              <div class="text-center" ng-show="followedByLoggedInUser">
+              <button class="btn btn-danger" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
+                Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
+              </button>
+            </div>
+        
+        <% } %>
+      </div>
     </div>
   </div>
   <div class="container" ng-cloak>

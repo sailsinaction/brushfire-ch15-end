@@ -90,212 +90,13 @@ module.exports = {
   },
 
   profile: function(req, res) {
-    // Look up the user record by the incoming `username` parameter
-    // and populate the tutorials collection association
-    
-    // User.findOne({
-    //   username: req.param('username')
-    // }).populate('tutorials')
-    // .exec(function(err, foundByUsername) {
-    //   if (err) {
-    //     return res.negotiate(err);
-    //   }
-
-    //   // If no user exists with the username specified in the URL,
-    //   // show the 404 page.
-    //   if (!foundByUsername) {
-    //     return res.notFound();
-    //   }
-
-    //   // If the user has tutorials convert the owner property to the 
-    //   // username of the tutorial owner.
-    //   (function ifThenFinally (cb){
-
-    //     // If the tutorials property doesn't contain tutorials just keep going to afterwards();
-    //     if (foundByUsername.tutorials.length < 1) {
-    //       return cb();
-    //     }
-     
-    //     async.each(foundByUsername.tutorials, function(tutorial, next) {
-          
-    //       // console.log('value of tutorial before User.findOne', tutorial);
-
-    //       User.findOne({
-    //         id: tutorial.owner
-    //       }).exec(function(err, userOwner){
-    //         if (err) return next(err);
-     
-    //         console.log('userOwner.username: ', userOwner.username);
-    //         var index = _.indexOf(foundByUsername.tutorials, tutorial);
-    //         console.log('foundByUsername.tutorials[index]: ', foundByUsername.tutorials[index]);
-    //         console.log('foundByUsername.tutorials[index].owner: ', foundByUsername.tutorials[index].owner);
-    //         foundByUsername.tutorials[index].owner = userOwner.username;
-    //         console.log('foundByUsername after iterator: ', foundByUsername);
-      
-    //       });
-    //         return next();
-    //     }, function (err) {
-    //       if (err) return res.negotiate(err);
-    //     });
-    //   })(function afterwards(err){
-    //     if (err) { return res.serverError(err); }
-
-    //     if (!req.session.userId) {
-          
-    //       return res.view('profile', {
-    //         me: null,
-    //         username: foundByUsername.username,
-    //         gravatarURL: foundByUsername.gravatarURL,
-    //         tutorials: foundByUsername.tutorials
-    //       });
-    //     }
-    //   });
-       
-    // Find user by username
-    // Find tutorials populate owner
-
-    // User.findOne({
-    //   username: req.param('username')
-    // })
-    // .populate('tutorials')
-    // .exec(function(err, foundByUsername){
-
-    //   _.each(foundByUsername.tutorials, function(tutorial){
-
-    //     // sync owner
-    //     tutorial.owner = foundByUsername.username;
-
-    //     // Format the createdAt attributes and assign them to the tutorial
-    //     tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-    //     var totalSeconds = 0;
-    //     _.each(tutorial.videos, function(video){
-
-
-    //       // Total the number of seconds for all videos for tutorial total time
-    //       totalSeconds = totalSeconds + video.lengthInSeconds;
-          
-    //       tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-    //     });
-    //   });
-
-    //   // The logged out case
-    //   if (!req.session.userId) {
-        
-    //     return res.view('profile', {
-    //       // This is for the navigation bar
-    //       me: null,
-
-    //       // This is for profile body
-    //       username: foundByUsername.username,
-    //       gravatarURL: foundByUsername.gravatarURL,
-
-    //       // This is for the list of tutorials
-    //       tutorials: foundByUsername.tutorials
-    //     });
-    //   }
-
-    //   // Otherwise the user-agent IS logged in.
-
-    //   // Look up the logged-in user from the database.
-    //   User.findOne({
-    //     id: req.session.userId
-    //   }).exec(function (err, loggedInUser){
-    //     if (err) {
-    //       return res.negotiate(err);
-    //     }
-
-    //     if (!loggedInUser) {
-    //       return res.serverError('User record from logged in user is missing?');
-    //     }
-
-    //     // We'll provide `me` as a local to the profile page view.
-    //     // (this is so we can render the logged-in navbar state, etc.)
-    //     var me = {
-    //       username: loggedInUser.username,
-    //       email: loggedInUser.email,
-    //       gravatarURL: loggedInUser.gravatarURL,
-    //       admin: loggedInUser.admin
-    //     };
-
-    //     // We'll provide the `isMe` flag to the profile page view
-    //     // if the logged-in user is the same as the user whose profile we looked up earlier.
-    //     if (req.session.userId === foundByUsername.id) {
-    //       me.isMe = true;
-    //     }
-        
-    //     // Return me property for the nav and the remaining properties for the profile page.
-    //     return res.view('profile', {
-    //       me: me,
-    //       showAddTutorialButton: true,
-    //       username: foundByUsername.username,
-    //       gravatarURL: foundByUsername.gravatarURL,
-    //       tutorials: foundByUsername.tutorials
-    //     });
-    //   }); //</ User.findOne({id: req.session.userId})
-      
-    // });
-    // 
-    // ============================================================
-    
-    // User.findOne({
-    //   username: req.param('username')
-    // })
-    // .populate('tutorials')
-    // .exec(function(err, foundByUsername){
-    //   if (err) return res.negotiate(err);
-    //   if (!foundByUsername) return res.notFound();
-
-    //   // Turn this into a regular dictionary instead of a model instance.
-    //   var user = foundByUsername.toObject();
-
-    //   // Now that we have the user and the tutorials, gather up all the references to each
-    //   // tutorial so that we can use it to find all the videos belonging that belong to
-    //   // the tutorials.
-    //   var tutorialIds = _.pluck(user.tutorials, 'id');
-      
-    //   // Now let's find all the videos we need to fulfill the request
-    //   Video.find({
-    //     tutorialAssoc: tutorialIds
-    //   }).exec(function(err, videos){
-    //     if (err) return res.negotiate(err);
-    //     if (!videos) return res.notFound();
-
-    //     // Now we have all the data, lets loop through the tutorials and gather
-    //     // up all the videos related to each tutorial.
-    //     _.each(user.tutorials, function(tutorial) {
-
-    //       // Find all the videos that their tutorialAssoc value set to the tutorial's id
-    //       var tutorialVideos = _.filter(videos, { tutorialAssoc: tutorial.id });
-
-    //       // Then set tutorial.videos to the array
-    //       tutorial.videos = _.map(tutorialVideos, function(video) {
-    //         var obj = video.toObject();
-    //         return _.omit(obj, 'tutorialAssoc');
-    //       });
-    //     });
-
-    //     _.each(user.tutorials, function(tutorial){
-
-    //       // sync owner
-    //       tutorial.owner = user.username;
-
-    //       // Format the createdAt attributes and assign them to the tutorial
-    //       tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-    //       var totalSeconds = 0;
-    //       _.each(tutorial.videos, function(video){
-
-    //         // Total the number of seconds for all videos for tutorial total time
-    //         totalSeconds = totalSeconds + video.lengthInSeconds;
-            
-    //         tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-    //       });
-    //     });
 
     User.findOne({
       username: req.param('username')
-    }).exec(function(err, foundUser){
+    })
+    .populate("followers")
+    .populate("following")
+    .exec(function(err, foundUser){
       if (err) return res.negotiate(err);
       if (!foundUser) return res.notFound();
 
@@ -352,7 +153,11 @@ module.exports = {
             // This is for profile body
             username: foundUser.username,
             gravatarURL: foundUser.gravatarURL,
-
+            frontEnd: {
+              numOfTutorials: foundTutorials.length,
+              numOfFollowers: foundUser.followers.length,
+              numOfFollowing: foundUser.following.length
+            },
             // This is for the list of tutorials
             tutorials: foundTutorials
           });
@@ -363,13 +168,25 @@ module.exports = {
         // Look up the logged-in user from the database.
         User.findOne({
           id: req.session.userId
-        }).exec(function (err, loggedInUser){
+        })
+        .populate('following')
+        .exec(function (err, loggedInUser){
           if (err) {
             return res.negotiate(err);
           }
 
           if (!loggedInUser) {
             return res.serverError('User record from logged in user is missing?');
+          }
+
+          // Is the logged in user currently following the owner of this tutorial?
+          var cachedFollower = _.find(foundUser.followers, function(follower){
+            return follower.id === loggedInUser.id;
+          });
+
+          var followedByLoggedInUser = false;
+          if (cachedFollower) {
+            followedByLoggedInUser = true;
           }
 
           // We'll provide `me` as a local to the profile page view.
@@ -393,12 +210,136 @@ module.exports = {
             showAddTutorialButton: true,
             username: foundUser.username,
             gravatarURL: foundUser.gravatarURL,
+            frontEnd: {
+              numOfTutorials: foundTutorials.length,
+              numOfFollowers: foundUser.followers.length,
+              numOfFollowing: foundUser.following.length,
+              followedByLoggedInUser: followedByLoggedInUser
+            },
             tutorials: foundTutorials
           });
         }); //</ User.findOne({id: req.session.userId})
       });
     });
   },
+
+  profileFollower: function(req, res) {
+
+    User.findOne({
+      username: req.param('username')
+    })
+    .populate("followers")
+    .populate("following")
+    .populate("tutorials")
+    .exec(function(err, foundUser){
+      if (err) return res.negotiate(err);
+      if (!foundUser) return res.notFound();
+
+      // The logged out case
+      if (!req.session.userId) {
+        
+        return res.view('profile-followers', {
+          // This is for the navigation bar
+          me: null,
+
+          // This is for profile body
+          username: foundUser.username,
+          gravatarURL: foundUser.gravatarURL,
+          frontEnd: {
+            numOfTutorials: foundUser.tutorials.length,
+            numOfFollowers: foundUser.followers.length,
+            numOfFollowing: foundUser.following.length
+          },
+          // This is for the list of tutorials
+          followers: foundUser.followers
+        });
+      }
+
+      // Otherwise the user-agent IS logged in.
+
+      // Look up the logged-in user from the database.
+      User.findOne({
+        id: req.session.userId
+      })
+      .populate('following')
+      .exec(function (err, loggedInUser){
+        if (err) {
+          return res.negotiate(err);
+        }
+
+        if (!loggedInUser) {
+          return res.serverError('User record from logged in user is missing?');
+        }
+
+        // Is the logged in user currently following the owner of this tutorial?
+        var cachedFollower = _.find(foundUser.followers, function(follower){
+          return follower.id === loggedInUser.id;
+        });
+
+        var followedByLoggedInUser = false;
+        if (cachedFollower) {
+          followedByLoggedInUser = true;
+        }
+
+        // We'll provide `me` as a local to the profile page view.
+        // (this is so we can render the logged-in navbar state, etc.)
+        var me = {
+          username: loggedInUser.username,
+          email: loggedInUser.email,
+          gravatarURL: loggedInUser.gravatarURL,
+          admin: loggedInUser.admin
+        };
+
+        // We'll provide the `isMe` flag to the profile page view
+        // if the logged-in user is the same as the user whose profile we looked up earlier.
+        if (req.session.userId === foundUser.id) {
+          me.isMe = true;
+        }
+        
+        // Return me property for the nav and the remaining properties for the profile page.
+        return res.view('profile-followers', {
+          me: me,
+          showAddTutorialButton: true,
+          username: foundUser.username,
+          gravatarURL: foundUser.gravatarURL,
+          frontEnd: {
+            numOfTutorials: foundUser.tutorials.length,
+            numOfFollowers: foundUser.followers.length,
+            numOfFollowing: foundUser.following.length,
+            followedByLoggedInUser: followedByLoggedInUser
+          },
+          followers: foundUser.followers
+        });
+      }); //</ User.findOne({id: req.session.userId})
+    });
+  },
+
+  //   return res.view('profile-followers', {
+  //     locals: {
+  //       gravatarURL: 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  //       me: {
+  //         username: 'yaya',
+  //         email: 'yaya@ya.com',
+  //         isMe: true
+  //       },
+  //       user: {
+  //         followers: [{
+  //           name: 'sails-in-action'
+  //         },{
+  //           name: 'sails-in-action'
+  //         },{
+  //           name: 'sails-in-action'
+  //         },{
+  //           name: 'sails-in-action'
+  //         },{
+  //           name: 'sails-in-action'
+  //         },{
+  //           name: 'sails-in-action'
+  //         }]
+  //       }
+  //     }
+  //   });
+  // },
 
   signin: function(req, res) {
 
