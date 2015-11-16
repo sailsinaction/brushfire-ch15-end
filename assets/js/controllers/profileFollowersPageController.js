@@ -20,7 +20,7 @@ angular.module('brushfire').controller('profileFollowersPageController', ['$scop
   $scope.numOfTutorials = $scope.frontEnd.numOfTutorials;
   $scope.numOfFollowers = $scope.frontEnd.numOfFollowers;
   $scope.numOfFollowing = $scope.frontEnd.numOfFollowing;
-  $scope.followedByLoggedInUser = $scope.followedByLoggedInUser;
+  $scope.followedByLoggedInUser = $scope.frontEnd.followedByLoggedInUser;
 
   // Get the tutorial id form the current URL path:  /tutorials/1
   $scope.fromUrlTutorialId = window.location.pathname.split('/')[1];

@@ -50,6 +50,7 @@
             FOLLOWERS
           </li>
         </ul>
+
         <% if (me && !me.isMe) { %>
             <div class="text-center" ng-show="!followedByLoggedInUser">
               <button class="btn btn-primary" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
