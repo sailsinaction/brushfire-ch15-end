@@ -493,10 +493,12 @@ module.exports = {
           if (err) return res.negotiate(err);
           if (!foundTutorial) return res.notFound();
 
+          // Remove the to-be-deleted video from the tutorial's `videos` collection association
           _.each(foundTutorial.videos, function(video){
             foundTutorial.videos.remove(video.id);
           });
 
+          // Remove the to-be-deleted rating from the tutorial's `ratings` collection association
           _.each(foundTutorial.ratings, function(rating){
             foundTutorial.ratings.remove(rating.id);
           });
@@ -515,7 +517,7 @@ module.exports = {
                 if (err) return res.negotiate(err);
 
                 // Destroy ratings
-                Tutorial.destroy({id: _.pluck(foundTutorial.ratings, 'id')}).exec(function(err){
+                Rating.destroy({id: _.pluck(foundTutorial.ratings, 'id')}).exec(function(err){
                   if (err) return res.negotiate(err);
 
                   // Return the username of the user using the userId of the session.
