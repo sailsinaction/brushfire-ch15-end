@@ -70,13 +70,13 @@
     </div>
   </div>
   <div class="container" ng-cloak style="margin-top: 20px;">
-    <div ng-if="me && following.length < 1">
+    <div ng-if="following.length < 1">
       <p style="font-size: 1.5em"> not following anyone yet.</p>
     </div>
     <div ng-if="me && me.isMe && following.length > 0">
       <h1>I'm Following</h1>
     </div>
-    <div ng-if="me && !me.isMe && following.length > 0">
+    <div ng-if="!me && following.length > 0">
       <h1><%= username%>'s Following</h1>
     </div>
     <div ng-if="following.length">

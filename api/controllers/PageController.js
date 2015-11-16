@@ -202,6 +202,8 @@ module.exports = {
           // if the logged-in user is the same as the user whose profile we looked up earlier.
           if (req.session.userId === foundUser.id) {
             me.isMe = true;
+          } else {
+            me.isMe = false;
           }
           
           // Return me property for the nav and the remaining properties for the profile page.
@@ -297,6 +299,8 @@ module.exports = {
         // if the logged-in user is the same as the user whose profile we looked up earlier.
         if (req.session.userId === foundUser.id) {
           me.isMe = true;
+        } else {
+          me.isMe = false;
         }
         
         // Return me property for the nav and the remaining properties for the profile page.
@@ -392,6 +396,8 @@ module.exports = {
         // if the logged-in user is the same as the user whose profile we looked up earlier.
         if (req.session.userId === foundUser.id) {
           me.isMe = true;
+        } else {
+          me.isMe = false;
         }
         
         // Return me property for the nav and the remaining properties for the profile page.
