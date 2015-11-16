@@ -81,25 +81,11 @@
       <div class="well" style="background-color : #dddddd;">
         <div class="row">   
           <div ng-repeat="follower in followers">
-            <a href="">
+            <a href="/{{ follower.username }}">
               <div class="col-md-3">
                 <div class="panel panel-default">
-                  <div class="panel-heading text-center"><h4> {{ follower.username }} </h4></div>
+                  <div class="panel-heading text-center"><h3> {{ follower.username }} </h3></div>
                   <div class="panel-body"><img class="gravatarImage" ng-src="{{follower.gravatarURL}}" ></div>
-                  <ul class="list-group">
-                    <li class="list-group-item">
-                      <span class="badge">14</span>
-                      TUTORIALS
-                    </li>
-                    <li class="list-group-item">
-                      <span class="badge">14</span>
-                      FOLLOWING
-                    </li>
-                    <li class="list-group-item">
-                      <span class="badge">14</span>
-                      FOLLOWERS
-                    </li>
-                  </ul>
                 </div>
               </div>        
             </a>
