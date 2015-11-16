@@ -248,7 +248,8 @@ module.exports = {
           frontEnd: {
             numOfTutorials: foundUser.tutorials.length,
             numOfFollowers: foundUser.followers.length,
-            numOfFollowing: foundUser.following.length
+            numOfFollowing: foundUser.following.length,
+            followers: foundUser.followers
           },
           // This is for the list of tutorials
           followers: foundUser.followers
@@ -276,6 +277,8 @@ module.exports = {
           return follower.id === loggedInUser.id;
         });
 
+        // Set the display toggle (followedByLoggedInUser) based upon whether
+        // the currently logged in user is following the owner of the tutorial.
         var followedByLoggedInUser = false;
         if (cachedFollower) {
           followedByLoggedInUser = true;
@@ -306,7 +309,8 @@ module.exports = {
             numOfTutorials: foundUser.tutorials.length,
             numOfFollowers: foundUser.followers.length,
             numOfFollowing: foundUser.following.length,
-            followedByLoggedInUser: followedByLoggedInUser
+            followedByLoggedInUser: followedByLoggedInUser,
+            followers: foundUser.followers
           },
           followers: foundUser.followers
         });

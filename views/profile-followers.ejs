@@ -68,45 +68,44 @@
     </div>
   </div>
   <div class="container" ng-cloak style="margin-top: 20px;">
-    <% if (me && me.isMe ) { %>
-      <% if (followers.length === 0) { %>
-        <p style="font-size: 1.5em"> you don’t have any followers yet.</p>
-      <% } %>
-    <% } else { %>
-      <h1><%= username %>'s Followers</h1>
-      <% if (followers.length === 0) { %>
-        <p style="font-size: 1.25em"> ...no followers yet.</p>
-      <% } %>
-    <% } %>
-    <div class="well" style="background-color : #dddddd;">
-    <% if (followers.length !== 0) { %>
-      <div class="row">   
-        <% _.forEach(followers, function(follower){ %>
-        <a href="">
-          <div class="col-md-3">
-            <div class="panel panel-default">
-              <div class="panel-heading text-center"><h4><%= follower.name %></h4></div>
-              <div class="panel-body"><img class="gravatarImage" src="<%= gravatarURL %>" ></div>
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <span class="badge">14</span>
-                  TUTORIALS
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">14</span>
-                  FOLLOWING
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">14</span>
-                  FOLLOWERS
-                </li>
-              </ul>
-            </div>
-          </div>        
-        </a>
-        <% }) %>
+    <div ng-if="me && followers.length < 1">
+      <p style="font-size: 1.5em"> no followers yet.</p>
+    </div>
+    <div ng-if="me && me.isMe && followers.length > 0">
+      <h1>My Followers</h1>
+    </div>
+    <div ng-if="me && !me.isMe && followers.length > 0">
+      <h1><%= username%>'s Followers</h1>
+    </div>
+    <div ng-if="followers.length">
+      <div class="well" style="background-color : #dddddd;">
+        <div class="row">   
+          <div ng-repeat="follower in followers">
+            <a href="">
+              <div class="col-md-3">
+                <div class="panel panel-default">
+                  <div class="panel-heading text-center"><h4> {{ follower.username }} </h4></div>
+                  <div class="panel-body"><img class="gravatarImage" ng-src="{{follower.gravatarURL}}" ></div>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <span class="badge">14</span>
+                      TUTORIALS
+                    </li>
+                    <li class="list-group-item">
+                      <span class="badge">14</span>
+                      FOLLOWING
+                    </li>
+                    <li class="list-group-item">
+                      <span class="badge">14</span>
+                      FOLLOWERS
+                    </li>
+                  </ul>
+                </div>
+              </div>        
+            </a>
+          </div>
+        </div>
       </div>
-    <% } %>
     </div>
   </div>
 </div>

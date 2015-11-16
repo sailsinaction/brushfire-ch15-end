@@ -513,7 +513,8 @@ module.exports = {
 
           return res.json({
             numOfFollowers: user.followers.length,
-            numOfFollowing: user.following.length
+            numOfFollowing: user.following.length,
+            followers: user.followers
           });
         });
       });
@@ -549,7 +550,8 @@ module.exports = {
         
           return res.json({
             numOfFollowers: user.followers.length,
-            numOfFollowing: user.following.length
+            numOfFollowing: user.following.length,
+            followers: user.followers
           });
         });
       });

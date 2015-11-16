@@ -21,6 +21,7 @@ angular.module('brushfire').controller('profileFollowersPageController', ['$scop
   $scope.numOfFollowers = $scope.frontEnd.numOfFollowers;
   $scope.numOfFollowing = $scope.frontEnd.numOfFollowing;
   $scope.followedByLoggedInUser = $scope.frontEnd.followedByLoggedInUser;
+  $scope.followers = $scope.frontEnd.followers;
 
   // Get the tutorial id form the current URL path:  /tutorials/1
   $scope.fromUrlTutorialId = window.location.pathname.split('/')[1];
@@ -56,10 +57,12 @@ angular.module('brushfire').controller('profileFollowersPageController', ['$scop
         username: $scope.fromUrlTutorialId
       })
       .then(function success(sailsResponse){
+        console.log('sailsResponse: ', sailsResponse);
         $scope.followedByLoggedInUser = false;
         $scope.userProfile.loading = false;
         $scope.numOfFollowers = sailsResponse.data.numOfFollowers;
         $scope.numOfFollowing = sailsResponse.data.numOfFollowing;
+        $scope.followers = sailsResponse.data.followers;
       })
       .catch(function onError(sailsResponse){
         console.error(sailsResponse);
@@ -77,11 +80,11 @@ angular.module('brushfire').controller('profileFollowersPageController', ['$scop
       })
       .then(function success(sailsResponse){
         console.log(sailsResponse);
-        console.log('hit follow')
         $scope.followedByLoggedInUser = true;
         $scope.userProfile.loading = false;
         $scope.numOfFollowers = sailsResponse.data.numOfFollowers;
         $scope.numOfFollowing = sailsResponse.data.numOfFollowing;
+        $scope.followers = sailsResponse.data.followers;
       })
       .catch(function onError(sailsResponse){
         console.error(sailsResponse);
