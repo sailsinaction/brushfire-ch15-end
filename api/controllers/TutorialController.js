@@ -469,7 +469,6 @@ module.exports = {
 
     // Find the currently logged in user and its tutorials
     User.findOne({id: req.session.userId})
-    .populate('tutorials')
     .exec(function(err, foundUser){
       if (err) {
         return res.negotiate(err);
