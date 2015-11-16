@@ -102,6 +102,7 @@ module.exports.routes = {
   'GET /tutorials/:tutorialId/videos/:id/show': 'TutorialController.showVideo',
 
   'GET /:username/followers': 'PageController.profileFollower',
+  'GET /:username/following': 'PageController.profileFollowing',
   'GET /:username': 'PageController.profile',
   
   // 'GET /:username': {

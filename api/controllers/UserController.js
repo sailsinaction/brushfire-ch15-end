@@ -514,7 +514,8 @@ module.exports = {
           return res.json({
             numOfFollowers: user.followers.length,
             numOfFollowing: user.following.length,
-            followers: user.followers
+            followers: user.followers,
+            following: user.following
           });
         });
       });
@@ -551,7 +552,8 @@ module.exports = {
           return res.json({
             numOfFollowers: user.followers.length,
             numOfFollowing: user.following.length,
-            followers: user.followers
+            followers: user.followers,
+            following: user.following
           });
         });
       });

@@ -251,7 +251,7 @@ module.exports = {
             numOfFollowing: foundUser.following.length,
             followers: foundUser.followers
           },
-          // This is for the list of tutorials
+          // This is for the list of followers
           followers: foundUser.followers
         });
       }
@@ -318,32 +318,100 @@ module.exports = {
     });
   },
 
-  //   return res.view('profile-followers', {
-  //     locals: {
-  //       gravatarURL: 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-  //       me: {
-  //         username: 'yaya',
-  //         email: 'yaya@ya.com',
-  //         isMe: true
-  //       },
-  //       user: {
-  //         followers: [{
-  //           name: 'sails-in-action'
-  //         },{
-  //           name: 'sails-in-action'
-  //         },{
-  //           name: 'sails-in-action'
-  //         },{
-  //           name: 'sails-in-action'
-  //         },{
-  //           name: 'sails-in-action'
-  //         },{
-  //           name: 'sails-in-action'
-  //         }]
-  //       }
-  //     }
-  //   });
-  // },
+  profileFollowing: function(req, res) {
+
+    User.findOne({
+      username: req.param('username')
+    })
+    .populate("followers")
+    .populate("following")
+    .populate("tutorials")
+    .exec(function(err, foundUser){
+      if (err) return res.negotiate(err);
+      if (!foundUser) return res.notFound();
+
+      // The logged out case
+      if (!req.session.userId) {
+        
+        return res.view('profile-following', {
+          // This is for the navigation bar
+          me: null,
+
+          // This is for profile body
+          username: foundUser.username,
+          gravatarURL: foundUser.gravatarURL,
+          frontEnd: {
+            numOfTutorials: foundUser.tutorials.length,
+            numOfFollowers: foundUser.followers.length,
+            numOfFollowing: foundUser.following.length,
+            following: foundUser.following
+          },
+          // This is for the list of following
+          following: foundUser.following
+        });
+      }
+
+      // Otherwise the user-agent IS logged in.
+
+      // Look up the logged-in user from the database.
+      User.findOne({
+        id: req.session.userId
+      })
+      .populate('following')
+      .exec(function (err, loggedInUser){
+        if (err) {
+          return res.negotiate(err);
+        }
+
+        if (!loggedInUser) {
+          return res.serverError('User record from logged in user is missing?');
+        }
+
+        // Is the logged in user currently following the owner of this tutorial?
+        var cachedFollower = _.find(foundUser.followers, function(follower){
+          return follower.id === loggedInUser.id;
+        });
+
+        // Set the display toggle (followedByLoggedInUser) based upon whether
+        // the currently logged in user is following the owner of the tutorial.
+        var followedByLoggedInUser = false;
+        if (cachedFollower) {
+          followedByLoggedInUser = true;
+        }
+
+        // We'll provide `me` as a local to the profile page view.
+        // (this is so we can render the logged-in navbar state, etc.)
+        var me = {
+          username: loggedInUser.username,
+          email: loggedInUser.email,
+          gravatarURL: loggedInUser.gravatarURL,
+          admin: loggedInUser.admin
+        };
+
+        // We'll provide the `isMe` flag to the profile page view
+        // if the logged-in user is the same as the user whose profile we looked up earlier.
+        if (req.session.userId === foundUser.id) {
+          me.isMe = true;
+        }
+        
+        // Return me property for the nav and the remaining properties for the profile page.
+        return res.view('profile-following', {
+          me: me,
+          showAddTutorialButton: true,
+          username: foundUser.username,
+          gravatarURL: foundUser.gravatarURL,
+          frontEnd: {
+            numOfTutorials: foundUser.tutorials.length,
+            numOfFollowers: foundUser.followers.length,
+            numOfFollowing: foundUser.following.length,
+            followedByLoggedInUser: followedByLoggedInUser,
+            following: foundUser.following
+          },
+          following: foundUser.following
+        });
+      }); //</ User.findOne({id: req.session.userId})
+    });
+  },
 
   signin: function(req, res) {
 

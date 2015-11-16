@@ -38,10 +38,12 @@
             <span class="badge">{{ numOfTutorials }}</span>
             TUTORIALS
           </li>
-          <li class="list-group-item">
-            <span class="badge">{{ numOfFollowing }}</span>
-            FOLLOWING
-          </li>
+          <a href="/<%= username %>/following">
+            <li class="list-group-item">
+              <span class="badge">{{ numOfFollowing }}</span>
+              FOLLOWING
+            </li>
+          </a>
           <a href="/<%= username %>/followers">
             <li class="list-group-item">
               <span class="badge">{{ numOfFollowers }}</span>

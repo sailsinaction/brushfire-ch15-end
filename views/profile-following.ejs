@@ -13,7 +13,7 @@
     // be invalid JS and cause a client-side error in the browser)
     %>;
 </script>
-<div ng-controller="profileFollowersPageController" ng-cloak>
+<div ng-controller="profileFollowingPageController" ng-cloak>
   <div class="row">
     <div class= "col-md-2 col-md-offset-1">
       <img class="gravatarImage" src="<%= gravatarURL %>" >
@@ -40,17 +40,17 @@
               <span class="badge">{{ numOfTutorials }}</span>  
             </li>
           </a>
-          <a href="/<%= username %>/following">
-            <li class="list-group-item">
-              <span class="badge">{{ numOfFollowing }}</span>
-              FOLLOWING
-            </li>
-          </a>
           <li class="list-group-item">
             <i class="fa fa-asterisk"></i>
-            <span class="badge">{{ numOfFollowers }}</span>
-            FOLLOWERS
+            <span class="badge">{{ numOfFollowing }}</span>
+            FOLLOWING
           </li>
+          <a href="/<%= username %>/followers">
+            <li class="list-group-item">
+              <span class="badge">{{ numOfFollowers }}</span>
+              FOLLOWERS
+            </li>
+          </a>
         </ul>
 
         <% if (me && !me.isMe) { %>
@@ -70,24 +70,24 @@
     </div>
   </div>
   <div class="container" ng-cloak style="margin-top: 20px;">
-    <div ng-if="followers.length < 1">
-      <p style="font-size: 1.5em"> no followers yet.</p>
+    <div ng-if="me && following.length < 1">
+      <p style="font-size: 1.5em"> not following anyone yet.</p>
     </div>
-    <div ng-if="me && me.isMe && followers.length > 0">
-      <h1>My Followers</h1>
+    <div ng-if="me && me.isMe && following.length > 0">
+      <h1>I'm Following</h1>
     </div>
-    <div ng-if="!me && followers.length > 0">
-      <h1><%= username%>'s Followers</h1>
+    <div ng-if="me && !me.isMe && following.length > 0">
+      <h1><%= username%>'s Following</h1>
     </div>
-    <div ng-if="followers.length">
+    <div ng-if="following.length">
       <div class="well" style="background-color : #dddddd;">
         <div class="row">   
-          <div ng-repeat="follower in followers">
-            <a href="/{{ follower.username }}">
+          <div ng-repeat="follow in following">
+            <a href="/{{ follow.username }}">
               <div class="col-md-3">
                 <div class="panel panel-default">
-                  <div class="panel-heading text-center"><h3> {{ follower.username }} </h3></div>
-                  <div class="panel-body"><img class="gravatarImage" ng-src="{{follower.gravatarURL}}" ></div>
+                  <div class="panel-heading text-center"><h3> {{ follow.username }} </h3></div>
+                  <div class="panel-body"><img class="gravatarImage" ng-src="{{follow.gravatarURL}}" ></div>
                 </div>
               </div>        
             </a>
