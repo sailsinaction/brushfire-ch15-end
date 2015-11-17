@@ -111,7 +111,6 @@ var origRating = $scope.myRating;
         $scope.hideChangeRating = false;
 
         // Now, also update the average rating.
-        // TODO: instead of this fake thing, use the new average rating returned in `sailsResponse`.
         $scope.averageRating = sailsResponse.data.averageRating;
 
       })
