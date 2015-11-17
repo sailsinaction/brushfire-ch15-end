@@ -96,8 +96,14 @@
         <h2>Table of Contents</h2>
         <ul class="list-group list-unstyled">
           <!-- Empty video state -->
-          <% if (typeof tutorial.videos === 'undefined' || tutorial.videos && tutorial.videos.length < 1) { %>
-            <p style="font-size: 1.2em">you don’t have any videos yet, want to <a href="/tutorials/<%= tutorial.id %>/videos/new">add</a> one? </p>
+          <% if (me && me.isMe) { %>
+            <% if (typeof tutorial.videos === 'undefined' || tutorial.videos && tutorial.videos.length < 1) { %>
+              <p style="font-size: 1.2em">you don’t have any videos yet, want to <a href="/tutorials/<%= tutorial.id %>/videos/new">add</a> one? </p>
+            <% } %>
+          <% } else { %>
+            <% if (typeof tutorial.videos === 'undefined' || tutorial.videos && tutorial.videos.length < 1) { %>
+              <p style="font-size: 1.2em">no videos yet...</p>
+            <% } %>
           <% } %>
           <% _.forEach(tutorial.videos, function(video, i){ %>
             <a href="/tutorials/<%=tutorial.id %>/videos/<%=video.id %>/show" class="list-group-item">
