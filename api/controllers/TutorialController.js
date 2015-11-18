@@ -166,10 +166,12 @@ module.exports = {
 
   rateTutorial: function(req, res) {
 
+
     // Find the currently authenticated user
     User.findOne({
       id: req.session.userId
-    }).exec(function(err, foundUser){
+    })
+    .exec(function(err, foundUser){
       if (err) return res.negotiate(err);
       if (!foundUser) return res.notFound();
 
@@ -189,7 +191,7 @@ module.exports = {
         }).exec(function(err, foundRating){
           if (err) return res.negotiate(err);
 
-          // If the currently authenticated user-agent (user) has already rated this tutorial
+          // If the currently authenticated user-agent (user) has previously rated this tutorial
           // update it with the new rating.
           if (foundRating) {
 
@@ -201,44 +203,38 @@ module.exports = {
               if (err) return res.negotiate(err);
               if (!updatedRating) return res.notFound();
 
-              // Iterate over the ratings and remove the old rating from the current user 
-              _.each(foundTutorial.ratings, function(rating){
+              // Re-Find the tutorial whose being rated to get the latest
+              Tutorial.findOne({
+                id: req.param('id')
+              })
+              .populate('ratings')
+              .exec(function(err, foundTutorialAfterUpdate){
+                if (err) return res.negotiate(err);
+                if (!foundTutorialAfterUpdate) return res.notFound();
 
-                if (rating) {
-                  // Find the old rating from this user
-                  if (rating.id === foundRating.id) {
+                // Get the average of all ratings with the updated rating
+                var sumTutorialRatings = 0;
 
-                    // Remove the old rating
-                    _.remove(foundTutorial.ratings, function(rating){
-                      return rating.id === foundRating.id;
-                    });
-                  } else {
-                    return;
-                  }
-                }
-              });
+                // Total the number of ratings for the Tutorial
+                _.each(foundTutorialAfterUpdate.ratings, function(rating){
 
-              // Add the updated rating to the tutorial
-              foundTutorial.ratings.push(updatedRating[0]);
+                  sumTutorialRatings = sumTutorialRatings + rating.stars;
+                });
 
-              // Get the average of all ratings with the updated rating
-              var sumTutorialRatings = 0;
+                // Assign the average to the tutorial
+                foundTutorialAfterUpdate.averageRating = Math.floor(sumTutorialRatings / foundTutorialAfterUpdate.ratings.length);
 
-              // Total the number of ratings for the Tutorial
-              _.each(foundTutorial.ratings, function(rating){
+                console.log('foundTutorial.averageRating: ', foundTutorialAfterUpdate.averageRating);
 
-                sumTutorialRatings = sumTutorialRatings + rating.stars;
-              });
-
-              // Assign the average to the tutorial
-              foundTutorial.averageRating = Math.floor(sumTutorialRatings / foundTutorial.ratings.length);
-
-              return res.json({
-                averageRating: foundTutorial.averageRating
+                return res.json({
+                  averageRating: foundTutorialAfterUpdate.averageRating
+                });
               });
             });
-          } else {
 
+          // If the currently authenticated user-agent (user) has not already rated this tutorial
+          // create it with the new rating.
+          } else {
             Rating.create({
               stars: req.param('stars'),
               user: foundUser.id,
@@ -247,23 +243,33 @@ module.exports = {
               if (err) return res.negotiate(err);
               if (!createdRating) return res.notFound();
 
-              // Add the updated rating to the tutorial
-              foundTutorial.ratings.push(createdRating);
+              foundTutorial.ratings.add(createdRating);
+              foundUser.ratings.add(createdRating);
 
-              // Get the average of all ratings with the updated rating
-              var sumTutorialRatings = 0;
 
-              // Total the number of ratings for the Tutorial
-              _.each(foundTutorial.ratings, function(rating){
+              foundTutorial.save(function (err, foundTutorialAfterUpdate){
+                if (err) return res.negotiate(err);
 
-                sumTutorialRatings = sumTutorialRatings + rating.stars;
-              });
+                foundUser.save(function(err){
+                  if (err) return res.negotiate(err);
+                  
+                  // Get the average of all ratings with the updated rating
+                  var sumTutorialRatings = 0;
 
-              // Assign the average to the tutorial
-              foundTutorial.averageRating = sumTutorialRatings / foundTutorial.ratings.length;
+                  // Total the number of ratings for the Tutorial
+                  console.log('after ratings', foundTutorialAfterUpdate.ratings);
+                  _.each(foundTutorialAfterUpdate.ratings, function(rating){
 
-              return res.json({
-                averageRating: foundTutorial.averageRating
+                    sumTutorialRatings = sumTutorialRatings + rating.stars;
+                  });
+
+                  // Assign the average to the tutorial
+                  foundTutorial.averageRating = sumTutorialRatings / foundTutorialAfterUpdate.ratings.length;
+
+                  return res.json({
+                    averageRating: foundTutorial.averageRating
+                  });
+                });
               });
             });
           }
@@ -532,20 +538,21 @@ module.exports = {
 
   removeVideo: function(req, res) {
 
-    Video.findOne({
-      id: +req.param('id')
+    Tutorial.findOne({
+      id: +req.param('tutorialId')
     })
-    .populate('tutorialAssoc') // consider renaming this association to `partOfTutorial`
-    .exec(function(err, video){
+    .exec(function(err, foundTutorial){
       if (err) return res.negotiate(err);
-      if (!video) return res.notFound();
-      
+      if (!foundTutorial) return res.notFound();
+
       // Remove the reference to this video from our tutorial record.
-      video.tutorialAssoc.videos.remove(+req.param('id'));
+      foundTutorial.videos.remove(+req.param('id'));
+
       // Remove this video id from the `videoOrder` array
-      video.tutorialAssoc.videoOrder = _.without(video.tutorialAssoc.videoOrder, +req.param('id'));
+      foundTutorial.videoOrder = _.without(foundTutorial.videoOrder, +req.param('id'));
+
       // Persist our tutorial back to the database.
-      video.tutorialAssoc.save(function(err){
+      foundTutorial.save(function(err){
         if (err) return res.negotiate(err);
         
         Video.destroy({

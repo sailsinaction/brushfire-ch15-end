@@ -84,12 +84,6 @@ var origRating = $scope.myRating;
   // on our $scope (which is an ng-model or something) so this watch function fires...
   $scope.$watch('myRating', function(rating) {
 
-    // Doing this check because the rating directive will fire upon initial
-    // page load 
-    // if (!rating) {
-    //   return;
-    // }
-
     // This disables the rating element between AJAX PUT requests (e.g. double posting)
     if ($scope.tutorialDetails.loading) {
       return;
@@ -106,9 +100,12 @@ var origRating = $scope.myRating;
           closeButton: true
         });
 
+        console.log('sailsResponse: ', sailsResponse);
+
         // Sets myRating to read-only
         $scope.isReadonly = true;
         $scope.hideChangeRating = false;
+
 
         // Now, also update the average rating.
         $scope.averageRating = sailsResponse.data.averageRating;
@@ -207,7 +204,7 @@ var origRating = $scope.myRating;
 
     $scope.tutorialDetails.deleteVideoLoading = index;
 
-    $http.delete('/videos/'+videoId)
+    $http.delete('/videos/'+videoId+'?tutorialId='+$scope.fromUrlTutorialId)
     .then(function onSuccess(sailsResponse){
 
       $scope.tutorialDetails.deleteVideoLoading = false;
