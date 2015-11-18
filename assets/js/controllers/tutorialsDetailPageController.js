@@ -100,8 +100,6 @@ var origRating = $scope.myRating;
           closeButton: true
         });
 
-        console.log('sailsResponse: ', sailsResponse);
-
         // Sets myRating to read-only
         $scope.isReadonly = true;
         $scope.hideChangeRating = false;

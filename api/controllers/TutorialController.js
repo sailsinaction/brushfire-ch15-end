@@ -400,40 +400,41 @@ module.exports = {
       description: req.param('description')
     }).exec(function (err) {
       if (err) return res.negotiate(err);
+      return res.ok();
 
-      // Propagate updates to embedded (i.e. cached) arrays of tutorials on our user records.
-      User.find().exec(function (err, users) {
-        if (err) { return res.negotiate(err); }
+      // // Propagate updates to embedded (i.e. cached) arrays of tutorials on our user records.
+      // User.find().exec(function (err, users) {
+      //   if (err) { return res.negotiate(err); }
 
-        async.each(users, function (user, next){
+      //   async.each(users, function (user, next){
 
-          // If this user does not have the tutorial that is being updated,
-          // move on to the next user.
-          var cachedTutorial = _.find(user.tutorials, { id: +req.param('id') });
+      //     // If this user does not have the tutorial that is being updated,
+      //     // move on to the next user.
+      //     var cachedTutorial = _.find(user.tutorials, { id: +req.param('id') });
 
-          // Otherwise, keep move on to the next user.
-          if (!cachedTutorial) {
-            return next();
-          }
+      //     // Otherwise, keep move on to the next user.
+      //     if (!cachedTutorial) {
+      //       return next();
+      //     }
 
-          // Otherwise, this user has the cached version of our tutorial.
-          // So we'll change the `tutorials` array and save it back to the db.
-          cachedTutorial.title = req.param('title');
-          cachedTutorial.description = req.param('description');
+      //     // Otherwise, this user has the cached version of our tutorial.
+      //     // So we'll change the `tutorials` array and save it back to the db.
+      //     cachedTutorial.title = req.param('title');
+      //     cachedTutorial.description = req.param('description');
           
-          User.update({
-            id: user.id
-          }).set({
-            tutorials: user.tutorials
-          }).exec(function (err) {
-            if (err) { return next(err); }
-            return next();
-          });
-        }, function (err) {
-          if (err) {return res.negotiate(err);}
-          return res.ok();
-        });
-      });
+      //     User.update({
+      //       id: user.id
+      //     }).set({
+      //       tutorials: user.tutorials
+      //     }).exec(function (err) {
+      //       if (err) { return next(err); }
+      //       return next();
+      //     });
+      //   }, function (err) {
+      //     if (err) {return res.negotiate(err);}
+      //     return res.ok();
+      //   });
+      // });
     });
   },
 
