@@ -530,6 +530,16 @@ module.exports = {
 
   tutorialDetail: function(req, res) {
 
+  /*
+    ___       _ _   _       _    ___                  _           
+   |_ _|_ __ (_) |_(_) __ _| |  / _ \ _   _  ___ _ __(_) ___  ___ 
+    | || '_ \| | __| |/ _` | | | | | | | | |/ _ \ '__| |/ _ \/ __|
+    | || | | | | |_| | (_| | | | |_| | |_| |  __/ |  | |  __/\__ \
+   |___|_| |_|_|\__|_|\__,_|_|  \__\_\\__,_|\___|_|  |_|\___||___/
+
+  */                                                                  
+
+    // Find the tutorial and populate owner, ratings, and videos
     Tutorial.findOne(req.param('id'))
     .populate('owner')
     .populate('ratings')
@@ -538,48 +548,70 @@ module.exports = {
       if (err) return res.negotiate(err);
       if (!tutorial) return res.notFound();
 
+      // Find the user that created the tutorial
       User.findOne({
         id: tutorial.owner.id
       }).exec(function(err, user){
         if (err) return res.negotiate(err);
         if (!user) return res.notFound();
 
+        // Find the rating (if any) of the currently authenticated user
         Rating.findOne({
           user: req.session.userId
         }).exec(function(err, foundRating){
           if (err) return res.negotiate(err);
 
-          // Set username as owner
+          /*
+            _____                     __                      
+           |_   _| __ __ _ _ __  ___ / _| ___  _ __ _ __ ___  
+             | || '__/ _` | '_ \/ __| |_ / _ \| '__| '_ ` _ \ 
+             | || | | (_| | | | \__ \  _| (_) | |  | | | | | |
+             |_||_|  \__,_|_| |_|___/_|  \___/|_|  |_| |_| |_|
+                                                    
+           */
+
+          // Set the tutorial.owner attribute to the username of the creator of the tutorial
           tutorial.owner = user.username;
 
-          // Check for rating of currently authenticated user
+          /***********
+            Rating
+          ************/
+
+          // If a rating exists by the currently authenticated user update tutorial.myRating
           if (!foundRating) {
             tutorial.myRating = null;
           } else {
             tutorial.myRating = foundRating.stars;
           }
 
-          // Perform Average Ratings calculation if there are ratings
+          // Calculate the average of all existing ratings.
           if (tutorial.ratings.length === 0) {
             tutorial.averageRating = null;
           } else {
 
             var sumTutorialRatings = 0;
 
-            // Total the number of ratings for the Tutorial
+            // Calculate the total number of ratings for the Tutorial
             _.each(tutorial.ratings, function(rating){
 
               sumTutorialRatings = sumTutorialRatings + rating.stars;  
             });
 
-            // Assign the average to the tutorial
+            // Assign the average to tutorial.averageRating
             tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
-             
           }
+
+          /*****************
+            Date Formatting
+          ******************/
 
           // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
           tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
           tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
+
+          /************************************
+            Tutorial & Video Length Formatting
+          *************************************/
 
           // Format the total time for each video and for the tutorial as a whole.
           var totalSeconds = 0;
@@ -594,7 +626,11 @@ module.exports = {
             tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
           });
 
-          // Finally use the embedded `videoOrder` array to apply the manual sort order
+          /**************
+            Video Order
+          ***************/
+
+          // Use the embedded `videoOrder` array to apply the manual sort order
           // to our videos.
           tutorial.videos = _.sortBy(tutorial.videos, function getRank (video) {
             // We use the index of this video id within the `videoOrder` array as our sort rank.
@@ -610,6 +646,15 @@ module.exports = {
           // Yields (e.g.):
           // tutorial.videos <== [{id: 3}, {id: 4}, {id: 5}]
 
+          /*
+            _                               _    ___        _   
+           | |    ___   __ _  __ _  ___  __| |  / _ \ _   _| |_ 
+           | |   / _ \ / _` |/ _` |/ _ \/ _` | | | | | | | | __|
+           | |__| (_) | (_| | (_| |  __/ (_| | | |_| | |_| | |_ 
+           |_____\___/ \__, |\__, |\___|\__,_|  \___/ \__,_|\__|
+                       |___/ |___/                              
+           */
+
           // If not logged in set `me` property to `null` and pass the tutorial to the view
           if (!req.session.userId) {
             return res.view('tutorials-detail', {
@@ -618,6 +663,15 @@ module.exports = {
               tutorial: tutorial
             });
           }
+
+          /*
+            _                               _   ___       
+           | |    ___   __ _  __ _  ___  __| | |_ _|_ __  
+           | |   / _ \ / _` |/ _` |/ _ \/ _` |  | || '_ \ 
+           | |__| (_) | (_| | (_| |  __/ (_| |  | || | | |
+           |_____\___/ \__, |\__, |\___|\__,_| |___|_| |_|
+                       |___/ |___/                        
+           */
 
           User.findOne(req.session.userId, function(err, user) {
             if (err) {
