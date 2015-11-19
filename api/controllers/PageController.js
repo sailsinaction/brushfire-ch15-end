@@ -889,201 +889,136 @@ module.exports = {
 
   editTutorial: function(req, res) {
 
-    Tutorial.findOne({
-      id: req.param('id')
-    }).exec(function(err, tutorial) {
-      if (err) return res.negotiate(err);
+    // Fake tutorials detail dictionary 
+    var tutorial = {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      id: 1
+    };
 
-      if (!tutorial) return res.notFound();
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        return res.negotiate(err);
+      }
 
-      User.findOne({
-        id: tutorial.owner
-      }).exec(function(err, ownerUser) {
-        tutorial.owner = ownerUser.username;
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.redirect('/tutorials');
+      }
 
-        User.findOne(req.session.userId, function(err, user) {
-          if (err) {
-            return res.negotiate(err);
-          }
-
-          if (!user) {
-            sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-            return res.redirect('/tutorials');
-          }
-
-          if (user.username !== tutorial.owner) {
-
-            return res.redirect('/tutorials/' + tutorial.id);
-
-          }
-
-          tutorial.created = DatetimeService.getTimeAgo({
-            date: tutorial.createdAt
-          });
-
-          return res.view('tutorials-detail-edit', {
-            me: {
-              gravatarURL: user.gravatarURL,
-              username: user.username,
-              admin: user.admin
-            },
-            tutorial: {
-              id: tutorial.id,
-              title: tutorial.title,
-              description: tutorial.description,
-            }
-          });
-        });
+      return res.view('tutorials-detail-edit', {
+        me: {
+          gravatarURL: user.gravatarURL,
+          username: user.username,
+          admin: user.admin
+        },
+        tutorial: {
+          id: tutorial.id,
+          title: tutorial.title,
+          description: tutorial.description,
+        }
       });
     });
   },
 
   newVideo: function(req, res) {
 
-    Tutorial.findOne({
-      id: req.param('id')
-    })
-    .populate('owner')
-    .exec(function(err, foundTutorial) {
-      if (err) return res.negotiate(err);
-      if (!foundTutorial) return res.notFound();
+    var tutorial = {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 1,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 3
+    };
 
-      User.findOne(req.session.userId, function(err, user) {
-        if (err) {
-          return res.negotiate(err);
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.redirect('/');
+      }
+
+      return res.view('tutorials-detail-video-new', {
+        me: {
+          username: user.username,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        },
+        // We don't need all of the tutorial attributes on window.SAILS_LOCALS.tutorial
+        // so we're passing stars separately.
+        stars: tutorial.stars,
+        tutorial: {
+          id: tutorial.id,
+          title: tutorial.title,
+          description: tutorial.description,
+          owner: tutorial.owner,
+          created: tutorial.created,
+          totalTime: tutorial.totalTime,
+          stars: tutorial.stars
         }
-
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-          return res.redirect('/');
-        }
-
-        // TODO: Probably should be a policy
-        if (user.username !== foundTutorial.owner.username) {
-
-          return res.redirect('/tutorials/' + foundTutorial.id);
-
-        }
-
-        foundTutorial.created = DatetimeService.getTimeAgo({
-          date: foundTutorial.createdAt
-        });
-
-        return res.view('tutorials-detail-video-new', {
-          me: {
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
-          // We don't need all of the tutorial attributes on window.SAILS_LOCALS.tutorial
-          // so we're passing stars separately.
-          stars: foundTutorial.stars,
-          tutorial: {
-            id: foundTutorial.id,
-            title: foundTutorial.title,
-            description: foundTutorial.description,
-            owner: foundTutorial.owner.username,
-            created: foundTutorial.created,
-            totalTime: foundTutorial.totalTime,
-            stars: foundTutorial.stars
-          }
-        });
       });
     });
   },
 
   editVideo: function(req, res) {
 
-    Tutorial.findOne({
-      id: req.param('tutorialId')
-    })
-    .populate('videos')
-    .populate('owner')
-    .populate('ratings')
-    .exec(function(err, tutorial) {
-      if (err) return res.negotiate(err);
-      if (!tutorial) return res.notFound();
+    var tutorial = {
+      // We need the `id` for the cancel back to the tutorial.
+      id: 1,
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4,
+      video: {
+        id: 1,
+        title: 'Crockford on JavaScript - Volume 1: The Early Years',
+        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
+        hours: 1,
+        minutes: 22,
+        seconds: 8
+      }
+    };
 
-      User.findOne(req.session.userId, function(err, user) {
-        if (err) {
-          return res.negotiate(err);
-        }
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        return res.negotiate(err);
+      }
 
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-          return res.redirect('/');
-        }
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+        return res.redirect('/');
+      }
 
-        if (user.username !== tutorial.owner.username) {
-
-          return res.redirect('/tutorials/' + tutorial.id);
-
-        }
-
-        // Perform Average Ratings calculation if there are ratings
-        if (tutorial.ratings.length === 0) {
-          tutorial.averageRating = null;
-        } else {
-
-          var sumTutorialRatings = 0;
-
-          // Total the number of ratings for the Tutorial
-          _.each(tutorial.ratings, function(rating) {
-
-            sumTutorialRatings = sumTutorialRatings + rating.stars;
-          });
-
-          // Assign the average to the tutorial
-          tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
-        }
-
-        var totalSeconds = 0;
-        _.each(tutorial.videos, function(video) {
-
-          totalSeconds = totalSeconds + video.lengthInSeconds;
-          tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({
-            totalSeconds: totalSeconds
-          }).hoursMinutesSeconds;
-        });
-
-        var videoToUpdate = _.find(tutorial.videos, function(video) {
-          return video.id === +req.param('id');
-        });
-
-        tutorial.created = DatetimeService.getTimeAgo({
-          date: tutorial.createdAt
-        });
-
-        return res.view('tutorials-detail-video-edit', {
-          me: {
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
-          tutorial: {
-            id: tutorial.id,
-            title: tutorial.title,
-            description: tutorial.description,
-            owner: tutorial.owner.username,
-            created: tutorial.created,
-            totalTime: tutorial.totalTime,
-            averageRating: tutorial.averageRating,
-            video: {
-              id: videoToUpdate.id,
-              title: videoToUpdate.title,
-              src: videoToUpdate.src,
-              hours: DatetimeService.getHoursMinutesSeconds({
-                totalSeconds: videoToUpdate.lengthInSeconds
-              }).hours,
-              minutes: DatetimeService.getHoursMinutesSeconds({
-                totalSeconds: videoToUpdate.lengthInSeconds
-              }).minutes,
-              seconds: DatetimeService.getHoursMinutesSeconds({
-                totalSeconds: videoToUpdate.lengthInSeconds
-              }).seconds
-            }
+      return res.view('tutorials-detail-video-edit', {
+        me: {
+          username: user.username,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        },
+        tutorial: {
+          id: tutorial.id,
+          title: tutorial.title,
+          description: tutorial.description,
+          owner: tutorial.username,
+          created: tutorial.created,
+          totalTime: tutorial.totalTime,
+          averageRating: tutorial.averageRating,
+          video: {
+            id: tutorial.video.id,
+            title: tutorial.video.title,
+            src: tutorial.video.src,
+            hours: tutorial.video.hours,
+            minutes: tutorial.video.minutes,
+            seconds: tutorial.video.seconds
           }
-        });
+        }
       });
     });
   }
