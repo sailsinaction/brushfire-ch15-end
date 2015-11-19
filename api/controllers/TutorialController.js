@@ -474,7 +474,7 @@ module.exports = {
       return res.redirect('/');
     }
 
-    // Find the currently logged in user and its tutorials
+    // Find the currently logged in user and her tutorials
     User.findOne({id: req.session.userId})
     .exec(function(err, foundUser){
       if (err) {
