@@ -91,103 +91,91 @@ module.exports = {
 
   profile: function(req, res) {
 
-  var FAKE_DATA = {
-    frontEnd: {
-      numOfTutorials: 11,
-      numOfFollowers: 0,
-      numOfFollowing: 0
-    },
-    tutorials: [
-      {
+    var FAKE_DATA = {
+      frontEnd: {
+        numOfTutorials: 11,
+        numOfFollowers: 0,
+        numOfFollowing: 0
+      },
+      tutorials: [{
         title: 'The best of Douglas Crockford on JavaScript.',
         description: 'Understanding JavasScript the good parts.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Understanding Angular 2.0',
         description: 'Different sides of Angular 2.0',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Biology 101.',
         description: 'The best biology teacher on the planet.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Dog Training.',
         description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'How to play famous songs on the Ukulele.',
         description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Character development 101.',
         description: 'Writing better and more interesting characters.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Drawing Cartoons.',
         description: 'Drawing techniques for the beginning cartoonist.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'How to make whisky.',
         description: 'Distilling corn into whisky.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'How do toilets work.',
         description: 'Everything you never thought you needed to know about how toilets flush.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Making fire.',
         description: 'Techniques for making fire without a match.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      },
-      {
+      }, {
         title: 'Making homemade beef jerky.',
         description: 'Everything you need to know to make some jerky.',
         owner: 'sails-in-action',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
-      }
-    ]
-  };
+      }]
+    };
 
     // Look up the user record for the `username` parameter
     User.findOne({
@@ -205,23 +193,194 @@ module.exports = {
 
       // The logged out case
       if (!req.session.userId) {
-        
-      return res.view('profile', {
-        // This is for the navigation bar
-        me: null,
 
-        // This is for profile body
-        username: foundByUsername.username,
-        gravatarURL: foundByUsername.gravatarURL,
-        frontEnd: {
-          numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
-          numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
-          numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing
-        },
-        // This is for the list of tutorials
-        tutorials: FAKE_DATA.tutorials
-      });
-    }
+        return res.view('profile', {
+          // This is for the navigation bar
+          me: null,
+
+          // This is for profile body
+          username: foundByUsername.username,
+          gravatarURL: foundByUsername.gravatarURL,
+          frontEnd: {
+            numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
+            numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
+            numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing
+          },
+          // This is for the list of tutorials
+          tutorials: FAKE_DATA.tutorials
+        });
+      }
+
+      // Otherwise the user-agent IS logged in.
+
+      // Look up the logged-in user from the database.
+      User.findOne({
+          id: req.session.userId
+        })
+        .exec(function(err, foundUser) {
+          if (err) {
+            return res.negotiate(err);
+          }
+
+          if (!foundUser) {
+            return res.serverError('User record from logged in user is missing?');
+          }
+
+          // We'll provide `me` as a local to the profile page view.
+          // (this is so we can render the logged-in navbar state, etc.)
+          var me = {
+            username: foundUser.username,
+            email: foundUser.email,
+            gravatarURL: foundUser.gravatarURL,
+            admin: foundUser.admin
+          };
+
+          // We'll provide the `isMe` flag to the profile page view
+          // if the logged-in user is the same as the user whose profile we looked up earlier.
+          if (req.session.userId === foundUser.id) {
+            me.isMe = true;
+          } else {
+            me.isMe = false;
+          }
+
+          // Return me property for the nav and the remaining properties for the profile page.
+          return res.view('profile', {
+            me: me,
+            showAddTutorialButton: true,
+            username: foundUser.username,
+            gravatarURL: foundUser.gravatarURL,
+            frontEnd: {
+              numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
+              numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
+              numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing,
+              followedByLoggedInUser: true
+            },
+            tutorials: FAKE_DATA.tutorials
+          });
+        }); //</ User.findOne({id: req.session.userId})
+
+    });
+  },
+
+  profileFollower: function(req, res) {
+
+    var FAKE_DATA = {
+      frontEnd: {
+        numOfTutorials: 11,
+        numOfFollowers: 1,
+        numOfFollowing: 1
+      },
+      followers: [{
+        username: 'sails-in-action',
+        gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
+      }],
+      tutorials: [{
+        title: 'The best of Douglas Crockford on JavaScript.',
+        description: 'Understanding JavasScript the good parts.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Understanding Angular 2.0',
+        description: 'Different sides of Angular 2.0',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Biology 101.',
+        description: 'The best biology teacher on the planet.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Dog Training.',
+        description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'How to play famous songs on the Ukulele.',
+        description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Character development 101.',
+        description: 'Writing better and more interesting characters.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Drawing Cartoons.',
+        description: 'Drawing techniques for the beginning cartoonist.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'How to make whisky.',
+        description: 'Distilling corn into whisky.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'How do toilets work.',
+        description: 'Everything you never thought you needed to know about how toilets flush.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Making fire.',
+        description: 'Techniques for making fire without a match.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Making homemade beef jerky.',
+        description: 'Everything you need to know to make some jerky.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }]
+    };
+
+    User.findOne({
+      username: req.param('username')
+    })
+    .exec(function(err, foundUser) {
+      if (err) return res.negotiate(err);
+      if (!foundUser) return res.notFound();
+
+      // The logged out case
+      if (!req.session.userId) {
+
+        return res.view('profile-followers', {
+          // This is for the navigation bar
+          me: null,
+
+          // This is for profile body
+          username: foundUser.username,
+          gravatarURL: foundUser.gravatarURL,
+          frontEnd: {
+            numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
+            numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
+            numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing,
+            followers: FAKE_DATA.followers
+          },
+          // This is for the list of followers
+          followers: FAKE_DATA.followers
+        });
+      }
 
       // Otherwise the user-agent IS logged in.
 
@@ -229,13 +388,25 @@ module.exports = {
       User.findOne({
         id: req.session.userId
       })
-      .exec(function (err, loggedInUser){
+      .exec(function(err, loggedInUser) {
         if (err) {
           return res.negotiate(err);
         }
 
         if (!loggedInUser) {
           return res.serverError('User record from logged in user is missing?');
+        }
+
+        // Is the logged in user currently following the owner of this tutorial?
+        var cachedFollower = _.find(FAKE_DATA.followers, function(follower) {
+          return follower.id === loggedInUser.id;
+        });
+
+        // Set the display toggle (followedByLoggedInUser) based upon whether
+        // the currently logged in user is following the owner of the tutorial.
+        var followedByLoggedInUser = false;
+        if (cachedFollower) {
+          followedByLoggedInUser = true;
         }
 
         // We'll provide `me` as a local to the profile page view.
@@ -254,9 +425,9 @@ module.exports = {
         } else {
           me.isMe = false;
         }
-        
+
         // Return me property for the nav and the remaining properties for the profile page.
-        return res.view('profile', {
+        return res.view('profile-followers', {
           me: me,
           showAddTutorialButton: true,
           username: foundUser.username,
@@ -265,107 +436,10 @@ module.exports = {
             numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
             numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
             numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing,
-            followedByLoggedInUser: true
+            followedByLoggedInUser: false,
+            followers: FAKE_DATA.followers
           },
-          tutorials: FAKE_DATA.tutorials
-        });
-      }); //</ User.findOne({id: req.session.userId})
-     
-    });
-  },
-
-  profileFollower: function(req, res) {
-
-    User.findOne({
-      username: req.param('username')
-    })
-    .populate("followers")
-    .populate("following")
-    .populate("tutorials")
-    .exec(function(err, foundUser){
-      if (err) return res.negotiate(err);
-      if (!foundUser) return res.notFound();
-
-      // The logged out case
-      if (!req.session.userId) {
-        
-        return res.view('profile-followers', {
-          // This is for the navigation bar
-          me: null,
-
-          // This is for profile body
-          username: foundUser.username,
-          gravatarURL: foundUser.gravatarURL,
-          frontEnd: {
-            numOfTutorials: foundUser.tutorials.length,
-            numOfFollowers: foundUser.followers.length,
-            numOfFollowing: foundUser.following.length,
-            followers: foundUser.followers
-          },
-          // This is for the list of followers
-          followers: foundUser.followers
-        });
-      }
-
-      // Otherwise the user-agent IS logged in.
-
-      // Look up the logged-in user from the database.
-      User.findOne({
-        id: req.session.userId
-      })
-      .populate('following')
-      .exec(function (err, loggedInUser){
-        if (err) {
-          return res.negotiate(err);
-        }
-
-        if (!loggedInUser) {
-          return res.serverError('User record from logged in user is missing?');
-        }
-
-        // Is the logged in user currently following the owner of this tutorial?
-        var cachedFollower = _.find(foundUser.followers, function(follower){
-          return follower.id === loggedInUser.id;
-        });
-
-        // Set the display toggle (followedByLoggedInUser) based upon whether
-        // the currently logged in user is following the owner of the tutorial.
-        var followedByLoggedInUser = false;
-        if (cachedFollower) {
-          followedByLoggedInUser = true;
-        }
-
-        // We'll provide `me` as a local to the profile page view.
-        // (this is so we can render the logged-in navbar state, etc.)
-        var me = {
-          username: loggedInUser.username,
-          email: loggedInUser.email,
-          gravatarURL: loggedInUser.gravatarURL,
-          admin: loggedInUser.admin
-        };
-
-        // We'll provide the `isMe` flag to the profile page view
-        // if the logged-in user is the same as the user whose profile we looked up earlier.
-        if (req.session.userId === foundUser.id) {
-          me.isMe = true;
-        } else {
-          me.isMe = false;
-        }
-        
-        // Return me property for the nav and the remaining properties for the profile page.
-        return res.view('profile-followers', {
-          me: me,
-          showAddTutorialButton: true,
-          username: foundUser.username,
-          gravatarURL: foundUser.gravatarURL,
-          frontEnd: {
-            numOfTutorials: foundUser.tutorials.length,
-            numOfFollowers: foundUser.followers.length,
-            numOfFollowing: foundUser.following.length,
-            followedByLoggedInUser: followedByLoggedInUser,
-            followers: foundUser.followers
-          },
-          followers: foundUser.followers
+          followers: FAKE_DATA.followers
         });
       }); //</ User.findOne({id: req.session.userId})
     });
@@ -373,20 +447,108 @@ module.exports = {
 
   profileFollowing: function(req, res) {
 
+    var FAKE_DATA = {
+      frontEnd: {
+        numOfTutorials: 11,
+        numOfFollowers: 1,
+        numOfFollowing: 1
+      },
+      following: [{
+        username: 'sails-in-action',
+        gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
+      }],
+      tutorials: [{
+        title: 'The best of Douglas Crockford on JavaScript.',
+        description: 'Understanding JavasScript the good parts.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Understanding Angular 2.0',
+        description: 'Different sides of Angular 2.0',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Biology 101.',
+        description: 'The best biology teacher on the planet.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Dog Training.',
+        description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'How to play famous songs on the Ukulele.',
+        description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Character development 101.',
+        description: 'Writing better and more interesting characters.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Drawing Cartoons.',
+        description: 'Drawing techniques for the beginning cartoonist.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'How to make whisky.',
+        description: 'Distilling corn into whisky.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'How do toilets work.',
+        description: 'Everything you never thought you needed to know about how toilets flush.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Making fire.',
+        description: 'Techniques for making fire without a match.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }, {
+        title: 'Making homemade beef jerky.',
+        description: 'Everything you need to know to make some jerky.',
+        owner: 'sails-in-action',
+        averageRating: 3,
+        created: 'a few seconds ago',
+        totalTime: '1h 2m 3s'
+      }]
+    };
+
+
     User.findOne({
       username: req.param('username')
     })
-    .populate("followers")
-    .populate("following")
-    .populate("tutorials")
-    .exec(function(err, foundUser){
+    .exec(function(err, foundUser) {
       if (err) return res.negotiate(err);
       if (!foundUser) return res.notFound();
 
       // The logged out case
       if (!req.session.userId) {
-        
-        return res.view('profile-following', {
+
+        return res.view('profile-followers', {
           // This is for the navigation bar
           me: null,
 
@@ -394,13 +556,13 @@ module.exports = {
           username: foundUser.username,
           gravatarURL: foundUser.gravatarURL,
           frontEnd: {
-            numOfTutorials: foundUser.tutorials.length,
-            numOfFollowers: foundUser.followers.length,
-            numOfFollowing: foundUser.following.length,
-            following: foundUser.following
+            numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
+            numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
+            numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing,
+            following: FAKE_DATA.following
           },
           // This is for the list of following
-          following: foundUser.following
+          following: FAKE_DATA.following
         });
       }
 
@@ -410,8 +572,7 @@ module.exports = {
       User.findOne({
         id: req.session.userId
       })
-      .populate('following')
-      .exec(function (err, loggedInUser){
+      .exec(function(err, loggedInUser) {
         if (err) {
           return res.negotiate(err);
         }
@@ -421,7 +582,7 @@ module.exports = {
         }
 
         // Is the logged in user currently following the owner of this tutorial?
-        var cachedFollower = _.find(foundUser.followers, function(follower){
+        var cachedFollower = _.find(FAKE_DATA.following, function(follower) {
           return follower.id === loggedInUser.id;
         });
 
@@ -448,7 +609,7 @@ module.exports = {
         } else {
           me.isMe = false;
         }
-        
+
         // Return me property for the nav and the remaining properties for the profile page.
         return res.view('profile-following', {
           me: me,
@@ -456,13 +617,13 @@ module.exports = {
           username: foundUser.username,
           gravatarURL: foundUser.gravatarURL,
           frontEnd: {
-            numOfTutorials: foundUser.tutorials.length,
-            numOfFollowers: foundUser.followers.length,
-            numOfFollowing: foundUser.following.length,
-            followedByLoggedInUser: followedByLoggedInUser,
-            following: foundUser.following
+            numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
+            numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
+            numOfFollowing: FAKE_DATA.frontEnd.numOfFollowing,
+            followedByLoggedInUser: false,
+            following: FAKE_DATA.following
           },
-          following: foundUser.following
+          following: FAKE_DATA.following
         });
       }); //</ User.findOne({id: req.session.userId})
     });
@@ -579,193 +740,201 @@ module.exports = {
 
   tutorialDetail: function(req, res) {
 
-  /*
-    ___       _ _   _       _    ___                  _           
-   |_ _|_ __ (_) |_(_) __ _| |  / _ \ _   _  ___ _ __(_) ___  ___ 
-    | || '_ \| | __| |/ _` | | | | | | | | |/ _ \ '__| |/ _ \/ __|
-    | || | | | | |_| | (_| | | | |_| | |_| |  __/ |  | |  __/\__ \
-   |___|_| |_|_|\__|_|\__,_|_|  \__\_\\__,_|\___|_|  |_|\___||___/
+    /*
+      ___       _ _   _       _    ___                  _           
+     |_ _|_ __ (_) |_(_) __ _| |  / _ \ _   _  ___ _ __(_) ___  ___ 
+      | || '_ \| | __| |/ _` | | | | | | | | |/ _ \ '__| |/ _ \/ __|
+      | || | | | | |_| | (_| | | | |_| | |_| |  __/ |  | |  __/\__ \
+     |___|_| |_|_|\__|_|\__,_|_|  \__\_\\__,_|\___|_|  |_|\___||___/
 
-  */                                                                  
+    */
 
     // Find the tutorial and populate owner, ratings, and videos
     Tutorial.findOne(req.param('id'))
-    .populate('owner')
-    .populate('ratings')
-    .populate('videos')
-    .exec(function(err, tutorial){
-      if (err) return res.negotiate(err);
-      if (!tutorial) return res.notFound();
-
-      // Find the user that created the tutorial
-      User.findOne({
-        id: tutorial.owner.id
-      }).exec(function(err, user){
+      .populate('owner')
+      .populate('ratings')
+      .populate('videos')
+      .exec(function(err, tutorial) {
         if (err) return res.negotiate(err);
-        if (!user) return res.notFound();
+        if (!tutorial) return res.notFound();
 
-        // Find the rating (if any) of the currently authenticated user
-        Rating.findOne({
-          user: req.session.userId
-        }).exec(function(err, foundRating){
+        // Find the user that created the tutorial
+        User.findOne({
+          id: tutorial.owner.id
+        }).exec(function(err, user) {
           if (err) return res.negotiate(err);
+          if (!user) return res.notFound();
 
-          /*
-            _____                     __                      
-           |_   _| __ __ _ _ __  ___ / _| ___  _ __ _ __ ___  
-             | || '__/ _` | '_ \/ __| |_ / _ \| '__| '_ ` _ \ 
-             | || | | (_| | | | \__ \  _| (_) | |  | | | | | |
-             |_||_|  \__,_|_| |_|___/_|  \___/|_|  |_| |_| |_|
-                                                    
-           */
+          // Find the rating (if any) of the currently authenticated user
+          Rating.findOne({
+            user: req.session.userId
+          }).exec(function(err, foundRating) {
+            if (err) return res.negotiate(err);
 
-          // Set the tutorial.owner attribute to the username of the creator of the tutorial
-          tutorial.owner = user.username;
+            /*
+              _____                     __                      
+             |_   _| __ __ _ _ __  ___ / _| ___  _ __ _ __ ___  
+               | || '__/ _` | '_ \/ __| |_ / _ \| '__| '_ ` _ \ 
+               | || | | (_| | | | \__ \  _| (_) | |  | | | | | |
+               |_||_|  \__,_|_| |_|___/_|  \___/|_|  |_| |_| |_|
+                                                      
+             */
 
-          /***********
-            Rating
-          ************/
+            // Set the tutorial.owner attribute to the username of the creator of the tutorial
+            tutorial.owner = user.username;
 
-          // If a rating exists by the currently authenticated user update tutorial.myRating
-          if (!foundRating) {
-            tutorial.myRating = null;
-          } else {
-            tutorial.myRating = foundRating.stars;
-          }
+            /***********
+              Rating
+            ************/
 
-          // Calculate the average of all existing ratings.
-          if (tutorial.ratings.length === 0) {
-            tutorial.averageRating = null;
-          } else {
-
-            var sumTutorialRatings = 0;
-
-            // Calculate the total number of ratings for the Tutorial
-            _.each(tutorial.ratings, function(rating){
-
-              sumTutorialRatings = sumTutorialRatings + rating.stars;  
-            });
-
-            // Assign the average to tutorial.averageRating
-            tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
-          }
-
-          /*****************
-            Date Formatting
-          ******************/
-
-          // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
-          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-          tutorial.updated = DatetimeService.getTimeAgo({date: tutorial.updatedAt});
-
-          /************************************
-            Tutorial & Video Length Formatting
-          *************************************/
-
-          // Format the total time for each video and for the tutorial as a whole.
-          var totalSeconds = 0;
-          _.each(tutorial.videos, function(video){
-
-            // Total the number of seconds for all videos for tutorial total time
-            totalSeconds = totalSeconds + video.lengthInSeconds;
-
-            // Format the video lengthInSeconds into xh xm xs format for each video
-            video.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: video.lengthInSeconds}).hoursMinutesSeconds;
-
-            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-          });
-
-          /**************
-            Video Order
-          ***************/
-
-          // Use the embedded `videoOrder` array to apply the manual sort order
-          // to our videos.
-          tutorial.videos = _.sortBy(tutorial.videos, function getRank (video) {
-            // We use the index of this video id within the `videoOrder` array as our sort rank.
-            // Because that array is in the proper order, if we use the index of this video id as
-            // the rank, then the newly sorted `tutorial.videos` array will be in the same order.
-            return _.indexOf(tutorial.videoOrder,video.id);
-          });
-
-          // Given (e.g.):
-          // tutorial.videoOrder= [3, 4, 5]
-          // tutorial.videos = [{id: 5}, {id: 4}, {id: 3}]
-          // 
-          // Yields (e.g.):
-          // tutorial.videos <== [{id: 3}, {id: 4}, {id: 5}]
-
-          /*
-            _                               _    ___        _   
-           | |    ___   __ _  __ _  ___  __| |  / _ \ _   _| |_ 
-           | |   / _ \ / _` |/ _` |/ _ \/ _` | | | | | | | | __|
-           | |__| (_) | (_| | (_| |  __/ (_| | | |_| | |_| | |_ 
-           |_____\___/ \__, |\__, |\___|\__,_|  \___/ \__,_|\__|
-                       |___/ |___/                              
-           */
-
-          // If not logged in set `me` property to `null` and pass the tutorial to the view
-          if (!req.session.userId) {
-            return res.view('tutorials-detail', {
-              me: null,
-              // stars: tutorial.averageRating, // TODO: just use tutorial for this instead of a separate `stars` property
-              tutorial: tutorial
-            });
-          }
-
-          /*
-            _                               _   ___       
-           | |    ___   __ _  __ _  ___  __| | |_ _|_ __  
-           | |   / _ \ / _` |/ _` |/ _ \/ _` |  | || '_ \ 
-           | |__| (_) | (_| | (_| |  __/ (_| |  | || | | |
-           |_____\___/ \__, |\__, |\___|\__,_| |___|_| |_|
-                       |___/ |___/                        
-           */
-
-          User.findOne(req.session.userId, function(err, user) {
-            if (err) {
-              return res.negotiate(err);
-            }
-
-            if (!user) {
-              sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-              return res.view('tutorials-detail', {
-                me: null
-              });
-            }
-
-            // We'll provide `me` as a local to the profile page view.
-            // (this is so we can render the logged-in navbar state, etc.)
-            var me = {
-              gravatarURL: user.gravatarURL,
-              username: user.username,
-              admin: user.admin
-            };
-
-            if (user.username === tutorial.owner) {
-              me.isMe = true;
-
-              return res.view('tutorials-detail', {
-                me: me,
-                // stars: tutorial.averageRating,
-                tutorial: tutorial
-              });
-
+            // If a rating exists by the currently authenticated user update tutorial.myRating
+            if (!foundRating) {
+              tutorial.myRating = null;
             } else {
+              tutorial.myRating = foundRating.stars;
+            }
+
+            // Calculate the average of all existing ratings.
+            if (tutorial.ratings.length === 0) {
+              tutorial.averageRating = null;
+            } else {
+
+              var sumTutorialRatings = 0;
+
+              // Calculate the total number of ratings for the Tutorial
+              _.each(tutorial.ratings, function(rating) {
+
+                sumTutorialRatings = sumTutorialRatings + rating.stars;
+              });
+
+              // Assign the average to tutorial.averageRating
+              tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
+            }
+
+            /*****************
+              Date Formatting
+            ******************/
+
+            // Format the createdAt and UpdatedAt attributes and assign them to the tutorial
+            tutorial.created = DatetimeService.getTimeAgo({
+              date: tutorial.createdAt
+            });
+            tutorial.updated = DatetimeService.getTimeAgo({
+              date: tutorial.updatedAt
+            });
+
+            /************************************
+              Tutorial & Video Length Formatting
+            *************************************/
+
+            // Format the total time for each video and for the tutorial as a whole.
+            var totalSeconds = 0;
+            _.each(tutorial.videos, function(video) {
+
+              // Total the number of seconds for all videos for tutorial total time
+              totalSeconds = totalSeconds + video.lengthInSeconds;
+
+              // Format the video lengthInSeconds into xh xm xs format for each video
+              video.totalTime = DatetimeService.getHoursMinutesSeconds({
+                totalSeconds: video.lengthInSeconds
+              }).hoursMinutesSeconds;
+
+              tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({
+                totalSeconds: totalSeconds
+              }).hoursMinutesSeconds;
+            });
+
+            /**************
+              Video Order
+            ***************/
+
+            // Use the embedded `videoOrder` array to apply the manual sort order
+            // to our videos.
+            tutorial.videos = _.sortBy(tutorial.videos, function getRank(video) {
+              // We use the index of this video id within the `videoOrder` array as our sort rank.
+              // Because that array is in the proper order, if we use the index of this video id as
+              // the rank, then the newly sorted `tutorial.videos` array will be in the same order.
+              return _.indexOf(tutorial.videoOrder, video.id);
+            });
+
+            // Given (e.g.):
+            // tutorial.videoOrder= [3, 4, 5]
+            // tutorial.videos = [{id: 5}, {id: 4}, {id: 3}]
+            // 
+            // Yields (e.g.):
+            // tutorial.videos <== [{id: 3}, {id: 4}, {id: 5}]
+
+            /*
+              _                               _    ___        _   
+             | |    ___   __ _  __ _  ___  __| |  / _ \ _   _| |_ 
+             | |   / _ \ / _` |/ _` |/ _ \/ _` | | | | | | | | __|
+             | |__| (_) | (_| | (_| |  __/ (_| | | |_| | |_| | |_ 
+             |_____\___/ \__, |\__, |\___|\__,_|  \___/ \__,_|\__|
+                         |___/ |___/                              
+             */
+
+            // If not logged in set `me` property to `null` and pass the tutorial to the view
+            if (!req.session.userId) {
               return res.view('tutorials-detail', {
-                me: {
-                  gravatarURL: user.gravatarURL,
-                  username: user.username,
-                  admin: user.admin
-                },
-                // stars: tutorial.averageRating,
+                me: null,
+                // stars: tutorial.averageRating, // TODO: just use tutorial for this instead of a separate `stars` property
                 tutorial: tutorial
               });
             }
+
+            /*
+              _                               _   ___       
+             | |    ___   __ _  __ _  ___  __| | |_ _|_ __  
+             | |   / _ \ / _` |/ _` |/ _ \/ _` |  | || '_ \ 
+             | |__| (_) | (_| | (_| |  __/ (_| |  | || | | |
+             |_____\___/ \__, |\__, |\___|\__,_| |___|_| |_|
+                         |___/ |___/                        
+             */
+
+            User.findOne(req.session.userId, function(err, user) {
+              if (err) {
+                return res.negotiate(err);
+              }
+
+              if (!user) {
+                sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+                return res.view('tutorials-detail', {
+                  me: null
+                });
+              }
+
+              // We'll provide `me` as a local to the profile page view.
+              // (this is so we can render the logged-in navbar state, etc.)
+              var me = {
+                gravatarURL: user.gravatarURL,
+                username: user.username,
+                admin: user.admin
+              };
+
+              if (user.username === tutorial.owner) {
+                me.isMe = true;
+
+                return res.view('tutorials-detail', {
+                  me: me,
+                  // stars: tutorial.averageRating,
+                  tutorial: tutorial
+                });
+
+              } else {
+                return res.view('tutorials-detail', {
+                  me: {
+                    gravatarURL: user.gravatarURL,
+                    username: user.username,
+                    admin: user.admin
+                  },
+                  // stars: tutorial.averageRating,
+                  tutorial: tutorial
+                });
+              }
+            });
           });
         });
       });
-    });
   },
 
   newTutorial: function(req, res) {
@@ -792,14 +961,16 @@ module.exports = {
 
   editTutorial: function(req, res) {
 
-    Tutorial.findOne({id: req.param('id')}).exec(function (err, tutorial){
+    Tutorial.findOne({
+      id: req.param('id')
+    }).exec(function(err, tutorial) {
       if (err) return res.negotiate(err);
 
       if (!tutorial) return res.notFound();
 
       User.findOne({
         id: tutorial.owner
-      }).exec(function(err, ownerUser){
+      }).exec(function(err, ownerUser) {
         tutorial.owner = ownerUser.username;
 
         User.findOne(req.session.userId, function(err, user) {
@@ -814,11 +985,13 @@ module.exports = {
 
           if (user.username !== tutorial.owner) {
 
-            return res.redirect('/tutorials/'+tutorial.id);
+            return res.redirect('/tutorials/' + tutorial.id);
 
           }
 
-          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+          tutorial.created = DatetimeService.getTimeAgo({
+            date: tutorial.createdAt
+          });
 
           return res.view('tutorials-detail-edit', {
             me: {
@@ -840,138 +1013,150 @@ module.exports = {
   newVideo: function(req, res) {
 
     Tutorial.findOne({
-      id: req.param('id')
-    })
-    .populate('owner')
-    .exec(function(err, foundTutorial){
-      if (err) return res.negotiate(err);
-      if (!foundTutorial) return res.notFound();
+        id: req.param('id')
+      })
+      .populate('owner')
+      .exec(function(err, foundTutorial) {
+        if (err) return res.negotiate(err);
+        if (!foundTutorial) return res.notFound();
 
-      User.findOne(req.session.userId, function(err, user) {
-        if (err) {
-          return res.negotiate(err);
-        }
-
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-          return res.redirect('/');
-        }
-
-        // TODO: Probably should be a policy
-        if (user.username !== foundTutorial.owner.username) {
-
-          return res.redirect('/tutorials/'+foundTutorial.id);
-
-        }
-
-        foundTutorial.created = DatetimeService.getTimeAgo({date: foundTutorial.createdAt});
-
-        return res.view('tutorials-detail-video-new', {
-          me: {
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
-          // We don't need all of the tutorial attributes on window.SAILS_LOCALS.tutorial
-          // so we're passing stars separately.
-          stars: foundTutorial.stars,
-          tutorial: {
-            id: foundTutorial.id,
-            title: foundTutorial.title,
-            description: foundTutorial.description,
-            owner: foundTutorial.owner.username,
-            created: foundTutorial.created,
-            totalTime: foundTutorial.totalTime,
-            stars: foundTutorial.stars
+        User.findOne(req.session.userId, function(err, user) {
+          if (err) {
+            return res.negotiate(err);
           }
+
+          if (!user) {
+            sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+            return res.redirect('/');
+          }
+
+          // TODO: Probably should be a policy
+          if (user.username !== foundTutorial.owner.username) {
+
+            return res.redirect('/tutorials/' + foundTutorial.id);
+
+          }
+
+          foundTutorial.created = DatetimeService.getTimeAgo({
+            date: foundTutorial.createdAt
+          });
+
+          return res.view('tutorials-detail-video-new', {
+            me: {
+              username: user.username,
+              gravatarURL: user.gravatarURL,
+              admin: user.admin
+            },
+            // We don't need all of the tutorial attributes on window.SAILS_LOCALS.tutorial
+            // so we're passing stars separately.
+            stars: foundTutorial.stars,
+            tutorial: {
+              id: foundTutorial.id,
+              title: foundTutorial.title,
+              description: foundTutorial.description,
+              owner: foundTutorial.owner.username,
+              created: foundTutorial.created,
+              totalTime: foundTutorial.totalTime,
+              stars: foundTutorial.stars
+            }
+          });
         });
       });
-    });
   },
 
   editVideo: function(req, res) {
 
     Tutorial.findOne({
-      id: req.param('tutorialId')
-    })
-    .populate('videos')
-    .populate('owner')
-    .populate('ratings')
-    .exec(function(err, tutorial){
-      if (err) return res.negotiate(err);
-      if (!tutorial) return res.notFound();
+        id: req.param('tutorialId')
+      })
+      .populate('videos')
+      .populate('owner')
+      .populate('ratings')
+      .exec(function(err, tutorial) {
+        if (err) return res.negotiate(err);
+        if (!tutorial) return res.notFound();
 
-      User.findOne(req.session.userId, function(err, user) {
-        if (err) {
-          return res.negotiate(err);
-        }
+        User.findOne(req.session.userId, function(err, user) {
+          if (err) {
+            return res.negotiate(err);
+          }
 
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-          return res.redirect('/');
-        }
+          if (!user) {
+            sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+            return res.redirect('/');
+          }
 
-        if (user.username !== tutorial.owner.username) {
+          if (user.username !== tutorial.owner.username) {
 
-          return res.redirect('/tutorials/'+tutorial.id);
+            return res.redirect('/tutorials/' + tutorial.id);
 
-        }
+          }
 
-        // Perform Average Ratings calculation if there are ratings
-        if (tutorial.ratings.length === 0) {
-          tutorial.averageRating = null;
-        } else {
+          // Perform Average Ratings calculation if there are ratings
+          if (tutorial.ratings.length === 0) {
+            tutorial.averageRating = null;
+          } else {
 
-          var sumTutorialRatings = 0;
+            var sumTutorialRatings = 0;
 
-          // Total the number of ratings for the Tutorial
-          _.each(tutorial.ratings, function(rating){
+            // Total the number of ratings for the Tutorial
+            _.each(tutorial.ratings, function(rating) {
 
-            sumTutorialRatings = sumTutorialRatings + rating.stars;  
+              sumTutorialRatings = sumTutorialRatings + rating.stars;
+            });
+
+            // Assign the average to the tutorial
+            tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
+          }
+
+          var totalSeconds = 0;
+          _.each(tutorial.videos, function(video) {
+
+            totalSeconds = totalSeconds + video.lengthInSeconds;
+            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({
+              totalSeconds: totalSeconds
+            }).hoursMinutesSeconds;
           });
 
-          // Assign the average to the tutorial
-          tutorial.averageRating = sumTutorialRatings / tutorial.ratings.length;
-        }
+          var videoToUpdate = _.find(tutorial.videos, function(video) {
+            return video.id === +req.param('id');
+          });
 
-        var totalSeconds = 0;
-        _.each(tutorial.videos, function(video){
+          tutorial.created = DatetimeService.getTimeAgo({
+            date: tutorial.createdAt
+          });
 
-          totalSeconds = totalSeconds + video.lengthInSeconds;
-          tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-        });
-
-        var videoToUpdate = _.find(tutorial.videos, function(video){
-        return video.id === +req.param('id');
-        });
-
-        tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-        return res.view('tutorials-detail-video-edit', {
-          me: {
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
-          tutorial: {
-            id: tutorial.id,
-            title: tutorial.title,
-            description: tutorial.description,
-            owner: tutorial.owner.username,
-            created: tutorial.created,
-            totalTime: tutorial.totalTime,
-            averageRating: tutorial.averageRating,
-            video: {
-              id: videoToUpdate.id,
-              title: videoToUpdate.title,
-              src: videoToUpdate.src,
-              hours: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).hours,
-              minutes: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).minutes,
-              seconds: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).seconds
+          return res.view('tutorials-detail-video-edit', {
+            me: {
+              username: user.username,
+              gravatarURL: user.gravatarURL,
+              admin: user.admin
+            },
+            tutorial: {
+              id: tutorial.id,
+              title: tutorial.title,
+              description: tutorial.description,
+              owner: tutorial.owner.username,
+              created: tutorial.created,
+              totalTime: tutorial.totalTime,
+              averageRating: tutorial.averageRating,
+              video: {
+                id: videoToUpdate.id,
+                title: videoToUpdate.title,
+                src: videoToUpdate.src,
+                hours: DatetimeService.getHoursMinutesSeconds({
+                  totalSeconds: videoToUpdate.lengthInSeconds
+                }).hours,
+                minutes: DatetimeService.getHoursMinutesSeconds({
+                  totalSeconds: videoToUpdate.lengthInSeconds
+                }).minutes,
+                seconds: DatetimeService.getHoursMinutesSeconds({
+                  totalSeconds: videoToUpdate.lengthInSeconds
+                }).seconds
+              }
             }
-          }
+          });
         });
       });
-    });
   }
 };
