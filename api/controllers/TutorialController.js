@@ -208,6 +208,12 @@ module.exports = {
     return res.ok();
   },
 
+  averageRating: function(req, res) {
+    return res.json({
+      averageRating: 3
+    });
+  },
+
   createTutorial: function(req, res) {
 
     // Create a tutorial record using `username`, `title`, and `description`
