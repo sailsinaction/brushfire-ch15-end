@@ -222,15 +222,16 @@ module.exports = {
     return res.json({id: 1});
   },
 
+  updateTutorial: function(req, res) {
+
+    return res.ok();
+  },
+  
   addVideo: function(req, res) {
 
     return res.ok();
   },
 
-  updateTutorial: function(req, res) {
-
-    return res.ok();
-  },
 
   updateVideo: function(req, res) {
 

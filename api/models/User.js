@@ -52,6 +52,7 @@ module.exports = {
     //   collection: 'tutorial',
     //   via: 'owner'
     // },
+     
 
     ratings: {
       collection: 'rating',
