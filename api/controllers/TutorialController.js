@@ -9,463 +9,226 @@ module.exports = {
 
   searchTutorials: function(req, res) {
 
-    Tutorial.count().exec(function(err, found){
-      if (err) return res.negotiate(err);
-      if (!found) return res.notFound();
+    var tutorials = [{
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 1,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 2,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 3
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 3,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 5
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 4,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 1
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 5,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 5
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 6,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 2
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 7,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 8,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 5
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 9,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 10,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }];
 
-      Tutorial.find({
-        or : [
-          {
-            title: {
-              'contains': req.param('searchCriteria')
-            },
-          },
-          {
-            description: {
-              'contains': req.param('searchCriteria')
-            }
-          }
-        ],
-        limit: 10,
-        skip: req.param('skip')
-      })
-      .populate('owner')
-      .populate('ratings')
-      .populate('videos')
-      .exec(function(err, tutorials){
+    console.log('skip: ', req.param('skip'));
 
-        _.each(tutorials, function(tutorial){
 
-          tutorial.owner = tutorial.owner.username;
-          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-          var totalSeconds = 0;
-          _.each(tutorial.videos, function(video){
-
-            // Total the number of seconds for all videos for tutorial total time
-            totalSeconds = totalSeconds + video.lengthInSeconds;
-
-            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-
-            // Format average ratings
-            var totalRating = 0;
-            _.each(tutorial.ratings, function(rating){
-              totalRating = totalRating + rating.stars;
-            });
-
-            var averageRating = 0;
-            if (tutorial.ratings.length < 1) {
-              averageRating = 0;
-            } else {
-              averageRating = totalRating / tutorial.ratings.length;
-            }
-            
-            tutorial.averageRating = averageRating;
-          });
-        });
-
-        return res.json({
-          options: {
-            totalTutorials: found,
-            updatedTutorials: tutorials
-          }
-        });
-      });
+    return res.json({
+      options: {
+        totalTutorials: 30,
+        updatedTutorials: tutorials
+      }
     });
   },
 
   browseTutorials: function(req, res) {
-    
-    Tutorial.count().exec(function(err, found){
-      if (err) return res.negotiate(err);
-      if (!found) return res.notFound();
 
-      Tutorial.find({ limit: 10, skip: req.param('skip')})
-      .populate('owner')
-      .populate('ratings')
-      .populate('videos')
-      .exec(function(err, tutorials){
+    var tutorials = [{
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 1,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 2,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 3
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 3,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 5
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 4,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 1
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 5,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 5
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 6,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 2
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 7,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 8,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 5
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 9,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }, {
+      title: 'The best of Douglas Crockford on JavaScript.',
+      description: 'Understanding JavaScript the good parts, and more.',
+      owner: 'sails-in-action',
+      id: 10,
+      created: 'a month ago',
+      totalTime: '3h 22m 23s',
+      stars: 4
+    }];
 
-        _.each(tutorials, function(tutorial){
+    console.log('skip: ', req.param('skip'));
 
-          tutorial.owner = tutorial.owner.username;
-          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
-
-          var totalSeconds = 0;
-          _.each(tutorial.videos, function(video){
-
-            // Total the number of seconds for all videos for tutorial total time
-            totalSeconds = totalSeconds + video.lengthInSeconds;
-
-            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
-
-            // Format average ratings
-            var totalRating = 0;
-            _.each(tutorial.ratings, function(rating){
-              totalRating = totalRating + rating.stars;
-            });
-
-            var averageRating = 0;
-            if (tutorial.ratings.length < 1) {
-              averageRating = 0;
-            } else {
-              averageRating = totalRating / tutorial.ratings.length;
-            }
-            
-            tutorial.averageRating = averageRating;
-          });
-        });
-
-        return res.json({
-          options: {
-            totalTutorials: found,
-            updatedTutorials: tutorials
-          }
-        });
-      });
+    return res.json({
+      options: {
+        totalTutorials: 30,
+        updatedTutorials: tutorials
+      }
     });
   },
 
   myRating: function(req, res) {
 
-    Rating.findOne({
-      user: req.session.userId,
-      tutorial: req.param('id')
-    }).exec(function(err, foundRating){
-      if (err) return res.negotiate(err);
-      if (!foundRating) return res.notFound();
-
-      res.json({
-        rating: foundRating.stars
-      });
-    });
-  },
-
-  averageRating: function(req, res) {
-
-    Tutorial.findOne({
-      id: req.param('id')
-    })
-    .populate('ratings')
-    .exec(function(err, foundTutorial){
-
-      var totalRating = 0;
-      _.each(foundTutorial.ratings, function(rating){
-        totalRating = totalRating + rating.stars;
-      });
-
-      var averageStars = 0;
-
-      averageStars = totalRating / foundTutorial.ratings.length;
-
-      return res.json({
-        averageStars: averageStars
-      });
+    return res.json({
+      myRating: null
     });
   },
 
   rateTutorial: function(req, res) {
 
-
-    // Find the currently authenticated user
-    User.findOne({
-      id: req.session.userId
-    })
-    .exec(function(err, foundUser){
-      if (err) return res.negotiate(err);
-      if (!foundUser) return res.notFound();
-
-      // Find the tutorial whose being rated
-      Tutorial.findOne({
-        id: req.param('id')
-      })
-      .populate('ratings')
-      .exec(function(err, foundTutorial){
-        if (err) return res.negotiate(err);
-        if (!foundTutorial) return res.notFound();
-
-        // Find the rating, if any, of the tutorial from the currently logged in user.
-        Rating.findOne({
-          user: foundUser.id,
-          tutorial: foundTutorial.id
-        }).exec(function(err, foundRating){
-          if (err) return res.negotiate(err);
-
-          // If the currently authenticated user-agent (user) has previously rated this tutorial
-          // update it with the new rating.
-          if (foundRating) {
-
-            Rating.update({
-              id: foundRating.id
-            }).set({
-              stars: req.param('stars')
-            }).exec(function(err, updatedRating){
-              if (err) return res.negotiate(err);
-              if (!updatedRating) return res.notFound();
-
-              // Re-Find the tutorial whose being rated to get the latest
-              Tutorial.findOne({
-                id: req.param('id')
-              })
-              .populate('ratings')
-              .exec(function(err, foundTutorialAfterUpdate){
-                if (err) return res.negotiate(err);
-                if (!foundTutorialAfterUpdate) return res.notFound();
-
-                // Get the average of all ratings with the updated rating
-                var sumTutorialRatings = 0;
-
-                // Total the number of ratings for the Tutorial
-                _.each(foundTutorialAfterUpdate.ratings, function(rating){
-
-                  sumTutorialRatings = sumTutorialRatings + rating.stars;
-                });
-
-                // Assign the average to the tutorial
-                foundTutorialAfterUpdate.averageRating = Math.floor(sumTutorialRatings / foundTutorialAfterUpdate.ratings.length);
-
-                console.log('foundTutorial.averageRating: ', foundTutorialAfterUpdate.averageRating);
-
-                return res.json({
-                  averageRating: foundTutorialAfterUpdate.averageRating
-                });
-              });
-            });
-
-          // If the currently authenticated user-agent (user) has not already rated this tutorial
-          // create it with the new rating.
-          } else {
-            Rating.create({
-              stars: req.param('stars'),
-              user: foundUser.id,
-              tutorial: foundTutorial.id
-            }).exec(function(err, createdRating){
-              if (err) return res.negotiate(err);
-              if (!createdRating) return res.notFound();
-
-              foundTutorial.ratings.add(createdRating);
-              foundUser.ratings.add(createdRating);
-
-
-              foundTutorial.save(function (err, foundTutorialAfterUpdate){
-                if (err) return res.negotiate(err);
-
-                foundUser.save(function(err){
-                  if (err) return res.negotiate(err);
-                  
-                  // Get the average of all ratings with the updated rating
-                  var sumTutorialRatings = 0;
-
-                  // Total the number of ratings for the Tutorial
-                  console.log('after ratings', foundTutorialAfterUpdate.ratings);
-                  _.each(foundTutorialAfterUpdate.ratings, function(rating){
-
-                    sumTutorialRatings = sumTutorialRatings + rating.stars;
-                  });
-
-                  // Assign the average to the tutorial
-                  foundTutorial.averageRating = sumTutorialRatings / foundTutorialAfterUpdate.ratings.length;
-
-                  return res.json({
-                    averageRating: foundTutorial.averageRating
-                  });
-                });
-              });
-            });
-          }
-        });
-      });
-    });
+    return res.ok();
   },
 
   createTutorial: function(req, res) {
 
-    // Validate parameters
-    if (!_.isString(req.param('title'))) {
-      return res.badRequest();
-    }
+    // Create a tutorial record using `username`, `title`, and `description`
 
-    if (!_.isString(req.param('description'))) {
-      return res.badRequest();
-    }
-
-    // TODO Need policy to prevent those not authenticated from creating a tutorial.
-
-    // Find the user that we're adding a tutorial to
-    User.findOne({
-      id: req.session.userId
-    }).exec(function(err, foundUser){
-      if (err) return res.negotiate;
-      if (!foundUser) return res.notFound();
-
-      // Create the new tutorial in the tutorial model
-      Tutorial.create({
-        title: req.param('title'),
-        description: req.param('description'),
-        owner: foundUser.id,
-        videoOrder: [],
-        // videos: []
-      }).exec(function(err, createdTutorial){
-        if (err) return res.negotiate(err);
-
-        // Update the user to contain the new tutorial
-        foundUser.tutorials.add(createdTutorial.id);
-        // Then persist back to the database.
-        foundUser.save(function (err) {
-          if (err) return res.negotiate(err);
-          
-          // return the new tutorial id
-          return res.json({id: createdTutorial.id});
-        });
-
-        // // Update the user to contain the new tutorial
-        // foundUser.tutorials = [];
-        // foundUser.tutorials.push({
-        //   title: req.param('title'),
-        //   description: req.param('description'),
-        //   created: foundUser.createdAt,
-        //   updated: foundUser.updatedAt,
-        //   id: foundUser.id
-        // });
-        // User.update({id: req.session.userId})
-        // .set({tutorials: foundUser.tutorials})
-        // .exec(function(err){
-        //   if (err) return res.negotiate(err);
-
-        //   // return the new tutorial id
-        //   return res.json({id: createdTutorial.id});
-        // });
-      });
-    });
+    // Pass back the `id` of the new record, simulate `1` for now.
+    return res.json({id: 1});
   },
 
   addVideo: function(req, res) {
 
-    // Validate parameters
-    if (!_.isNumber(req.param('hours')) || !_.isNumber(req.param('minutes')) || !_.isNumber(req.param('seconds'))) {
-      return res.badRequest();
-    }
-    if (!_.isString(req.param('src')) || !_.isString(req.param('title'))) {
-      return res.badRequest();
-    }
-
-    // Look up the tutorial record.
-    Tutorial.findOne({
-      id: req.param('tutorialId')
-    }).exec(function(err, foundTutorial){
-      if (err) return res.negotiate(err);
-      if (!foundTutorial) return res.notFound();
-
-      // Create the video record.
-      Video.create({
-        title: req.param('title'),
-        src: req.param('src'),
-        lengthInSeconds: req.param('hours') * 60 * 60 + req.param('minutes') * 60 + req.param('seconds')
-      }).exec(function (err, createdVideo) {
-        if (err) return res.negotiate(err);
-
-        // Add a reference to the new video inside the tutorial record.
-        foundTutorial.videos.add(createdVideo.id);
-
-        // Modify the `videoOrder` array embedded in our tutorial to reflect the new video.
-        // (We always add new videos to the bottom of the list)
-        foundTutorial.videoOrder.push(createdVideo.id);
-
-        // Persist (save) our changes to the tutorial record back to the database.
-        foundTutorial.save(function (err) {
-          if (err) return res.negotiate(err);
-
-          return res.ok();
-        });
-      });
-    });
+    return res.ok();
   },
 
   updateTutorial: function(req, res) {
 
-    // Validate parameters
-    if (!_.isString(req.param('title'))) {
-      return res.badRequest();
-    }
-
-    if (!_.isString(req.param('description'))) {
-      return res.badRequest();
-    }
-
-    // Update the tutorial coercing the incoming id from a string to an integer using the unary `+` 
-    Tutorial.update({
-      id: +req.param('id')
-    }).set({
-      title: req.param('title'),
-      description: req.param('description')
-    }).exec(function (err) {
-      if (err) return res.negotiate(err);
-      return res.ok();
-
-      // // Propagate updates to embedded (i.e. cached) arrays of tutorials on our user records.
-      // User.find().exec(function (err, users) {
-      //   if (err) { return res.negotiate(err); }
-
-      //   async.each(users, function (user, next){
-
-      //     // If this user does not have the tutorial that is being updated,
-      //     // move on to the next user.
-      //     var cachedTutorial = _.find(user.tutorials, { id: +req.param('id') });
-
-      //     // Otherwise, keep move on to the next user.
-      //     if (!cachedTutorial) {
-      //       return next();
-      //     }
-
-      //     // Otherwise, this user has the cached version of our tutorial.
-      //     // So we'll change the `tutorials` array and save it back to the db.
-      //     cachedTutorial.title = req.param('title');
-      //     cachedTutorial.description = req.param('description');
-          
-      //     User.update({
-      //       id: user.id
-      //     }).set({
-      //       tutorials: user.tutorials
-      //     }).exec(function (err) {
-      //       if (err) { return next(err); }
-      //       return next();
-      //     });
-      //   }, function (err) {
-      //     if (err) {return res.negotiate(err);}
-      //     return res.ok();
-      //   });
-      // });
-    });
+    return res.ok();
   },
 
   updateVideo: function(req, res) {
 
-    if (!_.isString(req.param('title'))) {
-      return res.badRequest();
-    }
-
-    if (!_.isString(req.param('src'))) {
-      return res.badRequest();
-    }
-
-    var hours = +req.param('hours');
-    var minutes = +req.param('minutes');
-    var seconds = +req.param('seconds');
-
-    var convertedToSeconds = hours * 60 * 60 + minutes * 60 + seconds;
-
-    Video.update({
-      id: +req.param('id')
-    }).set({
-      title: req.param('title'),
-      src: req.param('src'),
-      lengthInSeconds: convertedToSeconds
-    }).exec(function (err, updatedUser){
-      if (err) return res.negotiate(err);
-      if (!updatedUser) return res.notFound();
-
-      return res.ok();
-    });
+    return res.ok();
   },
 
   deleteTutorial: function(req, res) {
@@ -474,9 +237,7 @@ module.exports = {
       return res.redirect('/');
     }
 
-    // Find the currently logged in user and her tutorials
-    User.findOne({id: req.session.userId})
-    .exec(function(err, foundUser){
+    User.findOne({id: req.session.userId}).exec(function(err, foundUser){
       if (err) {
         return res.negotiate(err);
       }
@@ -485,125 +246,56 @@ module.exports = {
         return res.notFound();
       }
 
-      // Remove the to-be-deleted tutorial from the owner's `tutorials` collection
-      foundUser.tutorials.remove(req.param('id'));
-      foundUser.save(function (err){
-        if (err) return res.negotiate(err);
-
-        Tutorial.findOne({
-          id: req.param('id')
-        })
-        .populate ('ratings')
-        .populate('videos')
-        .exec(function(err, foundTutorial){
-          if (err) return res.negotiate(err);
-          if (!foundTutorial) return res.notFound();
-
-          // Remove the to-be-deleted video from the tutorial's `videos` collection association
-          _.each(foundTutorial.videos, function(video){
-            foundTutorial.videos.remove(video.id);
-          });
-
-          // Remove the to-be-deleted rating from the tutorial's `ratings` collection association
-          _.each(foundTutorial.ratings, function(rating){
-            foundTutorial.ratings.remove(rating.id);
-          });
-
-          foundTutorial.save(function(err){
-            if (err) return res.negotiate(err);
-
-            // Destroy the tutorial
-            Tutorial.destroy({
-              id: req.param('id')
-            }).exec(function(err){
-              if (err) return res.negotiate(err);
-
-              // Destroy videos
-              Video.destroy({id: _.pluck(foundTutorial.videos, 'id')}).exec(function(err){
-                if (err) return res.negotiate(err);
-
-                // Destroy ratings
-                Rating.destroy({id: _.pluck(foundTutorial.ratings, 'id')}).exec(function(err){
-                  if (err) return res.negotiate(err);
-
-                  // Return the username of the user using the userId of the session.
-                  return res.json({username: foundUser.username});
-                });
-              });
-            });
-          });
-        });
-      });
+      // Return the username of the user using the userId of the session.
+      return res.json({username: foundUser.username});
+      
     });
   },
 
   removeVideo: function(req, res) {
 
-    Tutorial.findOne({
-      id: +req.param('tutorialId')
-    })
-    .exec(function(err, foundTutorial){
-      if (err) return res.negotiate(err);
-      if (!foundTutorial) return res.notFound();
-
-      // Remove the reference to this video from our tutorial record.
-      foundTutorial.videos.remove(+req.param('id'));
-
-      // Remove this video id from the `videoOrder` array
-      foundTutorial.videoOrder = _.without(foundTutorial.videoOrder, +req.param('id'));
-
-      // Persist our tutorial back to the database.
-      foundTutorial.save(function(err){
-        if (err) return res.negotiate(err);
-        
-        Video.destroy({
-          id: +req.param('id')
-        }).exec(function(err){
-          if (err) return res.negotiate(err);
-      
-          return res.ok();
-        });
-      });
-    });
+      return res.ok();
   },
 
   showVideo: function(req, res) {
 
-    Video.findOne({
-      id: req.param('id')
-    }).exec(function(err, video){
+    // Simulating a found video
+    var video = {
+      id: 34,
+      title: 'Crockford on JavaScript - Volume 1: The Early Years',
+      src: 'https://www.youtube.com/embed/JxAXlJEmNMg'
+    };
 
-      if (!req.session.userId) {
+    if (!req.session.userId) {
+      return res.view('show-video', {
+        me: null,
+        video: video,
+        tutorialId: req.param('tutorialId')
+      });
+    }
+
+    User.findOne(req.session.userId, function(err, user) {
+      if (err) {
+        return res.negotiate(err);
+      }
+
+      if (!user) {
+        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
         return res.view('show-video', {
           me: null,
           video: video,
-          tutorialId: req.param('tutorialId')
+        tutorialId: req.param('tutorialId')
         });
       }
 
-      User.findOne(req.session.userId, function(err, user) {
-        if (err) {
-          return res.negotiate(err);
-        }
-
-        if (!user) {
-          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-          return res.view('show-video', {
-            me: null,
-            video: video,
-          tutorialId: req.param('tutorialId')
-          });
-        }
-
-        return res.view('show-video', {
-          me: {
-            username: user.username,
-            gravatarURL: user.gravatarURL,
-            admin: user.admin
-          },
-          video: video,
-          tutorialId: req.param('tutorialId')
-        });
+      return res.view('show-video', {
+        me: {
+          username: user.username,
+          gravatarURL: user.gravatarURL,
+          admin: user.admin
+        },
+        video: video,
+        tutorialId: req.param('tutorialId')
       });
     });
   }
