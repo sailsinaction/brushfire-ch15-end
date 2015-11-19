@@ -17,6 +17,14 @@ module.exports = {
       type: 'string'
     },
 
+    owner: {
+      type: 'json'
+    },
+
+    // owner: {
+    //   model: 'user'
+    // },
+    
     // An array of video ids representing the manual (human) ordering of videos. 
     videoOrder: {
       // e.g.
@@ -25,10 +33,6 @@ module.exports = {
       // ]
       type: 'json'
       // (this is always ok because there will never be millions of videos per tutorial)
-    },
-
-    owner: {
-      model: 'user'
     },
 
     videos: {

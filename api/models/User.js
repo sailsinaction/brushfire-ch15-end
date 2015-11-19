@@ -7,9 +7,6 @@
 
 module.exports = {
 
-  connection: 'myPostgresqlServer',
-  schema: 'true',
-
   attributes: {
 
     email: {
@@ -48,9 +45,13 @@ module.exports = {
     },
 
     tutorials: {
-      collection: 'tutorial',
-      via: 'owner'
+      type: 'json'
     },
+
+    // tutorials: {
+    //   collection: 'tutorial',
+    //   via: 'owner'
+    // },
 
     ratings: {
       collection: 'rating',
