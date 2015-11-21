@@ -39,7 +39,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/irlnathan/bf-pre12a-end.git"
+    "url": "git://github.com/irlnathan/bf-pre12b.git"
   },
   "author": "Mike McNeil/Irl Nathan",
   "license": "MIT"

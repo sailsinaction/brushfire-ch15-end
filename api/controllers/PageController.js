@@ -896,12 +896,14 @@ module.exports = {
       id: 1
     };
 
-    User.findOne(req.session.userId, function(err, user) {
+    User.findOne({
+      id: +req.session.userId
+    }).exec(function (err, foundUser) {
       if (err) {
         return res.negotiate(err);
       }
 
-      if (!user) {
+      if (!foundUser) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
         return res.redirect('/tutorials');
       }
