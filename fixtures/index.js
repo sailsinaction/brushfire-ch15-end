@@ -149,7 +149,7 @@ module.exports = function(cb) {
         if(!user) return nextUser(404);
 
         async.each(RATINGS[username], function(rating, nextRating) {
-          Rating.create({ stars: rating.stars, user: user.id, tutorial: rating.tutorial })
+          Rating.create({ stars: rating.stars, byUser: user.id, byTutorial: rating.tutorial })
           .exec(nextRating);
         }, nextUser);
       });

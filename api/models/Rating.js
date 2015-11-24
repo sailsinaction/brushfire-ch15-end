@@ -13,11 +13,11 @@ module.exports = {
       type: 'integer'
     },
 
-    user: {
+    byUser: {
       model: 'user'
     },
 
-    tutorial: {
+    byTutorial: {
       model: 'tutorial'
     }
   }

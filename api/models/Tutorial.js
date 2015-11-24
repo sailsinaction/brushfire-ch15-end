@@ -42,7 +42,7 @@ module.exports = {
 
     ratings: {
       collection: 'rating',
-      via: 'tutorial'
+      via: 'byTutorial'
     }
   }
 };

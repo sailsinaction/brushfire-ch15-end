@@ -55,7 +55,7 @@ module.exports = {
 
     ratings: {
       collection: 'rating',
-      via: 'user' // TODO: `byUser` (so readers don't get confused and think it _has_ to be the model name)
+      via: 'byUser' 
     },
 
     // Who is following me?
