@@ -39,7 +39,11 @@
             </li>
             <li>|</li>
             <li>
-              <span> <%= tutorial.totalTime %></span>
+              <% if (!tutorial.totalTime) { %>
+                <span><i class="fa fa-video-camera"></i> no length set</span>
+              <% } else { %>
+                <span><i class="fa fa-video-camera"></i>  <%= tutorial.totalTime %></span>
+              <% } %>
             </li>
             <li>|</li>
             <li>
