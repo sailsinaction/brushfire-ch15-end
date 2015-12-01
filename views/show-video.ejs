@@ -1,3 +1,14 @@
+<script type="text/javascript">
+  window.SAILS_LOCALS.chats = <%-
+    // Note that by putting these comments inside of the EJS tag, we prevent them from
+    // being sent down to client (i.e. they are boiled away on the server along 
+    // with the EJS tags)
+    typeof chats !== 'undefined' ? JSON.stringify(chats) : 'null'
+    // Note that we deliberately use 'null' (a string) because EJS converts the 
+    // `null` literal  into empty string (''), which is not what we want (that would 
+    // be invalid JS and cause a client-side error in the browser)
+    %>;
+</script>
 <div ng-controller="showVideoPageController" ng-cloak>
   <div class="container-fluid col-md-5">
     <h3><%= video.title %></h3>
@@ -16,28 +27,27 @@
                 </div>
                 <div class="panel-body">
                     <ul class="chat">
-                      <% _.forEach(FAKE_CHAT, function (chat){  %>
-                        <li class="left clearfix"><span class="chat-img pull-left">
-                            <img class="gravatarSm" ng-src="<%= chat.gravatarURL %>" height="30" width="30">
-                        </span>
+                        <li class="left clearfix" ng-repeat="chat in chats">
+                            <span class="chat-img pull-left">
+                                <img class="gravatarSm" ng-src="{{chat.gravatarURL}}" height="30" width="30">
+                            </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font"><%= chat.username %> </strong> <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span><%= chat.created %></small>
+                                    <strong class="primary-font">{{chat.username}} </strong> <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{chat.created}}</small>
                                 </div>
                                 <p>
-                                    <%= chat.message %>
+                                    {{chat.message}}
                                 </p>
                             </div>
                         </li>
-                      <% }) %>
                     </ul>
                 </div>
                 <div class="panel-footer">
                     <div class="input-group">
                         <input id="btn-input" type="text" class="form-control input-sm" ng-model="message"placeholder="Type your message here...">
                         <span class="input-group-btn">
-                            <button class="btn btn-success btn-sm" id="btn-chat" ng-click="sendMessage()">
+                            <button ng-disabled="!hasJoinedRoom" class="btn btn-success btn-sm" id="btn-chat" ng-click="sendMessage()">
                                 Send</button>
                         </span>
                     </div>

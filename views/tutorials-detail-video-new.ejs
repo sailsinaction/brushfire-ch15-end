@@ -1,6 +1,6 @@
 <script type="text/javascript">
 window.SAILS_LOCALS = {
-stars: <%-
+tutorial: <%-
 // Note that by putting these comments inside of the EJS tag, we prevent them from
 // being sent down to client (i.e. they are boiled away on the server along
 // with the EJS tags)
@@ -8,7 +8,7 @@ stars: <%-
 // Notice we must check that `stars` exists using typeof to keep EJS from throwing
 // and displaying an ugly error message when rendering certain pages
 // (i.e. 404 /500 error pages)
-typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
+typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) : 'null'
 // Note that we deliberately use 'null' (a string) because EJS converts the
 // `null` literal  into empty string (''), which is not what we want (that would
 // be invalid JS and cause a client-side error in the browser)
@@ -116,6 +116,9 @@ typeof stars !== 'undefined' ? JSON.stringify(stars) : 'null'
                 </div>
               </div>
             </form>
-            </div> <!-- class="row well" -->
-            </div> <!-- class="container well" -->
-            </div>  <!-- ng-controller="tutorialsDetailVideoNewPageController" -->
+          </div> <!-- class="row well" -->
+        </div> <!-- class="col-md-8" style="margin-top: 25px" -->
+      </div> <!-- class="tutorials-detail list-group-item" --> 
+    </div> <!-- class="list-group" --> 
+  </div> <!-- class="container well" --> 
+</div>  <!-- ng-controller="tutorialsDetailVideoNewPageController" -->
