@@ -1,8 +1,49 @@
-<div ng-controller="showVideoPageController" ng-cloak class="container-fluid col-md-5 col-md-offset-3">
-  <h3><%= video.title %></h3>
-  <iframe width="640" height="390" ng-src="<%= video.src %>" frameborder="0" allowfullscreen>
-  </iframe>
-  <div class="row text-center">
-    <a href="/tutorials/<%= tutorialId %>">return to tutorial</a>
+<div ng-controller="showVideoPageController" ng-cloak>
+  <div class="container-fluid col-md-5">
+    <h3><%= video.title %></h3>
+    <iframe width="640" height="390" ng-src="<%= video.src %>" frameborder="0" allowfullscreen>
+    </iframe>
+    <div class="row text-center">
+      <a href="/tutorials/<%= tutorialId %>">return to tutorial</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-comment"> Chat</i>
+                </div>
+                <div class="panel-body">
+                    <ul class="chat">
+                      <% _.forEach(FAKE_CHAT, function (chat){  %>
+                        <li class="left clearfix"><span class="chat-img pull-left">
+                            <img class="gravatarSm" ng-src="<%= chat.gravatarURL %>" height="30" width="30">
+                        </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font"><%= chat.username %> </strong> <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span><%= chat.created %></small>
+                                </div>
+                                <p>
+                                    <%= chat.message %>
+                                </p>
+                            </div>
+                        </li>
+                      <% }) %>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="btn-input" type="text" class="form-control input-sm" ng-model="message"placeholder="Type your message here...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-sm" id="btn-chat" ng-click="sendMessage()">
+                                Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 </div>

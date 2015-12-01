@@ -208,11 +208,6 @@ module.exports = {
     return res.ok();
   },
 
-  averageRating: function(req, res) {
-    return res.json({
-      averageRating: 3
-    });
-  },
 
   createTutorial: function(req, res) {
 
@@ -262,49 +257,6 @@ module.exports = {
   removeVideo: function(req, res) {
 
       return res.ok();
-  },
-
-  showVideo: function(req, res) {
-
-    // Simulating a found video
-    var video = {
-      id: 34,
-      title: 'Crockford on JavaScript - Volume 1: The Early Years',
-      src: 'https://www.youtube.com/embed/JxAXlJEmNMg'
-    };
-
-    if (!req.session.userId) {
-      return res.view('show-video', {
-        me: null,
-        video: video,
-        tutorialId: req.param('tutorialId')
-      });
-    }
-
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.view('show-video', {
-          me: null,
-          video: video,
-        tutorialId: req.param('tutorialId')
-        });
-      }
-
-      return res.view('show-video', {
-        me: {
-          username: user.username,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
-        },
-        video: video,
-        tutorialId: req.param('tutorialId')
-      });
-    });
   }
 };
 

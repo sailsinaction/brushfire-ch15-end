@@ -22,6 +22,16 @@ module.exports = {
 
     return res.ok();
 
+  },
+
+  joinChat: function(req, res) {
+    return res.ok();
+  },
+
+  chat: function(req, res) {
+    return res.json({
+      message: req.param('message')
+    });
   }
 };
 

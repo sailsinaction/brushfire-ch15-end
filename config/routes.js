@@ -34,12 +34,8 @@ module.exports.routes = {
   'PUT /tutorials/:id': 'TutorialController.updateTutorial',
   'PUT /tutorials/:id/rate': 'TutorialController.rateTutorial',
 
-
-  /////////////////////////////////////////////////////////////////////////////////
-  // TODO: bootstrap this info on the page instead:
-  'GET /tutorials/:id/my-rating': 'TutorialController.myRating',
-  'GET /tutorials/:id/average-rating': 'TutorialController.averageRating',
-  /////////////////////////////////////////////////////////////////////////////////
+  'GET /videos/:id/join': 'VideoController.joinChat',
+  'POST /videos/:id/chat': 'VideoController.chat',
 
   'DELETE /tutorials/:id': 'TutorialController.deleteTutorial',
   'DELETE /videos/:id': 'TutorialController.removeVideo',
@@ -54,32 +50,6 @@ module.exports.routes = {
   
   'GET /profile/followers': 'PageController.profileFollower',
 
-  // 'GET /profile/followers': {
-  //   view: 'profile-followers',
-  //   locals: {
-  //     gravatarURL: 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-  //     me: {
-  //       username: 'yaya',
-  //       email: 'yaya@ya.com',
-  //       isMe: true
-  //     },
-  //     user: {
-  //       followers: [{
-  //         name: 'sails-in-action'
-  //       },{
-  //         name: 'sails-in-action'
-  //       },{
-  //         name: 'sails-in-action'
-  //       },{
-  //         name: 'sails-in-action'
-  //       },{
-  //         name: 'sails-in-action'
-  //       },{
-  //         name: 'sails-in-action'
-  //       }]
-  //     }
-  //   }
-  // },
 
   'GET /': 'PageController.home',
   'GET /profile/edit': 'PageController.editProfile',
@@ -99,15 +69,9 @@ module.exports.routes = {
   'GET /tutorials/:id/edit': 'PageController.editTutorial',
   'GET /tutorials/:id/videos/new': 'PageController.newVideo',
   'GET /tutorials/:tutorialId/videos/:id/edit': 'PageController.editVideo',
-  'GET /tutorials/:tutorialId/videos/:id/show': 'TutorialController.showVideo',
+  'GET /tutorials/:tutorialId/videos/:id/show': 'PageController.showVideo',
 
   'GET /:username/followers': 'PageController.profileFollower',
   'GET /:username/following': 'PageController.profileFollowing',
   'GET /:username': 'PageController.profile',
-  
-  // 'GET /:username': {
-  //   controller: 'PageController',
-  //   action: 'profile',
-  //   skipAssets: true
-  // },
 };
