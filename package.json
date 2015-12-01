@@ -1,5 +1,5 @@
 {
-  "name": "bf-pre12b",
+  "name": "brushfire-ch11-start",
   "private": true,
   "version": "0.0.0",
   "description": "a Sails application",
@@ -39,7 +39,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/irlnathan/bf-pre12b.git"
+    "url": "git://github.com/irlnathan/brushfire-ch11-start.git"
   },
   "author": "Mike McNeil/Irl Nathan",
   "license": "MIT"

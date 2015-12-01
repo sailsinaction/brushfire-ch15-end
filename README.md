@@ -1,3 +1,3 @@
-# bf-pre12b
+# brushfire-ch11-start
 
 a [Sails](http://sailsjs.org) application
