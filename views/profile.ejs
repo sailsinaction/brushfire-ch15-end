@@ -38,6 +38,16 @@
           </a>
         </div>
       </div>
+      <% if (me && me.isMe ) { %>
+        <div class="col-md-3 profile-edit-separation" >
+          <h1><%=me.username %></h1>
+          <h3> <a href="mailto:<%= me.email %>"><%= me.email %></a></h3>
+          <div>
+            <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
+            <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+          </div>
+        </div>
+      <% } %>
       <div class="tutorials col-md-9">
         <div class="tutorial-list list-group">
           <div class="list-group-item list-group-header">
