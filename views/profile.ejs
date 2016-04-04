@@ -1,127 +1,100 @@
 <script type="text/javascript">
   window.SAILS_LOCALS.frontEnd = <%-
     // Note that by putting these comments inside of the EJS tag, we prevent them from
-    // being sent down to client (i.e. they are boiled away on the server along 
+    // being sent down to client (i.e. they are boiled away on the server along
     // with the EJS tags)
     //
     // Notice we must check that `stars` exists using typeof to keep EJS from throwing
     // and displaying an ugly error message when rendering certain pages
     // (i.e. 404 /500 error pages)
     typeof frontEnd !== 'undefined' ? JSON.stringify(frontEnd) : 'null'
-    // Note that we deliberately use 'null' (a string) because EJS converts the 
-    // `null` literal  into empty string (''), which is not what we want (that would 
+    // Note that we deliberately use 'null' (a string) because EJS converts the
+    // `null` literal  into empty string (''), which is not what we want (that would
     // be invalid JS and cause a client-side error in the browser)
     %>;
 </script>
-<div ng-controller="profilePageController" ng-cloak>
-  <div class="row">
-    <div class= "col-md-2 col-md-offset-1">
-      <img class="gravatarImage" src="<%= gravatarURL %>" >
-    </div>
-    <% if (me && me.isMe ) { %>
-      <div class="col-md-3" >
-        <h1><%=me.username %></h1>
-          <h3> <a href="mailto:<%= me.email %>"><%= me.email %></a></h3>
-        <div>
-          <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
-          <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
-        </div>
-      </div>
-    <% } %>
-  </div>
-  <div class="row">
-    <div style="margin-top: 10px;">
-      <div class= "col-md-2 col-md-offset-1">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <i class="fa fa-asterisk"></i>
-            <span class="badge">{{ numOfTutorials }}</span>
-            TUTORIALS
-          </li>
-          <a href="/<%= username %>/following">
-            <li class="list-group-item">
-              <span class="badge">{{ numOfFollowing }}</span>
-              FOLLOWING
-            </li>
-          </a>
-          <a href="/<%= username %>/followers">
-            <li class="list-group-item">
-              <span class="badge">{{ numOfFollowers }}</span>
-              FOLLOWERS
-            </li>
-          </a>
-        </ul>
-        <% if (me && !me.isMe) { %>
-            <div class="text-center" ng-show="!followedByLoggedInUser">
-              <button class="btn btn-primary" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
-                Follow me <span class="badge"><span class="fa fa-user"></span></span>
-              </button>
+<div ng-controller="profilePageController" ng-cloak class="profile">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="profile-stats list-group">
+          <div class="profile-item list-group-item">
+            <div class="avatar-container">
+              <img class="avatar-img" src="<%= gravatarURL %>"/>
             </div>
-              <div class="text-center" ng-show="followedByLoggedInUser">
-              <button class="btn btn-danger" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
-                Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
-              </button>
-            </div>
-        
-        <% } %>
-      </div>
-    </div>
-  </div>
-  <div class="container" ng-cloak>
-    <% if (me && me.isMe ) { %>
-      <h1>My Tutorials</h1>
-      <% if (tutorials.length === 0) { %>
-        <p style="font-size: 1.5em"> you don’t have any tutorials yet, want to <a href="/tutorials/new">add</a> one? </p>
-      <% } %>
-    <% } else { %>
-      <h1><%= username %>'s Tutorials</h1>
-      <% if (tutorials.length === 0) { %>
-        <p style="font-size: 1.25em"> ...no videos yet.</p>
-      <% } %>
-    <% } %>
-    <% if (tutorials.length !== 0) { %>
-      <div class="row">
-        <div class="well">
-          <div class="list-group">
-            <% _.forEach(tutorials, function(tutorial){ %>
-            <a href="/tutorials/<%= tutorial.id %>" class="list-group-item tutorials-list">
-              <div class="col-md-11" style="margin-top: 25px">
-                <h3 class="list-group-item-heading">
-                <%- tutorial.title %>
-                </h3>
-                <p class="list-group-item-text" style="font-size: 1.2em">
-                  <%- tutorial.description %>
-                </p>
-                <ul class="list-inline list-unstyled">
-                  <li>|</li>
-                  <li>
-                    <span>by: <i class="fa fa-user"></i>  <%= tutorial.owner %></span>
-                  </li>
-                  <li>|</li>
-                  <li>
-                    <span>created </i>  <%- tutorial.created %></span>
-                  </li>
-                  <li>|</li>
-                  <li>
-                    <span><i class="fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
-                  </li>
-                  <li>|</li>
-                  <li> ratings average:
-                    <% for (i = 0; i < tutorial.averageRating; i++) {  %>
-                    <span class="fa fa-star"></span>
-                    <% } %>
-                    <% for (i = 0; i < 5-tutorial.averageRating; i++) {  %>
-                    <span class="fa fa-star-o"></span>
-                    <% } %>
-                  </li>
-                  <li>|</li>
-                </ul>
-              </div>
-            </a>
-            <% }) %>
           </div>
+          <div class="profile-item list-group-item">
+            <!-- <i class="fa fa-asterisk"></i> -->
+            <span class="badge">{{ numOfTutorials }}</span>
+            Tutorials
+          </div>
+          <a class="profile-item list-group-item"href="/<%= username %>/following">
+            Following
+            <span class="badge">{{ numOfFollowing }}</span>
+          </a>
+          <a class="profile-item list-group-item" href="/<%= username %>/followers">
+            <span class="badge">{{ numOfFollowers }}</span>
+            Followers
+          </a>
         </div>
       </div>
-    <% } %>
+      <div class="tutorials col-md-9">
+        <div class="tutorial-list list-group">
+          <div class="list-group-item list-group-header">
+            <% if (me && me.isMe ) { %>
+            <h1>My Tutorials</h1>
+            <% } else { %>
+            <h1><%= username %>'s Tutorials</h1>
+            <% } %>
+          </div>
+        <% if (tutorials.length === 0) { %>
+        <div class="list-group-item empty-state">
+          <% if (me && me.isMe ) { %>
+          <p> You don’t have any tutorials yet. Want to <a href="/tutorials/new">add one</a>? </p>
+          <% } else { %>
+          <p> This user has not created any tutorials.</p>
+          <% } %>
+        </div>
+        <% } else { %>
+          <% _.forEach(tutorials, function(tutorial){ %>
+          <a href="/tutorials/<%= tutorial.id %>" class="list-group-item tutorial">
+            <h3 class="tutorial-title list-group-item-heading">
+            <%- tutorial.title %>
+            </h3>
+            <p class="tutorial-description list-group-item-text">
+              <%- tutorial.description %>
+            </p>
+            <ul class="tutorial-info list-inline list-unstyled">
+              <li>
+                <i class="icon fa fa-user"></i>
+                <span>By <%= tutorial.owner %></span>
+              </li>
+              <li class="divider">|</li>
+              <li>
+                <span>Created </i>  <%- tutorial.created %></span>
+              </li>
+              <li class="divider">|</li>
+              <li>
+                <span><i class="icon fa fa-video-camera"></i>  <%- tutorial.totalTime %></span>
+              </li>
+              <li class="divider">|</li>
+              <li>
+                <span class="rating-label">Average Rating:</span>
+                <span class="rating-stars">
+                  <% for (i = 0; i < tutorial.averageRating; i++) {  %>
+                  <span class="fa fa-star"></span>
+                  <% } %>
+                  <% for (i = 0; i < 5-tutorial.averageRating; i++) {  %>
+                  <span class="fa fa-star-o"></span>
+                  <% } %>
+                </span>
+              </li>
+            </ul>
+          </a>
+          <% }) %>
+          <% } %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

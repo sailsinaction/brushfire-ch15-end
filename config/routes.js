@@ -50,7 +50,6 @@ module.exports.routes = {
   
   'GET /profile/followers': 'PageController.profileFollower',
 
-
   'GET /': 'PageController.home',
   'GET /profile/edit': 'PageController.editProfile',
   'GET /profile/restore': 'PageController.restoreProfile',
@@ -73,11 +72,10 @@ module.exports.routes = {
 
   'GET /:username/followers': 'PageController.profileFollower',
   'GET /:username/following': 'PageController.profileFollowing',
-  'GET /:username': 'PageController.profile',
-  
-  // 'GET /:username': {
-  //   controller: 'PageController',
-  //   action: 'profile',
-  //   skipAssets: true
-  // }
+  'GET /:username': {
+    controller: 'PageController',
+    action: 'profile',
+    skipAssets: true
+  }
+  // 'GET /:username': 'PageController.profile',
 };

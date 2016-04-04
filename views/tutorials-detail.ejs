@@ -1,40 +1,41 @@
 <script type="text/javascript">
   window.SAILS_LOCALS.tutorial = <%-
     // Note that by putting these comments inside of the EJS tag, we prevent them from
-    // being sent down to client (i.e. they are boiled away on the server along 
+    // being sent down to client (i.e. they are boiled away on the server along
     // with the EJS tags)
     //
     // Notice we must check that `stars` exists using typeof to keep EJS from throwing
     // and displaying an ugly error message when rendering certain pages
     // (i.e. 404 /500 error pages)
     typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) : 'null'
-    // Note that we deliberately use 'null' (a string) because EJS converts the 
-    // `null` literal  into empty string (''), which is not what we want (that would 
+    // Note that we deliberately use 'null' (a string) because EJS converts the
+    // `null` literal  into empty string (''), which is not what we want (that would
     // be invalid JS and cause a client-side error in the browser)
-    %>;
+  %>;
 
 </script>
 
-<div ng-controller="tutorialsDetailPageController" ng-cloak>
+<div class="tutorial-details" ng-controller="tutorialsDetailPageController" ng-cloak>
   <div class="container">
-    <div class="row">
-      <div class="well">
-        <div class="list-group">
-          <!-- Tutorial Details -->
-          <div class="tutorials-detail list-group-item">
-            <div class="col-md-9" style="margin-top: 25px">
-              <h1 class="list-group-item-heading">
-                <%= tutorial.title %>
-              </h1>
-              <p class="list-group-item-text" style="font-size: 1.2em">
+    <div class="well">
+      <div class="panel panel-default">
+        <!-- Tutorial Details -->
+        <div class="panel-body">
+          <h1 class="tutorial-title text-info">
+            <%= tutorial.title %>
+          </h1>
+
+          <div class="row">
+            <div class="col-md-6">
+              <p class="tutorial-description">
                 <%= tutorial.description %>
               </p>
-              <h4><b> by:</b> <a href="/<%= tutorial.owner %>"><%= tutorial.owner %> </h4></a>
             </div>
-            <!-- Edit, Delete, Add Video -->
-            <div class="col-md-3 text-center" style="margin-top: 25px">
+            <div class="col-md-6">
+              <!-- Edit, Delete, Add Video -->
               <% if (me && me.isMe) { %>
-                <ul class="list-inline list-unstyled">
+              <div>
+                <ul class="list-inline list-unstyled text-right">
                   <li><a href="/tutorials/<%= tutorial.id %>/edit" class="btn btn-default">edit</a></li>
                   <li><a ng-click="deleteTutorial(<%= tutorial.id %>)" class="btn btn-default">
                       <span ng-show="!tutorialDetails.deleteTutorialLoading">delete</span>
@@ -43,74 +44,80 @@
                       </a></li>
                   <li><a href="/tutorials/<%= tutorial.id %>/videos/new" class="btn btn-default">add video</a></li>
                 </ul>
+              </div>
               <% } %>
             </div>
-            <!-- inline created, Modified, duration, rating, myRating  -->
-            <div class="row col-md-12">
-              <ul class="list-inline" style="margin-left: 10px; margin-top: 5px;">
-                <li>|</li>
-                <li>
-                  <span><b></b>created  <%= tutorial.created %></span>
-                </li>
-                <li>|</li>
-                <li>
-                  <span>modified  <%= tutorial.updated %></span>
-                </li>
-                <li>|</li>
-                <li>
-                  <% if (!tutorial.totalTime) { %>
-                    <span><i class="fa fa-video-camera"></i> no length set</span>
-                  <% } else { %>
-                    <span><i class="fa fa-video-camera"></i>  <%= tutorial.totalTime %></span>
-                  <% } %>
-                </li>
-                <li>|</li>
-                <li>
-                  <!-- Empty state of tutorial.averageRating -->
-                  <% if (!tutorial.averageRating) { %>
-                    <span style="outline: none">rating average: <i>none</i></span>
-                  <% } else { %>
-                    <!-- tutorial.averageRating -->
-                    <span>rating average: <rating ng-model="averageRating" max="max" readonly="true"  style="outline: none;"></rating></span>
-                  <% } %>
-                </li>
-                <li>|</li>
-                <!-- Don't show myRating unless authenticated -->
-                <% if (me && !me.isMe) { %>
-                  <li>
-                    <span>myRating: <rating ng-model="myRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, <%= tutorial.id %>)" style="outline: none;"></rating></span>
-                    <span ng-show="tutorialDetails.loading" class="fa fa-spinner"></span>
-                    <span ng-hide="hideChangeRating">
-                      <button ng-click="changeRating()" class="btn btn-primary btn-xs">change</button>
-                    </span>
-                  </li>
-                  <li>|</li>
+          </div>
+          <!-- inline created, Modified, duration, rating, myRating  -->
+          <div class="tutorial-info">
+            <ul class="list-inline">
+              <li>By <strong><a href="/<%= tutorial.owner %>"><%= tutorial.owner %></a></strong></li>
+              <li class="divider">|</li>
+              <li>
+                <span>Created  <%= tutorial.created %></span>
+              </li>
+              <li class="divider">|</li>
+              <li>
+                <span>Modified  <%= tutorial.updated %></span>
+              </li>
+              <li class="divider">|</li>
+              <li>
+                <% if (!tutorial.totalTime) { %>
+                  <span><i class="icon fa fa-video-camera"></i> no length set</span>
+                <% } else { %>
+                  <span><i class="icon fa fa-video-camera"></i>  <%= tutorial.totalTime %></span>
                 <% } %>
-              </ul> <!-- class="list-inline list-unstyled" -->
-            </div> <!-- class="row col-md-12"> -->
-          </div> <!-- class="tutorials-detail list-group-item"> -->
-        <!-- </div> -->
-
-
+              </li>
+              <li class="divider">|</li>
+              <li>
+                <!-- Empty state of tutorial.averageRating -->
+                <% if (!tutorial.averageRating) { %>
+                  <span>Average Rating: <i>none</i></span>
+                <% } else { %>
+                  <!-- tutorial.averageRating -->
+                  <span>
+                    <span class="rating-label">Average Rating:</span>
+                    <span class="rating-stars">
+                      <rating ng-model="averageRating" max="max" readonly="true"></rating>
+                    </span>
+                  </span>
+                <% } %>
+              </li>
+              <!-- Don't show myRating unless authenticated -->
+              <% if (me && !me.isMe) { %>
+                <li class="divider">|</li>
+                <li>
+                  <span>myRating: <rating ng-model="myRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, <%= tutorial.id %>)"></rating></span>
+                  <span ng-show="tutorialDetails.loading" class="fa fa-spinner"></span>
+                  <span ng-hide="hideChangeRating">
+                    <button ng-click="changeRating()" class="btn btn-primary btn-xs">change</button>
+                  </span>
+                </li>
+              <% } %>
+            </ul> <!-- class="list-inline list-unstyled" -->
+          </div> <!-- </tutorial-info> -->
+        </div> <!-- </panel-body> -->
+      </div> <!-- </panel> -->
+      <div class="video-list">
         <!-- Videos -->
-        <h2>Table of Contents</h2>
         <ul class="list-group list-unstyled">
           <!-- Empty video state -->
           <% if (me && me.isMe) { %>
             <% if (typeof tutorial.videos === 'undefined' || tutorial.videos && tutorial.videos.length < 1) { %>
-              <p style="font-size: 1.2em">you don’t have any videos yet, want to <a href="/tutorials/<%= tutorial.id %>/videos/new">add</a> one? </p>
+              <p>you don’t have any videos yet, want to <a href="/tutorials/<%= tutorial.id %>/videos/new">add</a> one? </p>
             <% } %>
           <% } else { %>
             <% if (typeof tutorial.videos === 'undefined' || tutorial.videos && tutorial.videos.length < 1) { %>
-              <p style="font-size: 1.2em">no videos yet...</p>
+              <p>no videos yet...</p>
             <% } %>
           <% } %>
           <% _.forEach(tutorial.videos, function(video, i){ %>
             <a href="/tutorials/<%=tutorial.id %>/videos/<%=video.id %>/show" class="list-group-item">
-              <li><%= i + 1 %> - <%= video.title %>
+              <li><span class="number text-primary"><%= i + 1 %>.</span> <%= video.title %>
                 <ul class="list-inline  pull-right">
                   <li>
-                    <span class="fa fa-video-camera"> <%= video.totalTime %></span>
+                    <i class="icon fa fa-clock-o text-info"></i>
+                    <span class="video-time"><%= video.totalTime %></span>
                   </li>
                   <% if (me && me.isMe) { %>
                     <li><button ng-click="editVideo($event, <%= video.id %>)">edit</button></li>
@@ -126,13 +133,13 @@
                     <% } %>
                     <% if (i < tutorial.videos.length-1) { %>
                       <li><i class="fa fa-arrow-down" ng-click="moveVideoDown($event, <%= video.id %>)"></i></li><% }%>
-                  <% } %> 
+                  <% } %>
                 </ul>
               </li>
             </a>
           <% }) %>
         </ul> <!-- class="list-group list-unstyled"> -->
-      </div> <!-- class="well"> -->
-    </div> <!-- class="row"> -->
+      </div> <!-- class="video-list"> -->
+    </div>
   </div> <!-- class="container"> -->
 </div> <!-- ng-controller="tutorialsDetailPageController" ng-cloak> -->

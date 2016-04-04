@@ -41,7 +41,7 @@ angular.module('brushfire').controller('passwordRecoveryPageController', ['$scop
 
       if (sailsResponse.status === 404) {
           
-        toastr.error('There isn\'s an account with that email address.', 'Error', {
+        toastr.error('There isn\'t an account with that email address.', 'Error', {
           closeButton: true
         });
         return;

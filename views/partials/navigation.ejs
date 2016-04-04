@@ -1,23 +1,24 @@
-<div ng-controller="navPageController" ng-cloak class="container-fluid">
-  <!-- Handles loading issue for fontawesome -->
-  <div class="outer">
-    <div class="inner fa fa-spinner">
+<!-- Navigation -->
+<nav class="navigation navbar navbar-inverse navbar-fixed-top">
+  <div ng-controller="navPageController" ng-cloak class="container-fluid">
+    <!-- Handles loading issue for fontawesome -->
+    <div class="loading-spinner">
+      <div class="outer">
+        <div class="inner fa fa-spinner"></div>
+      </div>
     </div>
-  </div>
-  <!-- Creates the navbar -->
-  <nav class="navbar navbar-default navbar-inverse">
     <!-- This creates the mechanism for collapse button -->
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-    <!-- This controls the number of lines in the image when the nav collapse -->
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
+      <!-- This controls the number of lines in the image when the nav collapse -->
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
     </button>
-    <!-- This is the brand on the left-hand side. -->
-    <a class="navbar-brand" style="font-family:verdana;font-size: 25px;" href="/"> Brushfire</a>
+    <!-- The branding on the left-hand side. -->
+    <a class="navbar-brand" href="/"><img src="/images/logo_transparent_orange_notext.png">Brushfire</a>
     <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a style="font-family:verdana;font-size: 18px;" href="/tutorials/browse">browse</a></li>
+      <ul class="nav-items nav navbar-nav">
+        <li><a href="/tutorials/browse">Browse Tutorials</a></li>
         <% if (me && me.admin) { %>
           <!--  Since you are logged in as an admin, we show the link to the admin dashboard -->
           <li><a href="/administration">User Administration</a></li>
@@ -27,26 +28,36 @@
       // Sign in and Sign out links (unauthenticated user state) -->
       if (!me) { %>
         <ul class="nav navbar-nav navbar-right">
-          <li style="margin-right:5px"><p class="navbar-btn"><a type="button" ng-hide="me" class="btn btn-success" href="/signin">sign in</a></p></li>
-          <li style="margin-right:5px"><p class="navbar-btn"><a type="button" ng-hide="me" class="btn btn-primary" href="/signup">sign up</a></p></li>
+          <li><p class="navbar-btn"><a type="button" ng-hide="me" class="btn btn-text" href="/signin">Sign in</a></p></li>
+          <li><p class="navbar-btn"><a type="button" ng-hide="me" class="btn btn-info" href="/signup">Sign up</a></p></li>
         </ul>
       <% }
       // Gravatar, Email, and logout link (authenticated user state)
       else if (me) { %>
         <ul class="nav navbar-nav navbar-right">
           <% if (typeof showAddTutorialButton !== 'undefined' && showAddTutorialButton) { %>
-            <li style="margin-right:5px"><p class="navbar-btn"><a type="button" class="btn btn-primary" href="/tutorials/new">add tutorial</a></p></li>
+            <li><p class="navbar-btn"><a type="button" class="add-tutorial-btn btn" href="/tutorials/new">add tutorial</a></p></li>
           <% } %>
-          <li class="gravatarSm"><img class="gravatarSm" ng-src="<%= me && me.gravatarURL%>" height="30" width="30"/></li>
-          <li class="activityOverlord active">
-            <% /* if `me` is null, this would show an error (since you can't get `null.email`.)  So we check to be sure `me` exists. */ %>
-            <a href="/<%= me.username %>" class="pointer"> <%= me && me.username%></a>
-          </li>
-          <li>
-            <a ng-click="signout()">sign-out</a>
+          <li class="me">
+            <span class="user-dropdown" ng-click="menuVisible = true">
+              <img class="avatar" ng-src="<%= me && me.gravatarURL%>"/>
+              <% /* if `me` is null, this would show an error (since you can't get `null.email`.)  So we check to be sure `me` exists. */ %>
+              <span class="username"><%= me && me.username%></span>
+              <i class="dropdown-arrow fa fa-angle-down"></i>
+            </span>
+            <div class="user-menu-wrapper" ng-class="{'visible':menuVisible}">
+              <div class="user-menu-veil" ng-click="menuVisible = false"></div>
+              <div class="user-menu">
+                <div class="list-group user-menu-items">
+                  <!-- <a class="user-menu-item list-group-item" href="/tutorials/new">Add Tutorial</a> -->
+                  <a class="user-menu-item list-group-item" href="/<%= me.username %>">Your Profile</a>
+                  <a class="user-menu-item list-group-item" ng-click="signout()">Sign Out</a>
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
       <% } %>
     </div>
-  </nav>
-</div>
+  </div>
+</nav>

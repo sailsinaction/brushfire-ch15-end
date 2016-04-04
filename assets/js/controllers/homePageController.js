@@ -27,6 +27,8 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
   // Pagination properties
   $scope.skip = 0;
 
+  SCOPE = $scope;
+
 /* 
   _____   ____  __  __   ______               _       
  |  __ \ / __ \|  \/  | |  ____|             | |      
@@ -64,6 +66,8 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
         $scope.noMoreTutorials = true;
       }
 
+      console.log('yaya: ', $scope.tutorials.length);
+
       if ($scope.tutorials.length <= 10) {
         $scope.noMoreTutorials = true;
       }
@@ -84,6 +88,8 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
 
   $scope.fetchMoreTutorialsLikeThis = function() {
     $scope.loading = true;
+
+    console.log('yep');
 
     $http({
       url: '/tutorials/search',

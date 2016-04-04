@@ -6,32 +6,32 @@
     <div class="form-group" ng-class="{'has-error':restoreprofile.email.$invalid &&restoreprofile.email.$dirty}">
       <div class="input-group">
         <span class="input-group-addon">
-          <i class="fa fa-envelope" style="font-size: 1.5em"> email:</i>
+          <i class="fa fa-envelope"> email:</i>
         </span>
-        <input ng-model="restoreProfileForm.email" autofocus style="font-size: 1.5em" class="form-control"  placeholder="nikola@tesla.com" name="email" type="email"  required>
+        <input ng-model="restoreProfileForm.email" autofocus class="form-control"  placeholder="nikola@tesla.com" name="email" type="email"  required>
       </div>
       <span class="help-block has-error" ng-if="restoreprofile.email.$dirty">
-        <span ng-show="restoreprofile.email.$error.required" style="font-size: 1.5em">Email address is required.</span>
+        <span ng-show="restoreprofile.email.$error.required" >Email address is required.</span>
       </span>
     </div>
     <!-- P A S S W O R D -->
     <div class="form-group" ng-class="{'has-error':restoreprofile.password.$invalid &&restoreprofile.password.$dirty}">
       <div class="input-group">
         <span class="input-group-addon">
-          <i class="fa fa-lock" style="font-size: 1.5em"> password:</i>
+          <i class="fa fa-lock"> password:</i>
         </span>
-        <input ng-model="restoreProfileForm.password" style="font-size: 1.5em" class="form-control"  name="password" type="password" id="password" required>
+        <input ng-model="restoreProfileForm.password" class="form-control"  name="password" type="password" id="password" required>
       </div>
       <span class="help-block has-error" ng-if="restoreprofile.password.$dirty">
-        <span ng-show="restoreprofile.password.$error.required" style="font-size: 1.5em">Password is required.</span>
+        <span ng-show="restoreprofile.password.$error.required">Password is required.</span>
       </span>
     </div>
     <!-- S U B M I T -->
     <div>
     <button class="btn btn-primary btn-lg btn-block" type="submit" ng-disabled="restoreprofile.$invalid">
-    <span ng-show="!restoreProfileForm.loading" style="font-size: 1.25em">Restore Profile.</span>
+    <span ng-show="!restoreProfileForm.loading">Restore Profile.</span>
     <span class="overlord-loading-spinner fa fa-spinner" ng-show="restoreProfileForm.loading" ></span>
-    <span ng-show="restoreProfileForm.loading" style="font-size: 1.25em">Restoring Profile</span>
+    <span ng-show="restoreProfileForm.loading">Restoring Profile</span>
     </button>
-    <div class="text-center" style="font-size: 1.25em"><a href="/signup"> return to signup </a></div>  </div>
+    <div class="text-center"><a href="/signup"> return to signup </a></div>  </div>
 </form>

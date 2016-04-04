@@ -41,11 +41,11 @@ module.exports = {
         success: function() {
 
           if (createdUser.deleted) {
-            return res.forbidden("'Your our account has been deleted.  Please visit http://brushfire.io/restore to restore your account.'");
+            return res.forbidden("'Your account has been deleted.  Please visit http://brushfire.io/restore to restore your account.'");
           }
 
           if (createdUser.banned) {
-            return res.forbidden("'Your our account has been banned, most likely for adding dog videos in violation of the Terms of Service.  Please contact Chad or his mother.'");
+            return res.forbidden("'Your account has been banned, most likely for adding dog videos in violation of the Terms of Service.  Please contact Chad or his mother.'");
           }
 
           req.session.userId = createdUser.id;
@@ -91,7 +91,15 @@ module.exports = {
       return res.badRequest('A username is required!');
     }
 
-    var splitUsername = req.param('username').split(' ').join('-');
+    // username must be at least 6 characters
+    if (req.param('username').length < 6) {
+      return res.badRequest('Username must be at least 6 characters!');
+    }
+
+    // Username must contain only numbers and letters.
+    if (!_.isString(req.param('username')) || req.param('username').match(/[^a-z0-9]/i)) {
+      return res.badRequest('Invalid username: must consist of numbers and letters only.');
+    }
 
     Emailaddresses.validate({
       string: req.param('email'),
@@ -206,7 +214,7 @@ module.exports = {
       // Generate random alphanumeric string for the passwordRecoveryToken
       try {
 
-        var randomString = Strings.unique({}).execSync();
+        var randomString = Strings.random({}).execSync();
 
       } catch (err) {
         return res.serverError(err);

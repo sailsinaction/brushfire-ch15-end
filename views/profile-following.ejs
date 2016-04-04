@@ -1,22 +1,22 @@
 <script type="text/javascript">
   window.SAILS_LOCALS.frontEnd = <%-
     // Note that by putting these comments inside of the EJS tag, we prevent them from
-    // being sent down to client (i.e. they are boiled away on the server along 
+    // being sent down to client (i.e. they are boiled away on the server along
     // with the EJS tags)
     //
     // Notice we must check that `stars` exists using typeof to keep EJS from throwing
     // and displaying an ugly error message when rendering certain pages
     // (i.e. 404 /500 error pages)
     typeof frontEnd !== 'undefined' ? JSON.stringify(frontEnd) : 'null'
-    // Note that we deliberately use 'null' (a string) because EJS converts the 
-    // `null` literal  into empty string (''), which is not what we want (that would 
+    // Note that we deliberately use 'null' (a string) because EJS converts the
+    // `null` literal  into empty string (''), which is not what we want (that would
     // be invalid JS and cause a client-side error in the browser)
     %>;
 </script>
-<div ng-controller="profileFollowingPageController" ng-cloak>
+<div ng-controller="profileFollowingPageController" ng-cloak class="panel-page">
   <div class="row">
     <div class= "col-md-2 col-md-offset-1">
-      <img class="gravatarImage" src="<%= gravatarURL %>" >
+      <img class="avatar-image" src="<%= gravatarURL %>" >
     </div>
     <% if (me && me.isMe ) { %>
       <div class="col-md-3" >
@@ -31,13 +31,13 @@
   </div>
 
   <div class="row">
-    <div style="margin-top: 10px;">
+    <div>
       <div class= "col-md-2 col-md-offset-1">
         <ul class="list-group">
           <a href="/<%= username %>">
             <li class="list-group-item">
-              TUTORIALS 
-              <span class="badge">{{ numOfTutorials }}</span>  
+              TUTORIALS
+              <span class="badge">{{ numOfTutorials }}</span>
             </li>
           </a>
           <li class="list-group-item">
@@ -64,14 +64,14 @@
                 Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
               </button>
             </div>
-        
+
         <% } %>
       </div>
     </div>
   </div>
-  <div class="container" ng-cloak style="margin-top: 20px;">
+  <div class="container" ng-cloak>
     <div ng-if="following.length < 1">
-      <p style="font-size: 1.5em"> not following anyone yet.</p>
+      <p> not following anyone yet.</p>
     </div>
     <div ng-if="me && me.isMe && following.length > 0">
       <h1>I'm Following</h1>
@@ -80,16 +80,16 @@
       <h1><%= username%>'s Following</h1>
     </div>
     <div ng-if="following.length">
-      <div class="well" style="background-color : #dddddd;">
-        <div class="row">   
+      <div class="well">
+        <div class="row">
           <div ng-repeat="follow in following">
             <a href="/{{ follow.username }}">
               <div class="col-md-3">
                 <div class="panel panel-default">
                   <div class="panel-heading text-center"><h3> {{ follow.username }} </h3></div>
-                  <div class="panel-body"><img class="gravatarImage" ng-src="{{follow.gravatarURL}}" ></div>
+                  <div class="panel-body"><img class="avatar-image" ng-src="{{follow.gravatarURL}}" ></div>
                 </div>
-              </div>        
+              </div>
             </a>
           </div>
         </div>

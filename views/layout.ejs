@@ -6,15 +6,24 @@
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+    <!-- Font -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,300italic,700,700italic' rel='stylesheet' type='text/css'>
+
     <!--STYLES-->
     <link rel="stylesheet" href="/styles/angular-toastr.css">
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/dependencies/angular-toastr.css">
+    <link rel="stylesheet" href="/styles/dependencies/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/dependencies/fontawesome.min.css">
+    <link rel="stylesheet" href="/styles/dependencies/ng-cloak.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
 
     <!-- Expose sails locals on the window object -->
     <script type="text/javascript"> //#A
     window.SAILS_LOCALS = {
+      _csrf: <%- typeof _csrf !== 'undefined' ? JSON.stringify(_csrf) : 'null' %>,
+
       me: <%-
       // Note that by putting these comments inside of the EJS tag, we prevent them from
       // being sent down to client (i.e. they are boiled away on the server along with the

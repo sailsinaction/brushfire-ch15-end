@@ -1,0 +1,75 @@
+.auth-form() {
+  .border-box();
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  background-color: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 7px;
+  .form-title {
+    text-align: center;
+    margin-bottom: 10px;
+    img {
+      width: 24px;
+      display: inline;
+      position: relative;
+      top: -12px;
+      margin-right: 10px;
+    }
+    .text {
+      font-size: 26px;
+      color: @orange;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+  input.form-control {
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: none;
+    background-color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    // text-transform: uppercase;
+    letter-spacing: 1px;
+    &:focus {
+      border-color: @blue;
+      box-shadow: none;
+    }
+  }
+  .submit-btn {
+    background: transparent;
+    border: 1px solid @orange;
+    color: @orange;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    .transition(all 250ms);
+    cursor: pointer;
+    &:hover, &:focus {
+      color: @blue;
+      border-color: @blue;
+      outline: none;
+    }
+  }
+  .auth-form-links {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    p {
+      margin-bottom: 5px;
+      &:last-child {
+        margin-bottom: 0px;
+      }
+      a {
+        color: @blue;
+        &:hover, &:focus {
+          outline: none;
+        }
+        &.sign-up-link, &.sign-in-link {
+          color: @green;
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+}

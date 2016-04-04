@@ -1,44 +1,48 @@
-<div ng-controller="browseTutorialsPageController" >
-  <div ng-show="loading" >
-    <span class="overlord-loading-spinner fa fa-spinner"></span>
-    <span style="font-size: 1.2em">Loading user data...</span>
-  </div>
+<div ng-controller="browseTutorialsPageController" class="browse-tutorials-list">
   <div class="container" ng-hide="loading" ng-cloak>
+    <div ng-show="loading" >
+      <span class="overlord-loading-spinner fa fa-spinner"></span>
+      <span>Loading user data...</span>
+    </div>
+    <div>
+      <h1 class="tutorial-list-header text-primary">All Tutorials:</h1>
+    </div>
     <div class="row">
       <div class="well">
-        <div class="list-group">
-          <div ng-repeat="tutorial in tutorials">
-          <a href="/tutorials/{{tutorial.id}}" class="list-group-item tutorials-list">
-            <div class="col-md-11" style="margin-top: 25px">
-              <h3 class="list-group-item-heading">
+        <ul class="list-group">
+          <li class="tutorial list-group-item" ng-repeat="tutorial in tutorials">
+            <a href="/tutorials/{{tutorial.id}}" class="list-group-item tutorials-list">
+              <h3 class="tutorial-title list-group-item-heading">
                 {{ tutorial.title }}
               </h3>
-              <p class="list-group-item-text" style="font-size: 1.2em">
+              <p class="tutorial-description list-group-item-text">
                 {{ tutorial.description }}
               </p>
-              <ul class="list-inline list-unstyled">
-                <li>|</li>
+              <ul class="tutorial-info list-inline list-unstyled">
                 <li>
-                  <span>by: <i class="fa fa-user"></i>  {{ tutorial.owner }}</span>
+                  <span><i class="icon fa fa-user"></i> By {{ tutorial.owner }}</span>
                 </li>
-                <li>|</li>
+                <li class="divider">|</li>
                 <li>
-                  <span>created </i>  {{ tutorial.created }}</span>
+                  <span>Created </i>  {{ tutorial.created }}</span>
                 </li>
-                <li>|</li>
+                <li class="divider">|</li>
                 <li>
-                  <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
+                  <span><i class="icon fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
                 </li>
-                <li>|</li>
-                  <li>
-                    <span>rating average: <rating ng-model="tutorial.averageRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span> 
-                  </li>
-                  <li>|</li>
+                <li class="divider">|</li>
+                <li>
+                  <span>
+                    <span class="rating-label">Average Rating:</span>
+                      <span class="rating-stars">
+                        <rating ng-model="tutorial.averageRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating>
+                      </span>
+                    </span>
+                </li>
               </ul>
-            </div>
-          </a>
-          </div>
-        </div>
+            </a>
+          </li>
+        </ul>
         <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" >
           <span ng-show="!loading">show more tutorials</span>
             <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>

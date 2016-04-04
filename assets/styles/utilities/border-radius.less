@@ -1,0 +1,41 @@
+.border-radius (@radius) {
+    -webkit-border-top-right-radius   : @radius;
+    -webkit-border-bottom-right-radius: @radius;
+    -webkit-border-bottom-left-radius : @radius;
+    -webkit-border-top-left-radius    : @radius;
+
+    -moz-border-radius-topright   : @radius;
+    -moz-border-radius-bottomright: @radius;
+    -moz-border-radius-bottomleft : @radius;
+    -moz-border-radius-topleft    : @radius;
+
+    border-top-right-radius   : @radius;
+    border-bottom-right-radius: @radius;
+    border-bottom-left-radius : @radius;
+    border-top-left-radius    : @radius;
+
+    -moz-background-clip   : padding;
+    -webkit-background-clip: padding-box;
+    background-clip        : padding-box;
+}
+
+.detailed-border-radius (@topLeft, @topRight, @botRight, @botLeft) {
+    -webkit-border-top-right-radius   : @topRight;
+    -webkit-border-bottom-right-radius: @botRight;
+    -webkit-border-bottom-left-radius : @botLeft;
+    -webkit-border-top-left-radius    : @topLeft;
+
+    -moz-border-radius-topright   : @topRight;
+    -moz-border-radius-bottomright: @botRight;
+    -moz-border-radius-bottomleft : @botLeft;
+    -moz-border-radius-topleft    : @topLeft;
+
+    border-top-right-radius   : @topRight;
+    border-bottom-right-radius: @botRight;
+    border-bottom-left-radius : @botLeft;
+    border-top-left-radius    : @topLeft;
+
+    -moz-background-clip   : padding;
+    -webkit-background-clip: padding-box;
+    background-clip        : padding-box;
+}

@@ -1,0 +1,119 @@
+.video-page {
+  padding-top: 50px;
+  padding-bottom: 100px;
+  .video-title-banner {
+    .sunset();
+    .border-box();
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+    position: relative;
+    padding-right: 200px;
+    .video-title {
+      .section-header();
+      color: @white;
+      margin-bottom: 0px;
+    }
+    .back {
+      position: absolute;
+      width: 200px;
+      right: 20px;
+      top: 45px;
+      text-align: right;
+      .back-btn {
+        color: @white;
+        border: 1px solid @white;
+        .transition(all 250ms);
+        .icon {
+          margin-right: 10px;
+        }
+        &:hover {
+          background-color: @black;
+        }
+      }
+    }
+  }
+  .video-column {
+    .border-box();
+    height: 450px;
+    .panel {
+      height: 100%;
+      background-color: lighten(@black, 10%);
+      .back {
+        margin-top: 5px;
+        .icon {
+          color: @blue;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .chat-column {
+    .border-box();
+    height: 450px;
+    .panel {
+      height: 450px;
+      padding-top: 43px;
+      padding-bottom: 51px;
+      position: relative;
+      .panel-heading {
+        // .border-box();
+        height: 43px;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+      .panel-body {
+        height: 100%;
+        overflow: auto;
+      }
+      .panel-footer {
+        // .border-box();
+        height: 51px;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+      }
+
+      .chat-window {
+        .chat {
+          .border-box();
+          position: relative;
+          padding-left: 35px;
+          padding-right: 0px;
+          padding-bottom: 16px;
+          .chat-avatar {
+            width: 27px;
+            height: 27px;
+            border-radius: 4px;
+            position: absolute;
+            left: 0px;
+            top: 4px;
+          }
+          .header {
+            .username {
+              font-size: 15px;
+              line-height: 16px;
+              vertical-align: top;
+              font-weight: 700;
+            }
+            small {
+              font-size: 11px;
+              line-height: 16px;
+              vertical-align: top;
+              position: relative;
+              color: @blue;
+            }
+          }
+          .message {
+            font-size: 14px;
+            vertical-align: top;
+            line-height: 16px;
+          }
+        }
+      }
+    }
+  }
+}

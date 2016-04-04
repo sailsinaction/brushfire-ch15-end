@@ -14,7 +14,9 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
 
   // Set up initial dictionaries
   // (kind of like our schema for the page)
-  $scope.properties = {};
+  $scope.properties = {
+    loading: false
+  };
 
 /* 
   _____   ____  __  __   ______               _       
@@ -28,11 +30,15 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
 
   $scope.resetPassword = function() {
 
+    $scope.properties.loading = true;
+
     $http.put('/user/reset-password', {
       passwordRecoveryToken: $scope.passwordRecoveryToken,
       password: $scope.properties.password
     })
     .then(function onSuccess(sailsResponse) {
+
+      $scope.properties.loading = false;
 
       // Password successfully changed and user is logged in!
       // Redirect them to the `/profile` page (which they'll now be able to access)
@@ -40,6 +46,9 @@ angular.module('brushfire').controller('resetPasswordPageController', ['$scope',
 
     })
     .catch(function onError(sailsResponse) {
+
+      $scope.properties.loading = false;
+
       
       // If our Sails action responds with a 404 status code (i.e. `res.notFound()`)
       // then it means the token was invalid (because no real user could be found matching it).

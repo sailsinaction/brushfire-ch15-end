@@ -1,14 +1,14 @@
-<div ng-controller="tutorialsDetailNewPageController" ng-cloak>
+<div ng-controller="tutorialsDetailNewPageController" ng-cloak class="panel-page">
   <div class="container well">
     <h1>Add a Tutorial    </h1>
   </div>
   <div class="row">
     <!-- grey background with border -->
     <div class="container well">
-      <%  
+      <%
         // Using EJS tags so this doesn't show up in the page.
-        // The validation is tied to the form's `name` property.  Each input has it's 
-        // own `ng-class` and `required` directives. The submit button's ng-disabled 
+        // The validation is tied to the form's `name` property.  Each input has it's
+        // own `ng-class` and `required` directives. The submit button's ng-disabled
         // directive is tied to $invalid.
       %>
       <!-- Add NEW tutorial form -->
@@ -17,22 +17,22 @@
         <!-- T I T L E -->
         <div class="form-group" ng-class="{'has-error':newTutorial.title.$invalid &&newTutorial.title.$dirty}">
           <div class="list-group-item">
-            <label for="title" class=" control-label" style="font-size: 1.5em">Title</label>
-            <input type="text" class="form-control" name="title" autofocus placeholder="e.g. tutorial title" style="font-size: 1.5em" ng-model="tutorialDetailsNew.title" required>
+            <label for="title" class=" control-label">Title</label>
+            <input type="text" class="form-control" name="title" autofocus placeholder="e.g. tutorial title" ng-model="tutorialDetailsNew.title" required>
           </div>
           <span class="help-block has-error" ng-if="newTutorial.title.$dirty">
-            <span ng-show="newTutorial.title.$error.required" style="font-size: 1.5em">Title is required.</span>
+            <span ng-show="newTutorial.title.$error.required">Title is required.</span>
           </span>
         </div>
         <!-- D E S C R I P T I O N -->
         <div class="form-group" ng-class="{'has-error':newTutorial.description.$invalid &&newTutorial.description.$dirty}">
 
           <div class="list-group-item">
-            <label for="description" class=" control-label" style="font-size: 1.5em">Description</label>
-            <textarea class="form-control" rows="3" name="description" placeholder="e.g. tutorial description" style="font-size: 1.5em" ng-model="tutorialDetailsNew.description" required></textarea>
+            <label for="description" class=" control-label">Description</label>
+            <textarea class="form-control" rows="3" name="description" placeholder="e.g. tutorial description" ng-model="tutorialDetailsNew.description" required></textarea>
           </div>
           <span class="help-block has-error" ng-if="newTutorial.description.$dirty">
-            <span ng-show="newTutorial.description.$error.required" style="font-size: 1.5em">Description is required.</span>
+            <span ng-show="newTutorial.description.$error.required">Description is required.</span>
           </span>
         </div>
         <span class="pull-right">

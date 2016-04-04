@@ -101,7 +101,7 @@ module.exports = {
         id: 1,
         title: 'The best of Douglas Crockford on JavaScript.',
         description: 'Understanding JavasScript the good parts.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -109,7 +109,7 @@ module.exports = {
         id: 2,
         title: 'Understanding Angular 2.0',
         description: 'Different sides of Angular 2.0',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -117,7 +117,7 @@ module.exports = {
         id: 3,
         title: 'Biology 101.',
         description: 'The best biology teacher on the planet.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -125,7 +125,7 @@ module.exports = {
         id: 4,
         title: 'Dog Training.',
         description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -133,7 +133,7 @@ module.exports = {
         id: 5,
         title: 'How to play famous songs on the Ukulele.',
         description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -141,7 +141,7 @@ module.exports = {
         id: 6,
         title: 'Character development 101.',
         description: 'Writing better and more interesting characters.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -149,7 +149,7 @@ module.exports = {
         id: 7,
         title: 'Drawing Cartoons.',
         description: 'Drawing techniques for the beginning cartoonist.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -157,7 +157,7 @@ module.exports = {
         id: 8,
         title: 'How to make whisky.',
         description: 'Distilling corn into whisky.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -165,7 +165,7 @@ module.exports = {
         id: 9,
         title: 'How do toilets work.',
         description: 'Everything you never thought you needed to know about how toilets flush.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -173,7 +173,7 @@ module.exports = {
         id: 10,
         title: 'Making fire.',
         description: 'Techniques for making fire without a match.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -181,7 +181,7 @@ module.exports = {
         id: 11,
         title: 'Making homemade beef jerky.',
         description: 'Everything you need to know to make some jerky.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -282,83 +282,83 @@ module.exports = {
         numOfFollowing: 1
       },
       followers: [{
-        username: 'sails-in-action',
+        username: 'sailsinaction',
         gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
       }],
       tutorials: [{
         title: 'The best of Douglas Crockford on JavaScript.',
         description: 'Understanding JavasScript the good parts.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Understanding Angular 2.0',
         description: 'Different sides of Angular 2.0',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Biology 101.',
         description: 'The best biology teacher on the planet.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Dog Training.',
         description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'How to play famous songs on the Ukulele.',
         description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Character development 101.',
         description: 'Writing better and more interesting characters.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Drawing Cartoons.',
         description: 'Drawing techniques for the beginning cartoonist.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'How to make whisky.',
         description: 'Distilling corn into whisky.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'How do toilets work.',
         description: 'Everything you never thought you needed to know about how toilets flush.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Making fire.',
         description: 'Techniques for making fire without a match.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Making homemade beef jerky.',
         description: 'Everything you need to know to make some jerky.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -465,83 +465,83 @@ module.exports = {
         numOfFollowing: 1
       },
       following: [{
-        username: 'sails-in-action',
+        username: 'sailsinaction',
         gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
       }],
       tutorials: [{
         title: 'The best of Douglas Crockford on JavaScript.',
         description: 'Understanding JavasScript the good parts.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Understanding Angular 2.0',
         description: 'Different sides of Angular 2.0',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Biology 101.',
         description: 'The best biology teacher on the planet.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Dog Training.',
         description: 'A great series on getting your dog to stop biting, sit, come, and stay.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'How to play famous songs on the Ukulele.',
         description: 'You\'ll learn songs like Love me Tender, Sea of Love, and more.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Character development 101.',
         description: 'Writing better and more interesting characters.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Drawing Cartoons.',
         description: 'Drawing techniques for the beginning cartoonist.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'How to make whisky.',
         description: 'Distilling corn into whisky.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'How do toilets work.',
         description: 'Everything you never thought you needed to know about how toilets flush.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Making fire.',
         description: 'Techniques for making fire without a match.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
       }, {
         title: 'Making homemade beef jerky.',
         description: 'Everything you need to know to make some jerky.',
-        owner: 'sails-in-action',
+        owner: 'sailsinaction',
         averageRating: 3,
         created: 'a few seconds ago',
         totalTime: '1h 2m 3s'
@@ -756,7 +756,7 @@ module.exports = {
       id: 1,
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavasScript the good parts.',
-      owner: 'sails-in-action',
+      owner: 'sailsinaction',
       created: 'a month ago',
       updated: 'a month ago',
       totalTime: '3h 22m 23s',
@@ -910,9 +910,9 @@ module.exports = {
 
       return res.view('tutorials-detail-edit', {
         me: {
-          gravatarURL: user.gravatarURL,
-          username: user.username,
-          admin: user.admin
+          gravatarURL: foundUser.gravatarURL,
+          username: foundUser.username,
+          admin: foundUser.admin
         },
         tutorial: {
           id: tutorial.id,
@@ -928,7 +928,7 @@ module.exports = {
     var tutorial = {
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
+      owner: 'sailsinaction',
       id: 1,
       created: 'a month ago',
       totalTime: '3h 22m 23s',
@@ -974,7 +974,7 @@ module.exports = {
       id: 1,
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sails-in-action',
+      owner: 'sailsinaction',
       created: 'a month ago',
       totalTime: '3h 22m 23s',
       stars: 4,
@@ -1035,47 +1035,47 @@ module.exports = {
     };
 
     FAKE_CHAT = [{
-      username: 'sails-in-action',
+      username: 'sailsinaction',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
     }, {
-      username: 'nikola-tesla',
+      username: 'nikolatesla',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
     }, {
-      username: 'sails-in-action',
+      username: 'sailsinaction',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
     }, {
-      username: 'nikola-tesla',
+      username: 'nikolatesla',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
     }, {
-      username: 'sails-in-action',
+      username: 'sailsinaction',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
     }, {
-      username: 'nikola-tesla',
+      username: 'nikolatesla',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
     }, {
-      username: 'sails-in-action',
+      username: 'sailsinaction',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
     }, {
-      username: 'nikola-tesla',
+      username: 'nikolatesla',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
     }, {
-      username: 'sails-in-action',
+      username: 'sailsinaction',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
       created: '2 minutes ago',
       gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
