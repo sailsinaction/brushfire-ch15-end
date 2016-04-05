@@ -847,6 +847,7 @@ module.exports = {
 
         return res.view('tutorials-detail', {
           me: me,
+          showAddTutorialButton: true,
           stars: tutorial.stars,
           tutorial: tutorial
         });
@@ -858,6 +859,7 @@ module.exports = {
             username: user.username,
             admin: user.admin
           },
+          showAddTutorialButton: true,
           stars: tutorial.stars,
           tutorial: tutorial
         });

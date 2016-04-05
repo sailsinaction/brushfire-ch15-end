@@ -16,7 +16,6 @@ angular.module('brushfire').controller('profilePageController', ['$scope', '$htt
 
   $scope.me = window.SAILS_LOCALS.me;
   $scope.frontEnd = window.SAILS_LOCALS.frontEnd;
-  $scope.showAddTutorialButton = window.SAILS_LOCALS.showAddTutorialButton;
 
   $scope.numOfTutorials = $scope.frontEnd.numOfTutorials;
   $scope.numOfFollowers = $scope.frontEnd.numOfFollowers;
