@@ -1,6 +1,6 @@
 module.exports = {
   email: 'nikolateslaidol@gmail.com',
-  username: 'nikola-tesla',
+  username: 'nikolatesla',
   password: 'abc123',
   admin: false,
   tutorials: []

@@ -1,5 +1,5 @@
 module.exports = [
-  require('./sails-in-action'),
+  require('./sailsinaction'),
   require('./tesla'),
-  require('./frank-sinatra')
+  require('./franksinatra')
 ];

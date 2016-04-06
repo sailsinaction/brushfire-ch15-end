@@ -282,8 +282,8 @@ module.exports = {
         numOfFollowing: 1
       },
       followers: [{
-        username: 'sailsinaction',
-        gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
+         username: 'nikolatesla',
+        gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
       }],
       tutorials: [{
         title: 'The best of Douglas Crockford on JavaScript.',
@@ -465,8 +465,8 @@ module.exports = {
         numOfFollowing: 1
       },
       following: [{
-        username: 'sailsinaction',
-        gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
+         username: 'nikolatesla',
+        gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
       }],
       tutorials: [{
         title: 'The best of Douglas Crockford on JavaScript.',
@@ -756,7 +756,7 @@ module.exports = {
       id: 1,
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavasScript the good parts.',
-      owner: 'sailsinaction',
+      owner: 'nikolatesla',
       created: 'a month ago',
       updated: 'a month ago',
       totalTime: '3h 22m 23s',
