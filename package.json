@@ -20,6 +20,7 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.2.4",
     "include-all": "~0.1.6",
+    "machinepack-datetime": "^1.4.0",
     "machinepack-emailaddresses": "^0.4.0",
     "machinepack-gravatar": "^1.2.0",
     "machinepack-mailgun": "^0.5.0",

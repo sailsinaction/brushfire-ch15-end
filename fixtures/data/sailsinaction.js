@@ -52,11 +52,11 @@ module.exports = {
       ratings: [
         {
           stars: 3,
-          user: 'sails-in-action'
+          user: 'sailsinaction'
         },
         {
           stars: 1,
-          user: 'frank-sinatra'
+          user: 'franksinatra'
         }
       ]
     },

@@ -17,13 +17,13 @@ module.exports = {
       type: 'string'
     },
 
-    owner: {
-      type: 'json'
-    },
-
     // owner: {
-    //   model: 'user'
+    //   type: 'json'
     // },
+
+    owner: {
+      model: 'user'
+    },
     
     // An array of video ids representing the manual (human) ordering of videos. 
     videoOrder: {

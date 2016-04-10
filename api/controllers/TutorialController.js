@@ -205,20 +205,68 @@ module.exports = {
     return res.ok();
   },
 
-
   createTutorial: function(req, res) {
 
-    // Create a tutorial record using `username`, `title`, and `description`
+    /*
+     __   __    _ _    _      _   _          
+     \ \ / /_ _| (_)__| |__ _| |_(_)___ _ _  
+      \ V / _` | | / _` / _` |  _| / _ \ ' \ 
+       \_/\__,_|_|_\__,_\__,_|\__|_\___/_||_|
+                                         
+    */
 
-    // Pass back the `id` of the new record, simulate `1` for now.
-    return res.json({id: 1});
+    if (!_.isString(req.param('title'))) {
+    return res.badRequest();
+    }
+
+    if (!_.isString(req.param('description'))) {
+      return res.badRequest();
+    }
+
+    // Find the user that's adding a tutorial
+    User.findOne({
+    id: req.session.userId
+    }).exec(function(err, foundUser){
+      if (err) return res.negotiate;
+      if (!foundUser) return res.notFound();
+
+      Tutorial.create({
+        title: req.param('title'),
+        description: req.param('description'),
+           owner: foundUser.id,
+      })
+      .exec(function(err, createdTutorial){
+        if (err) return res.negotiate(err);
+
+        return res.json({id: createdTutorial.id});
+      });
+    });
   },
 
   updateTutorial: function(req, res) {
 
-    return res.ok();
+    // Validate parameters
+    if (!_.isString(req.param('title'))) {
+      return res.badRequest();
+    }
+
+    if (!_.isString(req.param('description'))) {
+      return res.badRequest();
+    }
+
+    // Update the tutorial coercing the incoming id from a string to an integer using the unary `+` 
+    Tutorial.update({
+      id: +req.param('id')
+    }, {
+      title: req.param('title'),
+      description: req.param('description')
+    }).exec(function (err) {
+      if (err) return res.negotiate(err);
+
+      return res.ok();
+    });
   },
-  
+
   addVideo: function(req, res) {
 
     return res.ok();
