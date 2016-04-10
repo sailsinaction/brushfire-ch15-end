@@ -755,6 +755,7 @@ module.exports = {
       id: req.param('id')
     })
     .populate('owner')
+    .populate('videos')
     .exec(function(err, foundTutorial){
       if (err) return res.negotiate(err);
       if (!foundTutorial) return res.notFound();
@@ -763,7 +764,7 @@ module.exports = {
 
       foundTutorial.created = DatetimeService.getTimeAgo({date: foundTutorial.createdAt});
 
-      foundTutorial.updated = DatetimeService.getTimeAgo({date: foundTutorial.updatedAt});   
+      foundTutorial.updated = DatetimeService.getTimeAgo({date: foundTutorial.updatedAt});
 
       // If not logged in set `me` property to `null` and pass the tutorial to the view
       if (!req.session.userId) {
@@ -846,6 +847,7 @@ module.exports = {
     Tutorial.findOne({
       id: +req.param('id')
     })
+    .populate('owner')
     .exec(function (err, foundTutorial){
       if (err) return res.negotiate(err);
       if (!foundTutorial) return res.notFound();
