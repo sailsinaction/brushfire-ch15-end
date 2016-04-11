@@ -35,14 +35,14 @@ module.exports = {
       // (this is always ok because there will never be millions of videos per tutorial)
     },
 
-    videos: {
-      collection: 'video',
-      via: 'tutorialAssoc'
-    },
-
     ratings: {
       collection: 'rating',
       via: 'byTutorial'
+    },
+
+    videos: {
+      collection: 'video',
+      via: 'tutorialAssoc'
     }
   }
 };

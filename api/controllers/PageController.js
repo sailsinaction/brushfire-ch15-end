@@ -924,7 +924,7 @@ module.exports = {
 
   newVideo: function(req, res) {
 
-    var tutorial = {
+    var foundTutorial = {
       title: 'The best of Douglas Crockford on JavaScript.',
       description: 'Understanding JavaScript the good parts, and more.',
       owner: 'sailsinaction',
@@ -934,33 +934,33 @@ module.exports = {
       stars: 3
     };
 
-    User.findOne(req.session.userId, function(err, user) {
+    User.findOne(req.session.userId, function(err, foundUser) {
       if (err) {
         return res.negotiate(err);
       }
 
-      if (!user) {
+      if (!foundUser) {
         sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
         return res.redirect('/');
       }
 
       return res.view('tutorials-detail-video-new', {
         me: {
-          username: user.username,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
+          username: foundUser.username,
+          gravatarURL: foundUser.gravatarURL,
+          admin: foundUser.admin
         },
         // We don't need all of the tutorial attributes on window.SAILS_LOCALS.tutorial
         // so we're passing stars separately.
-        stars: tutorial.stars,
+        stars: foundTutorial.stars,
         tutorial: {
-          id: tutorial.id,
-          title: tutorial.title,
-          description: tutorial.description,
-          owner: tutorial.owner,
-          created: tutorial.created,
-          totalTime: tutorial.totalTime,
-          stars: tutorial.stars
+          id: foundTutorial.id,
+          title: foundTutorial.title,
+          description: foundTutorial.description,
+          owner: foundTutorial.owner,
+          created: foundTutorial.created,
+          totalTime: foundTutorial.totalTime,
+          stars: foundTutorial.stars
         }
       });
     });
