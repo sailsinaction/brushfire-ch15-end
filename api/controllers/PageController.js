@@ -789,16 +789,9 @@ module.exports = {
           foundTutorial.averageRating = null;
         } else {
 
-          var sumfoundTutorialRatings = 0;
-
-          // Iterate through each rating and add up the sum of all ratings
-          _.each(foundTutorial.ratings, function(rating){
-
-            sumfoundTutorialRatings = sumfoundTutorialRatings + rating.stars; 
-          });
-
           // Calculate the average rating
-          foundTutorial.averageRating = sumfoundTutorialRatings / foundTutorial.ratings.length;
+          // Assign the average to foundTutorial.averageRating
+          foundTutorial.averageRating = MathService.calculateAverage({ratings: foundTutorial.ratings});
         }
     
         // limit the owner attribute to the users name
