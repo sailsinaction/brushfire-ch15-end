@@ -221,6 +221,7 @@ module.exports = {
 
         // Assure that the owner of the tutorial cannot rate their own tutorial.
         // Note that this is a back-up to the front-end which already prevents the UI from being displayed.
+        
         if (currentUser.id === foundTutorial.owner.id) {
           return res.forbidden();
         }
@@ -232,8 +233,8 @@ module.exports = {
         }).exec(function(err, foundRating){
           if (err) return res.negotiate(err);
 
-          // If the currently authenticated user-agent (user) has previously rated this tutorial
-          // update it with the new rating.
+          // If the currently authenticated user-agent (user) has previously rated this 
+          // tutorial update it with the new rating.
           if (foundRating) {
 
             Rating.update({
@@ -244,7 +245,7 @@ module.exports = {
               if (err) return res.negotiate(err);
               if (!updatedRating) return res.notFound();
 
-              // Re-Find the tutorial whose being rated to get the latest
+              // Re-find the tutorial whose being rated to get the latest
               Tutorial.findOne({
                 id: req.param('id')
               })
@@ -253,14 +254,27 @@ module.exports = {
                 if (err) return res.negotiate(err);
                 if (!foundTutorialAfterUpdate) return res.notFound();
 
+                var sumTutorialRatings = 0;
+
+                _.each(foundTutorialAfterUpdate.ratings, function(rating){ //#D
+
+                  sumTutorialRatings = sumTutorialRatings + rating.stars;
+                });    //#E
+
+                foundTutorialAfterUpdate.averageRating = Math.floor(sumTutorialRatings / foundTutorialAfterUpdate.ratings.length); //#F
+
                 return res.json({
-                  averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
+                  averageRating: foundTutorialAfterUpdate.averageRating  //#G
                 });
+
+                // return res.json({
+                //   averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
+                // });
               });
             });
 
-          // If the currently authenticated user-agent (user) has not already rated this tutorial
-          // create it with the new rating.
+          // If the currently authenticated user-agent (user) has not already rated this
+          // tutorial create it with the new rating.
           } else {
             Rating.create({
               stars: req.param('stars'),
@@ -279,8 +293,21 @@ module.exports = {
                 if (err) return res.negotiate(err);
                 if (!foundTutorialAfterUpdate) return res.notFound();
 
+                var sumTutorialRatings = 0;
+
+                _.each(foundTutorialAfterUpdate.ratings, function(rating){ //#D
+
+                  sumTutorialRatings = sumTutorialRatings + rating.stars;
+                });    //#E
+
+                foundTutorialAfterUpdate.averageRating = Math.floor(sumTutorialRatings / foundTutorialAfterUpdate.ratings.length); //#F
+
                 return res.json({
-                  averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
+                  averageRating: foundTutorialAfterUpdate.averageRating  //#G
+
+
+                // return res.json({
+                //   averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
                 });
               });
             });

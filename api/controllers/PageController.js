@@ -757,7 +757,7 @@ module.exports = {
     })
     .populate('owner')
     .populate('videos')
-    .populate('ratings')  
+    .populate('ratings') 
     .exec(function(err, foundTutorial){
       if (err) return res.negotiate(err);
       if (!foundTutorial) return res.notFound();
