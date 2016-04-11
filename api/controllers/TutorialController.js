@@ -389,7 +389,61 @@ module.exports = {
 
   updateVideo: function(req, res) {
 
-    return res.ok();
+    /*
+     __   __    _ _    _      _   _          
+     \ \ / /_ _| (_)__| |__ _| |_(_)___ _ _  
+      \ V / _` | | / _` / _` |  _| / _ \ ' \ 
+       \_/\__,_|_|_\__,_\__,_|\__|_\___/_||_|
+                                         
+    */
+
+    if (!_.isString(req.param('title'))) {
+      return res.badRequest();
+    }
+
+    if (!_.isString(req.param('src'))) {
+      return res.badRequest();
+    }
+
+    if (!_.isNumber(req.param('hours')) || !_.isNumber(req.param('minutes')) || !_.isNumber(req.param('seconds'))) {
+      return res.badRequest();
+    }
+   
+    // Coerce the hours, minutes, seconds parameter to integers
+    var hours = +req.param('hours');
+    var minutes = +req.param('minutes');
+    var seconds = +req.param('seconds');
+
+    // Calculate the total seconds of the video and store that value as lengthInSeconds
+    var convertedToSeconds = hours * 60 * 60 + minutes * 60 + seconds;
+
+    Video.findOne({
+      id: +req.param('id')
+    })
+    .populate('tutorialAssoc')
+    .exec(function (err, foundVideo){
+      if (err) return res.negotiate (err);
+      if (!foundVideo) return res.notFound();
+
+      // Assure that the currently logged in user is the owner of the tutorial
+      if (req.session.userId !== foundVideo.tutorialAssoc.owner) {
+        return res.forbidden();
+      }
+
+      // Update the video 
+      Video.update({
+        id: +req.param('id')
+      }, {
+        title: req.param('title'),
+        src: req.param('src'),
+        lengthInSeconds: convertedToSeconds
+      }).exec(function (err, updatedUser){
+        if (err) return res.negotiate(err);
+        if (!updatedUser) return res.notFound();
+
+        return res.ok();
+      });
+    });
   },
 
   deleteTutorial: function(req, res) {

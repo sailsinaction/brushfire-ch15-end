@@ -1026,58 +1026,117 @@ module.exports = {
 
   editVideo: function(req, res) {
 
-    var tutorial = {
-      // We need the `id` for the cancel back to the tutorial.
-      id: 1,
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4,
-      video: {
-        id: 1,
-        title: 'Crockford on JavaScript - Volume 1: The Early Years',
-        src: 'https://www.youtube.com/embed/JxAXlJEmNMg',
-        hours: 1,
-        minutes: 22,
-        seconds: 8
-      }
-    };
+    Tutorial.findOne({
+      id: +req.param('tutorialId')
+    })
+    .populate('videos')
+    .populate('owner')
+    .populate('ratings')
+    .exec(function(err, foundTutorial){
+      if (err) return res.negotiate(err);
+      if (!foundTutorial) return res.notFound();
 
-    User.findOne(req.session.userId, function(err, user) {
-      if (err) {
-        return res.negotiate(err);
-      }
-
-      if (!user) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-        return res.redirect('/');
-      }
-
-      return res.view('tutorials-detail-video-edit', {
-        me: {
-          username: user.username,
-          gravatarURL: user.gravatarURL,
-          admin: user.admin
-        },
-        tutorial: {
-          id: tutorial.id,
-          title: tutorial.title,
-          description: tutorial.description,
-          owner: tutorial.username,
-          created: tutorial.created,
-          totalTime: tutorial.totalTime,
-          averageRating: tutorial.averageRating,
-          video: {
-            id: tutorial.video.id,
-            title: tutorial.video.title,
-            src: tutorial.video.src,
-            hours: tutorial.video.hours,
-            minutes: tutorial.video.minutes,
-            seconds: tutorial.video.seconds
-          }
+      User.findOne({
+        id: req.session.userId
+      }).exec(function (err, foundUser) {
+        if (err) {
+          return res.negotiate(err);
         }
+
+        if (!foundUser) {
+          sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+          return res.redirect('/');
+        }
+
+        if (foundUser.username !== foundTutorial.owner.username) {
+
+          return res.redirect('/tutorials/'+foundTutorial.id);
+
+        }
+
+        /*
+            _____                     __                      
+           |_   _| __ __ _ _ __  ___ / _| ___  _ __ _ __ ___  
+             | || '__/ _` | '_ \/ __| |_ / _ \| '__| '_ ` _ \ 
+             | || | | (_| | | | \__ \  _| (_) | |  | | | | | |
+             |_||_|  \__,_|_| |_|___/_|  \___/|_|  |_| |_| |_|
+                                                    
+        */
+       
+        // Transform the `created` attribute into time ago format
+        foundTutorial.created = DatetimeService.getTimeAgo({date: foundTutorial.createdAt});
+       
+        /**********************************************************************************
+            Calculate the averge rating 
+        **********************************************************************************/
+
+        // Perform Average Ratings calculation if there are ratings
+        if (foundTutorial.ratings.length === 0) {
+          foundTutorial.averageRating = null;
+        } else {
+
+          var sumTutorialRatings = 0;
+
+          // Total the number of ratings for the Tutorial
+          _.each(foundTutorial.ratings, function(rating){
+
+            sumTutorialRatings = sumTutorialRatings + rating.stars;  
+          });
+
+          // Assign the average to the tutorial
+          foundTutorial.averageRating = sumTutorialRatings / foundTutorial.ratings.length;
+        }
+
+        /************************************
+          Tutorial & Video Length Formatting
+        *************************************/
+
+        var totalSeconds = 0;
+        _.each(foundTutorial.videos, function(video){
+
+          totalSeconds = totalSeconds + video.lengthInSeconds;
+          foundTutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+        });
+
+        var videoToUpdate = _.find(foundTutorial.videos, function(video){
+        return video.id === +req.param('id');
+        });
+
+        /*
+            _____                                      
+           |  __ \                                     
+           | |__) |___  ___ _ __   ___  _ __  ___  ___ 
+           |  _  // _ \/ __| '_ \ / _ \| '_ \/ __|/ _ \
+           | | \ \  __/\__ \ |_) | (_) | | | \__ \  __/
+           |_|  \_\___||___/ .__/ \___/|_| |_|___/\___|
+                           | |                         
+                           |_|                                             
+         */
+
+        return res.view('tutorials-detail-video-edit', {
+          me: {
+            username: foundUser.username,
+            gravatarURL: foundUser.gravatarURL,
+            admin: foundUser.admin
+          },
+          tutorial: {
+            id: foundTutorial.id,
+            title: foundTutorial.title,
+            description: foundTutorial.description,
+            owner: foundTutorial.owner.username,
+            created: foundTutorial.created,
+            totalTime: foundTutorial.totalTime,
+            averageRating: foundTutorial.averageRating,
+            video: {
+              id: videoToUpdate.id,
+              title: videoToUpdate.title,
+              src: videoToUpdate.src,
+              hours: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).hours,
+              minutes: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).minutes,
+              seconds: DatetimeService.getHoursMinutesSeconds({totalSeconds: videoToUpdate.lengthInSeconds}).seconds
+            }
+          }
+        });
       });
     });
   },
