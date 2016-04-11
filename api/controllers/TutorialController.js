@@ -202,7 +202,92 @@ module.exports = {
 
   rateTutorial: function(req, res) {
 
-    return res.ok();
+    // Find the currently authenticated user
+    User.findOne({
+      id: req.session.userId
+    })
+    .exec(function(err, currentUser){
+      if (err) return res.negotiate(err);
+      if (!currentUser) return res.notFound();
+
+      // Find the tutorial being rated
+      Tutorial.findOne({
+        id: +req.param('id')
+      })
+      .populate('owner')
+      .exec(function(err, foundTutorial){
+        if (err) return res.negotiate(err);
+        if (!foundTutorial) return res.notFound();
+
+        // Assure that the owner of the tutorial cannot rate their own tutorial.
+        // Note that this is a back-up to the front-end which already prevents the UI from being displayed.
+        if (currentUser.id === foundTutorial.owner.id) {
+          return res.forbidden();
+        }
+
+        // Find the rating, if any, of the tutorial from the currently logged in user.
+        Rating.findOne({
+          byUser: currentUser.id,
+          byTutorial: foundTutorial.id
+        }).exec(function(err, foundRating){
+          if (err) return res.negotiate(err);
+
+          // If the currently authenticated user-agent (user) has previously rated this tutorial
+          // update it with the new rating.
+          if (foundRating) {
+
+            Rating.update({
+              id: foundRating.id
+            }).set({
+              stars: req.param('stars')
+            }).exec(function(err, updatedRating){
+              if (err) return res.negotiate(err);
+              if (!updatedRating) return res.notFound();
+
+              // Re-Find the tutorial whose being rated to get the latest
+              Tutorial.findOne({
+                id: req.param('id')
+              })
+              .populate('ratings')
+              .exec(function(err, foundTutorialAfterUpdate){
+                if (err) return res.negotiate(err);
+                if (!foundTutorialAfterUpdate) return res.notFound();
+
+                return res.json({
+                  averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
+                });
+              });
+            });
+
+          // If the currently authenticated user-agent (user) has not already rated this tutorial
+          // create it with the new rating.
+          } else {
+            Rating.create({
+              stars: req.param('stars'),
+              byUser: currentUser.id,
+              byTutorial: foundTutorial.id
+            }).exec(function(err, createdRating){
+              if (err) return res.negotiate(err);
+              if (!createdRating) return res.notFound();
+
+              // Re-Find the tutorial whose being rated to get the latest
+              Tutorial.findOne({
+                id: req.param('id')
+              })
+              .populate('ratings')
+              .exec(function(err, foundTutorialAfterUpdate){
+                if (err) return res.negotiate(err);
+                if (!foundTutorialAfterUpdate) return res.notFound();
+
+                return res.json({
+                  averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
+                });
+              });
+            });
+          }
+        });
+      });
+    });
   },
 
   createTutorial: function(req, res) {

@@ -751,6 +751,7 @@ module.exports = {
 
   tutorialDetail: function(req, res) {
 
+    // Find the tutorial that will be displayed
     Tutorial.findOne({
       id: req.param('id')
     })
@@ -761,35 +762,52 @@ module.exports = {
       if (err) return res.negotiate(err);
       if (!foundTutorial) return res.notFound();
 
-      Rating.findOne({
+      // Find all ratings made by the currently authenticated user agent
+      Rating.find({
         byUser: req.session.userId
       }).exec(function(err, foundRating){
         if (err) return res.negotiate(err);
 
-        if (!foundRating) {
-         foundTutorial.myRating = null;
+        // If the user agent hasn't made any ratings, assign myRating to null
+        if (foundRating.length === 0) {
+          foundTutorial.myRating = null;
         } else {
-          foundTutorial.myRating = foundRating.stars;
+
+          // Iterate through ratings to determine whether the rating matches
+          // the id of the tutorial to be displayed.
+          _.each(foundRating, function(rating){
+
+            if (foundTutorial.id === rating.byTutorial) {
+              foundTutorial.myRating = rating.stars;
+              return;
+            }
+          });
         }
 
+        // If the tutorial has no ratings assign averageRating to null.
         if (foundTutorial.ratings.length === 0) {
           foundTutorial.averageRating = null;
         } else {
 
           var sumfoundTutorialRatings = 0;
 
+          // Iterate through each rating and add up the sum of all ratings
           _.each(foundTutorial.ratings, function(rating){
 
             sumfoundTutorialRatings = sumfoundTutorialRatings + rating.stars; 
           });
 
+          // Calculate the average rating
           foundTutorial.averageRating = sumfoundTutorialRatings / foundTutorial.ratings.length;
         }
     
+        // limit the owner attribute to the users name
         foundTutorial.owner = foundTutorial.owner.username;
 
+        // Transform createdAt in time ago format
         foundTutorial.created = DatetimeService.getTimeAgo({date: foundTutorial.createdAt});
 
+        // Transform updatedAt in time ago format
         foundTutorial.updated = DatetimeService.getTimeAgo({date: foundTutorial.updatedAt});
 
         // If not logged in set `me` property to `null` and pass the tutorial to the view
