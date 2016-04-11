@@ -47,7 +47,12 @@ typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) : 'null'
             </li>
             <li>|</li>
             <li>
+              <!-- Empty state of tutorial.stars -->
+              <% if (!tutorial.stars) { %>
+                <span>Average Rating: <i>none</i></span>
+              <% } else { %>
               <span>rating average: <rating ng-model= "tutorial.stars" max="max" readonly="true" on-hover="hoveringOver()" on-leave="overStar = null"></rating></span>
+              <% } %>
             </li>
             <li>|</li>
           </ul>

@@ -355,9 +355,37 @@ module.exports = {
 
   addVideo: function(req, res) {
 
-    return res.ok();
-  },
+    if (!_.isNumber(req.param('hours')) || !_.isNumber(req.param('minutes')) || !_.isNumber(req.param('seconds'))) {
+      return res.badRequest();
+    }
+    if (!_.isString(req.param('src')) || !_.isString(req.param('title'))) {
+      return res.badRequest();
+    }
 
+    Tutorial.findOne({
+      id: +req.param('tutorialId')
+    })
+    .populate('owner')
+    .exec(function(err, foundTutorial){
+      if (err) return res.negotiate(err);
+      if (!foundTutorial) return res.notFound();
+
+      if (foundTutorial.owner.id !== req.session.userId) {
+        return res.forbidden();
+      }
+
+      Video.create({
+        tutorialAssoc: foundTutorial.id,
+        title: req.param('title'),
+        src: req.param('src'),
+        lengthInSeconds: req.param('hours') * 60 * 60 + req.param('minutes') * 60 + req.param('seconds')
+      }).exec(function (err, createdVideo) {
+        if (err) return res.negotiate(err);
+
+        return res.ok();
+      });
+    });
+  },
 
   updateVideo: function(req, res) {
 
