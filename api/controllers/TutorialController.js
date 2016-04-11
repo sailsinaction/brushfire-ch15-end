@@ -254,22 +254,9 @@ module.exports = {
                 if (err) return res.negotiate(err);
                 if (!foundTutorialAfterUpdate) return res.notFound();
 
-                var sumTutorialRatings = 0;
-
-                _.each(foundTutorialAfterUpdate.ratings, function(rating){ //#D
-
-                  sumTutorialRatings = sumTutorialRatings + rating.stars;
-                });    //#E
-
-                foundTutorialAfterUpdate.averageRating = Math.floor(sumTutorialRatings / foundTutorialAfterUpdate.ratings.length); //#F
-
                 return res.json({
-                  averageRating: foundTutorialAfterUpdate.averageRating  //#G
+                  averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
                 });
-
-                // return res.json({
-                //   averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
-                // });
               });
             });
 
@@ -293,21 +280,8 @@ module.exports = {
                 if (err) return res.negotiate(err);
                 if (!foundTutorialAfterUpdate) return res.notFound();
 
-                var sumTutorialRatings = 0;
-
-                _.each(foundTutorialAfterUpdate.ratings, function(rating){ //#D
-
-                  sumTutorialRatings = sumTutorialRatings + rating.stars;
-                });    //#E
-
-                foundTutorialAfterUpdate.averageRating = Math.floor(sumTutorialRatings / foundTutorialAfterUpdate.ratings.length); //#F
-
                 return res.json({
-                  averageRating: foundTutorialAfterUpdate.averageRating  //#G
-
-
-                // return res.json({
-                //   averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
+                  averageRating: MathService.calculateAverage({ratings: foundTutorialAfterUpdate.ratings})
                 });
               });
             });
