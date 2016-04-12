@@ -23,12 +23,12 @@
               <img class="avatar-img" src="<%= gravatarURL %>"/>
             </div>
           </div>
-          <div class="profile-item list-group-item">
+          <a class="profile-item list-group-item" href="/<%= username %>">
             <!-- <i class="fa fa-asterisk"></i> -->
             <span class="badge">{{ numOfTutorials }}</span>
             Tutorials
-          </div>
-          <a class="profile-item list-group-item"href="/<%= username %>/following">
+          </a>
+          <a class="profile-item list-group-item" href="/<%= username %>/following">
             Following
             <span class="badge">{{ numOfFollowing }}</span>
           </a>

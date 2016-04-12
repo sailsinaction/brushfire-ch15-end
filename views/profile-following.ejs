@@ -23,11 +23,11 @@
               <img class="avatar-img" src="<%= gravatarURL %>"/>
             </div>
           </div>
-          <div class="profile-item list-group-item">
+          <a class="profile-item list-group-item" href="/<%= username %>">
             <!-- <i class="fa fa-asterisk"></i> -->
             <span class="badge">{{ numOfTutorials }}</span>
             Tutorials
-          </div>
+          </a>
           <a class="profile-item list-group-item"href="/<%= username %>/following">
             Following
             <span class="badge">{{ numOfFollowing }}</span>
@@ -69,17 +69,17 @@
             <div ng-if="me && me.isMe && following.length > 0">
               <h1>I'm Following</h1>
             </div>
-            <div ng-if="!me && following.length > 0">
+            <div ng-if="!me.isMe && following.length > 0">
               <h1><%= username%>'s Following</h1>
             </div>
             <div ng-if="following.length">
               <div class="row">
                 <div ng-repeat="follow in following">
                   <a href="/{{ follow.username }}">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <div class="panel panel-default">
                         <div class="panel-heading text-center"><h3> {{ follow.username }} </h3></div>
-                        <div class="panel-body"><img class="avatar-image" ng-src="{{follow.gravatarURL}}" ></div>
+                        <div class="panel-body text-center"><img class="avatar-image" ng-src="{{follow.gravatarURL}}" ></div>
                       </div>
                     </div>
                   </a>

@@ -500,22 +500,38 @@ module.exports = {
     })
     .populate('followers')
     .populate('following')
-    .exec(function (err, user){
+    .exec(function (err, foundUser){
       if (err) return res.negotiate(err);
-      if (!user) return res.notFound();
+      if (!foundUser) return res.notFound();
+
+      // Assure that a user cannot follow themselves.  This is a secondary
+      // check to the front end which we can't trust.
+      if (foundUser.id === req.session.userId) {
+        return res.forbidden();
+      }
 
       // Add the currently authenticated user-agent (user) as 
       // a follower of owner of the tutorial
-      user.followers.add(req.session.userId);
-      user.save(function(err, updatedUser){
+      foundUser.followers.add(req.session.userId);
+      foundUser.save(function (err){
         if (err) return res.negotiate(err);
-        if (!updatedUser) return res.notFound();
 
-        return res.json({
-          numOfFollowers: updatedUser.followers.length,
-          numOfFollowing: updatedUser.following.length,
-          followers: updatedUser.followers,
-          following: updatedUser.following
+        // requery to get user changes
+        User.findOne({
+          username: req.param('username'),
+        })
+        .populate('followers')
+        .populate('following')
+        .exec(function (err, updatedUser){
+          if (err) return res.negotiate(err);
+          if (!updatedUser) return res.notFound();
+
+          return res.json({
+            numOfFollowers: updatedUser.followers.length,
+            numOfFollowing: updatedUser.following.length,
+            followers: updatedUser.followers,
+            following: updatedUser.following
+          });
         });
       });
     });
@@ -536,17 +552,27 @@ module.exports = {
       // Remove the currently authenticated user-agent (user) as 
       // a follower of owner of the tutorial
       user.followers.remove(req.session.userId);
-      user.save(function(err, updatedUser){
+      user.save(function (err){
         if (err) return res.negotiate(err);
-        if (!updatedUser) return res.notFound();
-        
-        return res.json({
-          numOfFollowers: updatedUser.followers.length,
-          numOfFollowing: updatedUser.following.length,
-          followers: updatedUser.followers,
-          following: updatedUser.following
+
+        // requery to get user changes
+        User.findOne({
+          username: req.param('username'),
+        })
+        .populate('followers')
+        .populate('following')
+        .exec(function (err, updatedUser){
+          if (err) return res.negotiate(err);
+          if (!updatedUser) return res.notFound();
+
+          return res.json({
+            numOfFollowers: updatedUser.followers.length,
+            numOfFollowing: updatedUser.following.length,
+            followers: updatedUser.followers,
+            following: updatedUser.following
+          });
         });
       });
     });
-  }
+  },
 };
