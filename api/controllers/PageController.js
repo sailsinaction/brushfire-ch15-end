@@ -1250,5 +1250,5 @@ module.exports = {
         chats: FAKE_CHAT
       });
     });
-  }
+  },
 };
