@@ -319,7 +319,8 @@ module.exports = {
       Tutorial.create({
         title: req.param('title'),
         description: req.param('description'),
-           owner: foundUser.id,
+        owner: foundUser.id,
+        videoOrder: []
       })
       .exec(function(err, createdTutorial){
         if (err) return res.negotiate(err);
@@ -381,6 +382,10 @@ module.exports = {
         lengthInSeconds: req.param('hours') * 60 * 60 + req.param('minutes') * 60 + req.param('seconds')
       }).exec(function (err, createdVideo) {
         if (err) return res.negotiate(err);
+
+        // Add this video to the `videoOrder` array embedded in our tutorial .
+        // (We always add new videos to the bottom of the list)
+        foundTutorial.videoOrder.push(createdVideo.id);
 
         return res.ok();
       });

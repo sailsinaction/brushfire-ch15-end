@@ -813,6 +813,26 @@ module.exports = {
         // Transform updatedAt in time ago format
         foundTutorial.updated = DatetimeService.getTimeAgo({date: foundTutorial.updatedAt});
 
+        /**************
+          Video Order
+        ***************/
+
+        // Use the embedded `videoOrder` array to apply the manual sort order
+        // to our videos.
+        foundTutorial.videos = _.sortBy(foundTutorial.videos, function getRank (video) {
+          // We use the index of this video id within the `videoOrder` array as our sort rank.
+          // Because that array is in the proper order, if we use the index of this video id as
+          // the rank, then the newly sorted `tutorial.videos` array will be in the same order.
+          return _.indexOf(foundTutorial.videoOrder,video.id);
+        });
+
+        // Given (e.g.):
+        // tutorial.videoOrder= [3, 4, 5]
+        // tutorial.videos = [{id: 5}, {id: 4}, {id: 3}]
+        // 
+        // Yields (e.g.):
+        // tutorial.videos <== [{id: 3}, {id: 4}, {id: 5}]
+
         // If not logged in set `me` property to `null` and pass the tutorial to the view
         if (!req.session.userId) {
           return res.view('tutorials-detail', {
