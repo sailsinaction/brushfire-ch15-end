@@ -248,7 +248,7 @@ module.exports = {
 
           // We'll provide the `isMe` flag to the profile page view
           // if the logged-in user is the same as the user whose profile we looked up earlier.
-          if (req.session.userId === foundUser.id) {
+          if (req.session.userId === foundByUsername.id) {
             me.isMe = true;
           } else {
             me.isMe = false;
@@ -258,8 +258,8 @@ module.exports = {
           return res.view('profile', {
             me: me,
             showAddTutorialButton: true,
-            username: foundUser.username,
-            gravatarURL: foundUser.gravatarURL,
+            username: foundByUsername.username,
+            gravatarURL: foundByUsername.gravatarURL,
             frontEnd: {
               numOfTutorials: FAKE_DATA.frontEnd.numOfTutorials,
               numOfFollowers: FAKE_DATA.frontEnd.numOfFollowers,
