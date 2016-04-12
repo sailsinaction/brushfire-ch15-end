@@ -13,84 +13,79 @@
     // be invalid JS and cause a client-side error in the browser)
     %>;
 </script>
-<div ng-controller="profileFollowingPageController" ng-cloak class="panel-page">
-  <div class="row">
-    <div class= "col-md-2 col-md-offset-1">
-      <img class="avatar-image" src="<%= gravatarURL %>" >
-    </div>
-    <% if (me && me.isMe ) { %>
-      <div class="col-md-3" >
-        <h1><%=me.username %></h1>
-          <h3> <a href="mailto:<%= me.email %>"><%= me.email %></a></h3>
-        <div>
-          <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
-          <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
-        </div>
-      </div>
-    <% } %>
-  </div>
-
-  <div class="row">
-    <div>
-      <div class= "col-md-2 col-md-offset-1">
-        <ul class="list-group">
-          <a href="/<%= username %>">
-            <li class="list-group-item">
-              TUTORIALS
-              <span class="badge">{{ numOfTutorials }}</span>
-            </li>
-          </a>
-          <li class="list-group-item">
-            <i class="fa fa-asterisk"></i>
+<div ng-controller="profileFollowingPageController" ng-cloak class="profile">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="profile-stats list-group">
+          <div class="profile-item list-group-item">
+            <div class="avatar-container">
+              <img class="avatar-img" src="<%= gravatarURL %>"/>
+            </div>
+          </div>
+          <div class="profile-item list-group-item">
+            <!-- <i class="fa fa-asterisk"></i> -->
+            <span class="badge">{{ numOfTutorials }}</span>
+            Tutorials
+          </div>
+          <a class="profile-item list-group-item"href="/<%= username %>/following">
+            Following
             <span class="badge">{{ numOfFollowing }}</span>
-            FOLLOWING
-          </li>
-          <a href="/<%= username %>/followers">
-            <li class="list-group-item">
-              <span class="badge">{{ numOfFollowers }}</span>
-              FOLLOWERS
-            </li>
           </a>
-        </ul>
-
+          <a class="profile-item list-group-item" href="/<%= username %>/followers">
+            <span class="badge">{{ numOfFollowers }}</span>
+            Followers
+          </a>
+        </div>
         <% if (me && !me.isMe) { %>
-            <div class="text-center" ng-show="!followedByLoggedInUser">
-              <button class="btn btn-primary" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
-                Follow me <span class="badge"><span class="fa fa-user"></span></span>
-              </button>
-            </div>
-              <div class="text-center" ng-show="followedByLoggedInUser">
-              <button class="btn btn-danger" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
-                Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
-              </button>
-            </div>
-
+          <div class="text-center" ng-show="!followedByLoggedInUser">
+            <button class="btn btn-primary" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
+              Follow me <span class="badge"><span class="fa fa-user"></span></span>
+            </button>
+          </div>
+            <div class="text-center" ng-show="followedByLoggedInUser">
+            <button class="btn btn-danger" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
+              Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
+            </button>
+          </div>
         <% } %>
       </div>
-    </div>
-  </div>
-  <div class="container" ng-cloak>
-    <div ng-if="following.length < 1">
-      <p> not following anyone yet.</p>
-    </div>
-    <div ng-if="me && me.isMe && following.length > 0">
-      <h1>I'm Following</h1>
-    </div>
-    <div ng-if="!me && following.length > 0">
-      <h1><%= username%>'s Following</h1>
-    </div>
-    <div ng-if="following.length">
-      <div class="well">
-        <div class="row">
-          <div ng-repeat="follow in following">
-            <a href="/{{ follow.username }}">
-              <div class="col-md-3">
-                <div class="panel panel-default">
-                  <div class="panel-heading text-center"><h3> {{ follow.username }} </h3></div>
-                  <div class="panel-body"><img class="avatar-image" ng-src="{{follow.gravatarURL}}" ></div>
+      <% if (me && me.isMe ) { %>
+        <div class="col-md-3 profile-edit-separation" >
+          <h1><%=me.username %></h1>
+          <h3> <a href="mailto:<%= me.email %>"><%= me.email %></a></h3>
+          <div>
+            <a href="/profile/edit" class="btn btn-lg btn-primary">Edit</a>
+            <a ng-click="removeProfile()" class="btn btn-lg btn-primary btn-danger">Delete</a>
+          </div>
+        </div>
+      <% } %>
+      <div class="tutorials col-md-9">
+        <div class="tutorial-list list-group">
+          <div class="list-group-item list-group-header">
+            <div ng-if="following.length < 1">
+              <p> not following anyone yet.</p>
+            </div>
+            <div ng-if="me && me.isMe && following.length > 0">
+              <h1>I'm Following</h1>
+            </div>
+            <div ng-if="!me && following.length > 0">
+              <h1><%= username%>'s Following</h1>
+            </div>
+            <div ng-if="following.length">
+              <div class="row">
+                <div ng-repeat="follow in following">
+                  <a href="/{{ follow.username }}">
+                    <div class="col-md-3">
+                      <div class="panel panel-default">
+                        <div class="panel-heading text-center"><h3> {{ follow.username }} </h3></div>
+                        <div class="panel-body"><img class="avatar-image" ng-src="{{follow.gravatarURL}}" ></div>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
         </div>
       </div>
