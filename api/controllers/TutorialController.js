@@ -504,7 +504,37 @@ module.exports = {
 
   removeVideo: function(req, res) {
 
-      return res.ok();
-  }
+    Tutorial.findOne({
+      id: +req.param('tutorialId')
+    })
+    .exec(function (err, foundTutorial){
+      if (err) return res.negotiate(err);
+      if (!foundTutorial) return res.notFound();
+
+      // Check ownership
+      if (req.session.userId !== foundTutorial.owner) {
+        return res.forbidden();
+      }
+
+      // Remove the reference to this video from our tutorial record.
+      foundTutorial.videos.remove(+req.param('id'));
+
+      // Remove this video id from the `videoOrder` array
+      foundTutorial.videoOrder = _.without(foundTutorial.videoOrder, +req.param('id'));
+
+      // Persist our tutorial back to the database.
+      foundTutorial.save(function (err){
+        if (err) return res.negotiate(err);
+        
+        Video.destroy({
+          id: +req.param('id')
+        }).exec(function(err){
+          if (err) return res.negotiate(err);
+      
+          return res.ok();
+        });
+      });
+    });
+  },
 };
 
