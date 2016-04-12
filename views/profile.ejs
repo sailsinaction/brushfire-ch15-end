@@ -37,6 +37,18 @@
             Followers
           </a>
         </div>
+        <% if (me && !me.isMe) { %>
+          <div class="text-center" ng-show="!followedByLoggedInUser">
+            <button class="btn btn-primary" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
+              Follow me <span class="badge"><span class="fa fa-user"></span></span>
+            </button>
+          </div>
+            <div class="text-center" ng-show="followedByLoggedInUser">
+            <button class="btn btn-danger" type="button" ng-click="followOrUnfollow()" ng-diabled="userProfile.loading">
+              Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
+            </button>
+          </div>
+        <% } %>
       </div>
       <% if (me && me.isMe ) { %>
         <div class="col-md-3 profile-edit-separation" >
