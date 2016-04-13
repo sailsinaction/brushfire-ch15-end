@@ -83,7 +83,7 @@
               </li><!-- </list-group-item> -->
             </ul><!-- </list-group> -->
             <p ng-show="noResults">Sorry! We couldn't find any tutorials that matched your query. Perhaps try something else?</p>
-            <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" ng-hide="noResults || noMoreTutorials">
+            <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" ng-hide="noResults">
             <span ng-show="!loading">showing more tutorials</span>
             <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
             </button>

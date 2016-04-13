@@ -54,23 +54,27 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
     })
     .then(function onSuccess(sailsResponse) {
 
+      // Search results 
       $scope.tutorials = sailsResponse.data.options.updatedTutorials;
+
+      // Total search results
       $scope.totalTutorials = sailsResponse.data.options.totalTutorials;
 
       $scope.results = true;
       // Prevents showing markup with no results
       if ($scope.tutorials.length > 0) {
         $scope.noResults = false;
+        $scope.noMoreTutorials = false;
+
+      // If on the first pass there are no results show message and hide more results
       } else {
         $scope.noResults = true;
         $scope.noMoreTutorials = true;
       }
 
-      console.log('yaya: ', $scope.tutorials.length);
-
-      if ($scope.tutorials.length <= 10) {
-        $scope.noMoreTutorials = true;
-      }
+      // if ($scope.tutorials.length <= 10) {
+      //   $scope.noMoreTutorials = true;
+      // }
 
       $scope.skip = $scope.skip+=10;
 
@@ -88,8 +92,6 @@ angular.module('brushfire').controller('homePageController', ['$scope', '$http',
 
   $scope.fetchMoreTutorialsLikeThis = function() {
     $scope.loading = true;
-
-    console.log('yep');
 
     $http({
       url: '/tutorials/search',
