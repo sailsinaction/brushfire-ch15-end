@@ -77,96 +77,57 @@ module.exports = {
   },
 
   browseTutorials: function(req, res) {
+    
+    Tutorial.count().exec(function (err, numberOfTutorials){
+      if (err) return res.negotiate(err);
+      if (!numberOfTutorials) return res.notFound();
 
-    var tutorials = [{
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 1,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 2,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 3
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 3,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 4,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 1
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 5,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 6,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 2
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 7,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 8,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 5
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 9,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }, {
-      title: 'The best of Douglas Crockford on JavaScript.',
-      description: 'Understanding JavaScript the good parts, and more.',
-      owner: 'sailsinaction',
-      id: 10,
-      created: 'a month ago',
-      totalTime: '3h 22m 23s',
-      stars: 4
-    }];
+      Tutorial.find({
+        limit: 10,
+        skip: req.param('skip')
+      })
+      .populate('owner')
+      .populate('ratings')
+      .populate('videos')
+      .exec(function(err, foundTutorials){
 
-    console.log('skip: ', req.param('skip'));
+        _.each(foundTutorials, function(tutorial){
 
-    return res.json({
-      options: {
-        totalTutorials: 30,
-        updatedTutorials: tutorials
-      }
+          tutorial.owner = tutorial.owner.username;
+          tutorial.created = DatetimeService.getTimeAgo({date: tutorial.createdAt});
+
+          var totalSeconds = 0;
+          _.each(tutorial.videos, function(video){
+
+            // Total the number of seconds for all videos for tutorial total time
+            totalSeconds = totalSeconds + video.lengthInSeconds;
+
+            tutorial.totalTime = DatetimeService.getHoursMinutesSeconds({totalSeconds: totalSeconds}).hoursMinutesSeconds;
+
+            // Format average ratings
+            var totalRating = 0;
+            _.each(tutorial.ratings, function(rating){
+              totalRating = totalRating + rating.stars;
+            });
+
+            var averageRating = 0;
+            if (tutorial.ratings.length < 1) {
+              averageRating = 0;
+            } else {
+              averageRating = totalRating / tutorial.ratings.length;
+            }
+            
+            tutorial.averageRating = averageRating;
+          });
+        });
+
+        return res.json({
+          options: {
+            totalTutorials: numberOfTutorials,
+            updatedTutorials: foundTutorials
+          }
+        });
+      });
     });
   },
 
