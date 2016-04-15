@@ -31,10 +31,11 @@
               </span>
             </div>
             <!-- U S E R  N A M E -->
-            <div class="form-group" ng-class="{'has-error':signup.email.$invalid &&signup.email.$dirty}">
+            <div class="form-group" ng-class="{'has-error':signup.username.$invalid &&signup.username.$dirty}">
               <input ng-model="signupForm.username" class="form-control" placeholder="Choose a username" name="username" type="username" required ng-minlength="6" ng-pattern-restrict="^[A-Za-z0-9]*$" pattern="^[A-Za-z0-9]*$">
               <span class="help-block has-error" ng-if="signup.username.$dirty">
                 <span ng-show="signup.username.$error.required">Username is required.</span>
+                <span ng-show="signup.username.$error.minlength">Username must be at least 6 characters (Az0-9).</span>
               </span>
               <!-- <h1 class="text-center "> {{signupForm.username | spaceless }}</h1> -->
             </div>

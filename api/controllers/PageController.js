@@ -949,91 +949,82 @@ module.exports = {
 
   showVideo: function(req, res) {
 
-    // Simulating a found video
-    var video = {
-      id: 34,
-      title: 'Crockford on JavaScript - Volume 1: The Early Years',
-      src: 'https://www.youtube.com/embed/JxAXlJEmNMg'
-    };
+    // Find the video to play and populate the video `chat` association
+    Video.findOne({
+      id: +req.param('id')
+    })
+    .populate('chats')
+    .exec(function (err, foundVideo){
+      if (err) return res.negotiate(err);
+      if (!foundVideo) return res.notFound();
 
-    FAKE_CHAT = [{
-      username: 'sailsinaction',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
-    }, {
-      username: 'nikolatesla',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
-    }, {
-      username: 'sailsinaction',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
-    }, {
-      username: 'nikolatesla',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
-    }, {
-      username: 'sailsinaction',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
-    }, {
-      username: 'nikolatesla',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
-    }, {
-      username: 'sailsinaction',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
-    }, {
-      username: 'nikolatesla',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
-    }, {
-      username: 'sailsinaction',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare.',
-      created: '2 minutes ago',
-      gravatarURL: 'http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264'
-    }];
+      //Format each chat with the username, gravatarURL, and created date in timeago format
+      async.each(foundVideo.chats, function(chat, next){
 
-    // If not logged in
-    if (!req.session.userId) {
-      return res.view('show-video', {
-        me: null,
-        video: video,
-        tutorialId: req.param('tutorialId'),
-        chats: FAKE_CHAT
-      });
-    }
+        User.findOne({
+          id: chat.sender
+        }).exec(function (err, foundUser){
+          if (err) return next(err);
 
-    // If logged in...
-    User.findOne({
-      id: +req.session.userId
-    }).exec(function (err, foundUser) {
-      if (err) {
-        return res.negotiate(err);
-      }
+          chat.username = foundUser.username;
+          chat.created = DatetimeService.getTimeAgo({date: chat.createdAt});
+          chat.gravatarURL = foundUser.gravatarURL;
+          return next();
+        });
 
-      if (!foundUser) {
-        sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
-      }
+      }, function(err) {
+        if (err) return res.negotiate(err);
 
-      return res.view('show-video', {
-        me: {
-          username: foundUser.username,
-          gravatarURL: foundUser.gravatarURL,
-          admin: foundUser.admin
-        },
-        video: video,
-        tutorialId: req.param('tutorialId'),
-        chats: FAKE_CHAT
+        /*
+            _____                                      
+           |  __ \                                     
+           | |__) |___  ___ _ __   ___  _ __  ___  ___ 
+           |  _  // _ \/ __| '_ \ / _ \| '_ \/ __|/ _ \
+           | | \ \  __/\__ \ |_) | (_) | | | \__ \  __/
+           |_|  \_\___||___/ .__/ \___/|_| |_|___/\___|
+                           | |                         
+                           |_|                                             
+         */
+
+        // If not logged in
+        if (!req.session.userId) {
+          return res.view('show-video', {
+            me: null,
+            video: foundVideo,
+            tutorialId: req.param('tutorialId'),
+            chats: foundVideo.chats
+          });
+        }
+
+        // If logged in...
+        User.findOne({
+          id: +req.session.userId
+        }).exec(function (err, foundUser) {
+          if (err) {
+            return res.negotiate(err);
+          }
+
+          if (!foundUser) {
+            sails.log.verbose('Session refers to a user who no longer exists');
+            return res.view('show-video', {
+              me: null,
+              video: foundVideo,
+              tutorialId: req.param('tutorialId'),
+              chats: foundVideo.chats
+            });
+          }
+
+          return res.view('show-video', {
+            me: {
+              username: foundUser.username,
+              gravatarURL: foundUser.gravatarURL,
+              admin: foundUser.admin
+            },
+            video: foundVideo,
+            tutorialId: req.param('tutorialId'),
+            chats: foundVideo.chats
+          });
+        });
       });
     });
   },

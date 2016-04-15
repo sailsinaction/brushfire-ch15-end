@@ -137,7 +137,7 @@ module.exports = {
             }
 
             options.email = req.param('email');
-            options.username = splitUsername;
+            options.username = req.param('username');
             options.encryptedPassword = result;
             options.deleted = false;
             options.admin = false;

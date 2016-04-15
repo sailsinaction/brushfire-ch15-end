@@ -98,14 +98,57 @@ module.exports = {
     });
   },
 
-  joinChat: function(req, res) {
+  joinChat: function (req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
+
+    // Join the chat room for this video (as the requesting socket)
+    sails.sockets.join(req, 'video'+req.param('id'));
+
+
+    // Video.subscribe(req, req.param('id') );
+
+    // Video.watch(req);
     return res.ok();
   },
 
   chat: function(req, res) {
-    return res.json({
-      message: req.param('message')
-    });
-  }
-};
 
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
+    
+    Chat.create({
+      message: req.param('message'),
+      sender: req.session.userId,
+      video: +req.param('id')
+    }).exec(function (err, createdChat){
+      if (err) return res.negotiate(err);
+
+      User.findOne({
+        id: req.session.userId
+      }).exec(function (err, foundUser){
+        if (err) return res.negotiate(err);
+        if (!foundUser) return res.notFound();
+
+        // Broadcast WebSocket event to everyone else currently online so their user 
+        // agents can update the UI for them.
+        sails.sockets.broadcast('video'+req.param('id'), 'chat', {
+          message: req.param('message'),
+          username: foundUser.username,
+          created: 'just now',
+          gravatarURL: foundUser.gravatarURL
+        });
+
+        return res.ok();
+        
+      });
+    });
+  },
+};

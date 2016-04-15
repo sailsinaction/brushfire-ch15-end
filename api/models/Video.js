@@ -23,6 +23,11 @@ module.exports = {
 
     tutorialAssoc: {
       model: 'tutorial'
+    },
+
+    chats: {
+      collection: 'chat',
+      via: 'video'
     }
   }
 };
