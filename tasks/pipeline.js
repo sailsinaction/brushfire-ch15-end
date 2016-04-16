@@ -29,11 +29,6 @@ var jsFilesToInject = [
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/angular.js',
   'js/dependencies/jquery.min.js',
-  'js/dependencies/lodash.js',
-  'js/dependencies/angular-toastr.js',
-  'js/dependencies/bootstrap.js',
-  'js/dependencies/compareTo.module.js',
-  'js/dependencies/ui-bootstrap-tpls.js',
   'js/dependencies/**/*.js',
 
   // All of the rest of your client-side js files

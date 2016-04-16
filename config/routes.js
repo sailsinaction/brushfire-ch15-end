@@ -36,6 +36,8 @@ module.exports.routes = {
 
   'POST /videos/:id/chat': 'VideoController.chat',
   'PUT /videos/:id/join': 'VideoController.joinChat',
+  'PUT /videos/:id/typing': 'VideoController.typing',
+  'PUT /videos/:id/stoppedTyping': 'VideoController.stoppedTyping',
 
   'DELETE /tutorials/:id': 'TutorialController.deleteTutorial',
   'DELETE /videos/:id': 'TutorialController.removeVideo',

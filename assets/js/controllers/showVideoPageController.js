@@ -64,6 +64,27 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
     $scope.$apply();
   });
 
+  io.socket.on('typing', function (e) {
+    console.log('typing!', e);
+
+    $scope.usernameTyping = e.username;
+    $scope.typing = true;
+
+    // Because io.socket.on() is not an angular thing, we have to call $scope.$apply()
+    // in this event handler in order for our changes to the scope to actually take effect.
+    $scope.$apply();
+  });
+
+  io.socket.on('stoppedTyping', function (e) {
+    console.log('stoppedTyping!', e);
+
+    $scope.typing = false;
+
+    // Because io.socket.on() is not an angular thing, we have to call $scope.$apply()
+    // in this event handler in order for our changes to the scope to actually take effect.
+    $scope.$apply();
+  });
+
 /* 
   _____   ____  __  __   ______               _       
  |  __ \ / __ \|  \/  | |  ____|             | |      
@@ -95,4 +116,32 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
       $scope.$apply();
     });
   };//</sendMessage>
+
+  $scope.whenTyping = function (event) {
+
+    io.socket.request({
+      url: '/videos/'+$scope.fromUrlVideoId+'/typing',
+      method: 'put'
+    }, function (data, JWR){
+        // If something went wrong, handle the error.
+        if (JWR.statusCode !== 200) {
+          console.error(JWR);
+          return;
+        }
+    });
+  };//</whenTyping>
+
+  $scope.whenNotTyping = function (event) {
+
+    io.socket.request({
+      url: '/videos/'+$scope.fromUrlVideoId+'/stoppedTyping',
+      method: 'put'
+    }, function (data, JWR){
+        // If something went wrong, handle the error.
+        if (JWR.statusCode !== 200) {
+          console.error(JWR);
+          return;
+        }
+    });
+  };//</whenNotTyping>
 }]);

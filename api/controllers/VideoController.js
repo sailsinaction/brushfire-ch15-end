@@ -107,11 +107,9 @@ module.exports = {
     // TODO: ^ pull this into a `isSocketRequest` policy
 
     // Join the chat room for this video (as the requesting socket)
-    sails.sockets.join(req, 'video'+req.param('id'));
-
-
-    // Video.subscribe(req, req.param('id') );
-
+    Video.subscribe(req, req.param('id') );
+    
+    // sails.sockets.join(req, 'video'+req.param('id'));
     // Video.watch(req);
     return res.ok();
   },
@@ -150,5 +148,45 @@ module.exports = {
         
       });
     });
+  },
+
+  typing: function(req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
+
+    User.findOne({
+      id: req.session.userId
+    }).exec(function (err, foundUser){
+      if (err) return res.negotiate(err);
+      if (!foundUser) return res.notFound();
+
+      // Broadcast socket event to everyone else currently online so their user agents
+      // can update the UI for them.
+      sails.sockets.broadcast('video'+req.param('id'), 'typing', {
+        username: foundUser.username
+      }, (req.isSocket ? req : undefined) );
+
+      return res.ok();
+    });
+  },
+
+  stoppedTyping: function(req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
+
+    // Broadcast socket event to everyone else currently online so their user agents
+    // can update the UI for them.
+    sails.sockets.broadcast('video'+req.param('id'),
+      'stoppedTyping', {}, (req.isSocket ? req : undefined) );
+
+    return res.ok();
   },
 };
