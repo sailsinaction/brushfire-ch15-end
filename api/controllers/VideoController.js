@@ -106,10 +106,11 @@ module.exports = {
     }
     // TODO: ^ pull this into a `isSocketRequest` policy
 
-    // Join the chat room for this video (as the requesting socket)
+    // Join the room for this video (as the requesting socket)
     Video.subscribe(req, req.param('id') );
     
-    // sails.sockets.join(req, 'video'+req.param('id'));
+    // Join the the video room for the typing animation
+    sails.sockets.join(req, 'video'+req.param('id'));
     // Video.watch(req);
     return res.ok();
   },
@@ -137,7 +138,15 @@ module.exports = {
 
         // Broadcast WebSocket event to everyone else currently online so their user 
         // agents can update the UI for them.
-        sails.sockets.broadcast('video'+req.param('id'), 'chat', {
+        // sails.sockets.broadcast('video'+req.param('id'), 'chat', {
+        //   message: req.param('message'),
+        //   username: foundUser.username,
+        //   created: 'just now',
+        //   gravatarURL: foundUser.gravatarURL
+        // });
+
+        // Send a video event to the video record room 
+        Video.publishUpdate(+req.param('id'), {
           message: req.param('message'),
           username: foundUser.username,
           created: 'just now',

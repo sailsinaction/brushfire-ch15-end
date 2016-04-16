@@ -48,15 +48,14 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
   });
 
   // Handle socket events that are fired when a new chat event is sent (.broadcast)
-  io.socket.on('chat', function (e) {
-    console.log('new chat received!', e);
+  io.socket.on('video', function (e) {
 
     // Append the chat we just received    
     $scope.chats.push({
-      created: e.created,
-      username: e.username,
-      message: e.message,
-      gravatarURL: e.gravatarURL
+      created: e.data.created,
+      username: e.data.username,
+      message: e.data.message,
+      gravatarURL: e.data.gravatarURL
     });
 
     // Because io.socket.on() is not an angular thing, we have to call $scope.$apply() in
@@ -132,6 +131,8 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
   };//</whenTyping>
 
   $scope.whenNotTyping = function (event) {
+
+    console.log('ya')
 
     io.socket.request({
       url: '/videos/'+$scope.fromUrlVideoId+'/stoppedTyping',
