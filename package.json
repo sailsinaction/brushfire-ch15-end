@@ -1,5 +1,5 @@
 {
-  "name": "brushfire-ch14-end",
+  "name": "brushfire-ch15-end",
   "private": true,
   "version": "0.0.0",
   "description": "a Sails application",
@@ -40,7 +40,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/irlnathan/brushfire-ch14-end.git"
+    "url": "git://github.com/irlnathan/brushfire-ch15-end.git"
   },
   "author": "Mike McNeil/Irl Nathan",
   "license": "MIT"
