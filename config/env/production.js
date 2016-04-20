@@ -12,6 +12,18 @@
 
 module.exports = {
 
+  models: {
+    connection: 'productionPostgresqlServer'
+  },
+
+  connections: {
+    productionPostgresqlServer: {
+      adapter: 'sails-postgresql',
+      url: process.env.DATABASE_URL,
+      ssl: true
+    }
+  },
+
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *
