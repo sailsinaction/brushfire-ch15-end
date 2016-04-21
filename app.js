@@ -53,7 +53,14 @@ process.chdir(__dirname);
     }
   }
 
+  var config = rc('sails');
+  
+  if (process.env.NODE_ENV === 'production' || process.env.nogrunt) {  //#A
+    config.hooks = config.hooks || {}; 
+    
+    config.hooks.grunt = false;   //#B
+  }
 
   // Start server
-  sails.lift(rc('sails'));
+  sails.lift(config);
 })();
