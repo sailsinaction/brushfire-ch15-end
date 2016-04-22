@@ -24,6 +24,23 @@ module.exports = {
     }
   },
 
+  session: {
+    adapter: 'redis',
+    url: process.env.REDISTOGO_URL
+  },
+
+  sockets: {
+    adapter: 'socket.io-redis',
+    url: process.env.REDISTOGO_URL,
+  },
+
+  mailgun: {
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+    baseUrl: process.env.MAILGUN_BASE_URL
+  },
+
+
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *

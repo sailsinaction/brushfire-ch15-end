@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "async": "^1.5.2",
+    "connect-redis": "^3.0.2",
     "ejs": "2.3.4",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
@@ -31,7 +32,8 @@
     "sails": "~0.12.1",
     "sails-disk": "~0.10.9",
     "sails-generate-static": "^0.11.3",
-    "sails-postgresql": "^0.11.3"
+    "sails-postgresql": "^0.11.3",
+    "socket.io-redis": "^1.0.0"
   },
   "scripts": {
     "debug": "node debug app.js",
