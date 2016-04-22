@@ -37,7 +37,8 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "NODE_ENV=test mocha --recursive -t 5000"
   },
   "main": "app.js",
   "repository": {
@@ -45,5 +46,10 @@
     "url": "git://github.com/irlnathan/brushfire-ch15-end.git"
   },
   "author": "Mike McNeil/Irl Nathan",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "sails-memory": "^0.10.6",
+    "supertest": "^1.2.0"
+  }
 }
