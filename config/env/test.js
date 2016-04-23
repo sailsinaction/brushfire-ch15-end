@@ -12,4 +12,6 @@ module.exports = {
   session: {
     adapter: 'memory'
   },
+
+  csrf: false,
 };
