@@ -7,7 +7,7 @@ angular.module('brushfire', ['toastr', 'compareTo', 'ui.bootstrap', 'ngPatternRe
 }]);
 
 angular.module('brushfire').run(['$http', function($http) {
-if (window.SAILS_LOCALS._csrf) {
-  $http.defaults.headers.common['X-CSRF-Token'] = window.SAILS_LOCALS._csrf;
-}
+  if (window.SAILS_LOCALS._csrf) {
+    $http.defaults.headers.common['X-CSRF-Token'] = window.SAILS_LOCALS._csrf;
+  }
 }]);
