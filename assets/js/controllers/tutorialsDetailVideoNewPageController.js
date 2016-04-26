@@ -12,15 +12,16 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
 
   // set-up loading state
   $scope.tutorialsDetailVideoNew = {
-    iframeHide: false,
+    iframeHide: true,
     loading: false,
-    invalidUrl: false
+    invalidUrl: false,
+    hasSrc: false,
   };
 
   // Get the tutorial id form the current URL path:  /tutorials/1/videos/new
   $scope.fromUrlTutorialId = window.location.pathname.split('/')[2];
 
-  $scope.src = '/images/preview.jpg';
+  // $scope.src = '/images/preview.jpg';
 
   $scope.me = window.SAILS_LOCALS.me;
 
@@ -65,6 +66,9 @@ angular.module('brushfire').controller('tutorialsDetailVideoNewPageController', 
       var YouTubeCode = rawUrl.search.substring(rawUrl.search.indexOf("=") + 1, rawUrl.search.length);
 
       $scope.src = 'https://www.youtube.com/embed/'+ YouTubeCode;
+
+      $scope.tutorialsDetailVideoNew.hasSrc = true;
+      $scope.tutorialsDetailVideoNew.iframeHide = false;
 
       return;
 
