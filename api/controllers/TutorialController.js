@@ -33,6 +33,7 @@ module.exports = {
       .populate('ratings')
       .populate('videos')
       .exec(function(err, tutorials){
+        if (err) { return res.serverError(err); }
 
         // Iterate through tutorials to format the owner and created attributes
         _.each(tutorials, function(tutorial){
@@ -90,7 +91,8 @@ module.exports = {
       .populate('ratings')
       .populate('videos')
       .exec(function(err, foundTutorials){
-
+        if (err) { return res.serverError(err); }
+        
         _.each(foundTutorials, function(tutorial){
 
           tutorial.owner = tutorial.owner.username;
