@@ -179,9 +179,11 @@ module.exports = {
               id: foundRating.id
             }).set({
               stars: req.param('stars')
-            }).exec(function(err, updatedRating){
+            }).exec(function(err, updatedRatings){
               if (err) return res.negotiate(err);
-              if (!updatedRating) return res.notFound();
+              if (updatedRatings.length === 0) {
+                return res.notFound();
+              }
 
               // Re-find the tutorial whose being rated to get the latest
               Tutorial.findOne({
@@ -231,25 +233,18 @@ module.exports = {
 
   createTutorial: function(req, res) {
 
-    /*
-     __   __    _ _    _      _   _          
-     \ \ / /_ _| (_)__| |__ _| |_(_)___ _ _  
-      \ V / _` | | / _` / _` |  _| / _ \ ' \ 
-       \_/\__,_|_|_\__,_\__,_|\__|_\___/_||_|
-                                         
-    */
-
+    // Validate parameters.
     if (!_.isString(req.param('title'))) {
-    return res.badRequest();
+      return res.badRequest();
     }
-
+    
     if (!_.isString(req.param('description'))) {
       return res.badRequest();
     }
 
     // Find the user that's adding a tutorial
     User.findOne({
-    id: req.session.userId
+      id: req.session.userId
     }).exec(function(err, foundUser){
       if (err) return res.negotiate;
       if (!foundUser) return res.notFound();
@@ -294,6 +289,7 @@ module.exports = {
 
   addVideo: function(req, res) {
 
+    // Validate parameters.
     if (!_.isNumber(req.param('hours')) || !_.isNumber(req.param('minutes')) || !_.isNumber(req.param('seconds'))) {
       return res.badRequest();
     }
@@ -331,23 +327,15 @@ module.exports = {
   },
 
   updateVideo: function(req, res) {
-
-    /*
-     __   __    _ _    _      _   _          
-     \ \ / /_ _| (_)__| |__ _| |_(_)___ _ _  
-      \ V / _` | | / _` / _` |  _| / _ \ ' \ 
-       \_/\__,_|_|_\__,_\__,_|\__|_\___/_||_|
-                                         
-    */
-
+    // Validate parameters.
     if (!_.isString(req.param('title'))) {
       return res.badRequest();
     }
-
+    
     if (!_.isString(req.param('src'))) {
       return res.badRequest();
     }
-
+    
     if (!_.isNumber(req.param('hours')) || !_.isNumber(req.param('minutes')) || !_.isNumber(req.param('seconds'))) {
       return res.badRequest();
     }
@@ -380,9 +368,11 @@ module.exports = {
         title: req.param('title'),
         src: req.param('src'),
         lengthInSeconds: convertedToSeconds
-      }).exec(function (err, updatedUser){
+      }).exec(function (err, updatedVideos){
         if (err) return res.negotiate(err);
-        if (!updatedUser) return res.notFound();
+        if (updatedVideos.length === 0) {
+          return res.notFound();
+        }
 
         return res.ok();
       });
