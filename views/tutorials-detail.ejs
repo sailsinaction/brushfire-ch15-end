@@ -1,20 +1,3 @@
-<script type="text/javascript">
-  window.SAILS_LOCALS.tutorial = <%-
-    // Note that by putting these comments inside of the EJS tag, we prevent them from
-    // being sent down to client (i.e. they are boiled away on the server along
-    // with the EJS tags)
-    //
-    // Notice we must check that `stars` exists using typeof to keep EJS from throwing
-    // and displaying an ugly error message when rendering certain pages
-    // (i.e. 404 /500 error pages)
-    typeof tutorial !== 'undefined' ? JSON.stringify(tutorial) : 'null'
-    // Note that we deliberately use 'null' (a string) because EJS converts the
-    // `null` literal  into empty string (''), which is not what we want (that would
-    // be invalid JS and cause a client-side error in the browser)
-  %>;
-
-</script>
-
 <div class="tutorial-details" ng-controller="tutorialsDetailPageController" ng-cloak>
   <div class="container">
     <div class="well">
