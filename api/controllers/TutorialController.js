@@ -323,7 +323,11 @@ module.exports = {
         // (We always add new videos to the bottom of the list)
         foundTutorial.videoOrder.push(createdVideo.id);
 
-        return res.ok();
+        foundTutorial.save(function (err) {
+          if (err) return res.negotiate(err);
+
+          return res.ok();
+        });
       });
     });
   },
