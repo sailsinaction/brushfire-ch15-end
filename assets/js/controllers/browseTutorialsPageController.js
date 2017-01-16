@@ -42,7 +42,9 @@ angular.module('brushfire').controller('browseTutorialsPageController', ['$scope
       $scope.skip = $scope.skip+=10;
 
       // Disable the more tutorials button if there are no more tutorials.
-      if ($scope.tutorials < 10  || $scope.totalTutorials - $scope.skip <= 10){
+      // if ($scope.tutorials < 10  || $scope.totalTutorials - $scope.skip <= 10){
+      if ($scope.tutorials < 10) {
+
         $scope.noMoreTutorials = true;
       }
 
