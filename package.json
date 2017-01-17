@@ -29,7 +29,7 @@
     "machinepack-strings": "^5.0.0",
     "machinepack-youtube": "^2.2.0",
     "rc": "1.0.1",
-    "sails": "~0.12.1",
+    "sails": "git://github.com/balderdashy/sails.git#f1da7c443981756354ff0ab93f7d5eaaee72c489",
     "sails-disk": "~0.10.9",
     "sails-generate-static": "^0.11.3",
     "sails-postgresql": "^0.11.3",
